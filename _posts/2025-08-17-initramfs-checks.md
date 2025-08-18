@@ -1,3 +1,4 @@
+ ---
  layout: post
  title: Understanding Initramfs Checks for Linux+ Prep
  date: 2025-08-17
