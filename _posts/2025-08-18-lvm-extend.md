@@ -1,3 +1,4 @@
+ ---
  layout: post
  title: Extending Logical Volumes with lvextend for Linux+ Prep
  date: 2025-08-18
