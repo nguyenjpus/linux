@@ -1,9 +1,4 @@
- ---
- layout: post
- title: Extending Logical Volumes with lvextend for Linux+ Prep
- date: 2025-08-18
- ---
- # Extending Logical Volumes with lvextend for Linux+ Prep
+Extending Logical Volumes with lvextend for Linux+ Prep
 
  As part of my **CompTIA Linux+** studies, I’m learning about Logical Volume Management (LVM). Today, I explored how to extend a logical volume (LV) using `lvextend`, specifically the command `lvextend -L +50G /dev/vgData/lvHome -r`. Here’s what I learned.
 
