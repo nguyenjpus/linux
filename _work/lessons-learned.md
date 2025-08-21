@@ -3,11 +3,13 @@ layout: post
 title: Key Lessons from Server Management and Troubleshooting
 date: 2025-08-20
 ---
+
 # Key Lessons from Server Management and Troubleshooting
 
-During my work as a system administrator, I’ve learned practical techniques for managing servers and resolving hardware issues. Below are two key lessons for future reference.
+Some practical techniques for managing servers and resolving hardware issues. Below are two key lessons for future reference.
 
 ## 1. Using SCP for Secure File Transfers
+
 The `scp` command is a powerful tool for securely transferring files from a remote server to a local machine. For example, to copy all `.txt` files from a server’s `/root/` directory to a local Windows machine, I use:
 
 ```bash
@@ -15,6 +17,7 @@ scp root@serveraddress:/root/*.txt C:\Users\location_where_I_want_to_save_files
 ```
 
 **Key Points**:
+
 - Replace `serveraddress` with the server’s IP or hostname (e.g., `192.168.65.5`).
 - Ensure SSH access is configured (e.g., `openssh-server` installed on the server).
 - The destination path (`C:\Users\...`) works when running `scp` from a Windows command prompt or PowerShell with an SSH client installed.
@@ -22,6 +25,7 @@ scp root@serveraddress:/root/*.txt C:\Users\location_where_I_want_to_save_files
 This method is efficient for retrieving logs or configuration files securely.
 
 ## 2. Clearing CMOS to Resolve Boot Issues
+
 When a unit fails to boot despite exhaustive troubleshooting (e.g., checking GRUB, kernel logs, or filesystem errors), clearing the CMOS can resolve hardware-related issues. The process involves:
 
 1. Power off the unit and remove the battery.
@@ -29,6 +33,7 @@ When a unit fails to boot despite exhaustive troubleshooting (e.g., checking GRU
 3. Reinsert the battery and power on the unit.
 
 **Key Points**:
+
 - Clearing the CMOS resets BIOS/UEFI settings to defaults, which can fix boot issues caused by corrupted firmware settings.
 - Always document any custom BIOS settings (e.g., boot order) before clearing.
 - This technique is particularly useful for data center hardware troubleshooting.

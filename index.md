@@ -2,7 +2,7 @@
 layout: home
 ---
 
-# My Learning Journey
+# The learning that never end.
 
 Hi! I'm documenting my progress in studying for the **CompTIA Linux+** certification and other tech-related skills from work and self-study. This site, built with GitHub Pages and Jekyll, will include notes, reflections, and projects.
 
