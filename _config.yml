@@ -1,5 +1,6 @@
 title: My Learning Journey
 description: Documenting my progress in Linux+, work, and self-study.
+baseurl: /linux
 theme: minima
 collections:
   work:
@@ -9,4 +10,4 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 github:
-  is_project_page: false
+  is_project_page: true
