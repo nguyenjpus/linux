@@ -15,8 +15,12 @@ Hi! I'm documenting my progress in studying for the **CompTIA Linux+** certifica
 
 ## Latest Posts
 
-(Posts will appear here automatically once added.)
+{% assign sorted_posts = site.posts | sort: 'date' | reverse %}
+{% for post in sorted_posts %}
 
+  <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
+  <p>{{ post.date | date: "%B %d, %Y" }}</p>
+  <p>{{ post.content | strip_html | truncatewords: 30 }}</p>
+{% endfor %}
 ## Work Experience
-
-Explore my professional journey in tech [here](/linux/work/).
+Explore my professional journey in tech [here]({{ site.baseurl }}/work/).
