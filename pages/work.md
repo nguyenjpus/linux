@@ -7,8 +7,8 @@ permalink: /work/
 # Work Experience
 
 Below are my professional experiences in tech.
-
-{% for work in site.work %}
+{% assign sorted_work = site.work | sort: 'date' | reverse %}
+{% for work in sorted_work %}
 
   <h2><a href="{{ work.url }}">{{ work.title }}</a></h2>
   <p>{{ work.date | date: "%B %d, %Y" }}</p>
