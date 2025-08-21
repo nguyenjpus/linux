@@ -1,3 +1,7 @@
 title: My Learning Journey
 description: Documenting my progress in Linux+, work, and self-study.
 theme: minima
+collections:
+  work:
+    output: true
+    permalink: /work/:title

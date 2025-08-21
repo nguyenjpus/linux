@@ -5,11 +5,15 @@ Hi! I'm documenting my progress in studying for the **CompTIA Linux+** certifica
 ## About This Site
 
 - **Purpose**: Track my learning, especially Linux+ topics like system administration and troubleshooting.
-- **Content**: Blog posts, code snippets, and study summaries.
+- **Content**: Blog posts, code snippets, study summaries, and work experiences.
 - **Focus**: Practical Linux skills, like understanding the initramfs stage in the boot process.
 
-Check out my posts below to follow along!
+Check out my posts and work experiences below to follow along!
 
 ## Latest Posts
 
 (Posts will appear here automatically once added.)
+
+## Work Experience
+
+Explore my professional journey in tech [here](/work/).
