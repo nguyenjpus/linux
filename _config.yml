@@ -5,3 +5,8 @@ collections:
   work:
     output: true
     permalink: /work/:title
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+github:
+  is_project_page: false
