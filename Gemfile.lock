@@ -290,6 +290,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uri (1.0.3)
+    webrick (1.9.1)
 
 PLATFORMS
   aarch64-linux-android
@@ -320,6 +321,7 @@ DEPENDENCIES
   jekyll-seo-tag
   logger
   minima (~> 2.5)
+  webrick
 
 BUNDLED WITH
    2.7.1
