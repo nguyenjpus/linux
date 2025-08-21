@@ -2,16 +2,17 @@
 layout: home
 ---
 
-# The learning that never end.
+# My Learning Journey
 
-Hi! I'm documenting my progress in studying for the **CompTIA Linux+** certification and other tech-related skills from work and self-study. This site, built with GitHub Pages and Jekyll, will include notes, reflections, and projects.
+Welcome! I’m documenting my progress toward earning the **CompTIA Linux+**, **CompTIA Server+**, and **Cisco CCNA** certifications through work experience and self-study. This site, built with GitHub Pages and Jekyll, captures my notes, reflections, and projects as I develop practical tech skills. My goals are to achieve Linux+ by early 2026, Server+ by July 2026, and CCNA by 2028 to advance my career in data center, system administration, and networking.
 
 ## About This Site
 
-- **Purpose**: Track my learning, especially Linux+ topics like system administration and troubleshooting.
-- **Content**: Blog posts, code snippets, study summaries, and work experiences.
-- **Focus**: Practical Linux skills, like understanding the initramfs stage in the boot process.
-  Check out my posts and work experiences below to follow along!
+- **Purpose**: Track my learning in Linux+ topics, such as system administration, troubleshooting, and automation.
+- **Content**: Blog posts, code snippets, study summaries, and professional experiences.
+- **Focus**: Hands-on Linux skills, like mastering the initramfs stage in the boot process.
+
+Explore my posts and work experiences below to follow my journey!
 
 ## Latest Posts
 
@@ -22,5 +23,7 @@ Hi! I'm documenting my progress in studying for the **CompTIA Linux+** certifica
   <p>{{ post.date | date: "%B %d, %Y" }}</p>
   <p>{{ post.content | strip_html | truncatewords: 30 }}</p>
 {% endfor %}
+
 ## Work Experience
-Explore my professional journey in tech [here]({{ site.baseurl }}/work/).
+
+Discover my professional journey in tech [here]({{ site.baseurl }}/work/).
