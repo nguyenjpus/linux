@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Junior System Administrator at TechCorp
+title: Troubleshooting IPMI Insufficient Privilege Level Error
 date: 2025-08-21
 ---
 
