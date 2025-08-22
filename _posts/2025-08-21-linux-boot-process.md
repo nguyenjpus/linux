@@ -22,6 +22,7 @@
                                                   +---------------+       +---------------+       | multi-user    |
                                                                                                   | target)       |
                                                                                                   +---------------+
+```
 
 ## Visual Story
 
@@ -38,4 +39,3 @@ Picture a parade of elephants:
 - Recite the mnemonic aloud: "Unique Elephants Gracefully Roam, Kicking Initial Ramdisks, Shaping Systems Into Shape!"
 - Visualize the elephant parade while reviewing the boot process.
 - Practice by tracing the stages during a VM reboot (e.g., using `dmesg` or checking `/boot` contents).
-```
