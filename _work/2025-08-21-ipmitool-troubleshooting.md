@@ -1,6 +1,13 @@
+---
+layout: post
+title: Troubleshooting IPMI Insufficient Privilege Level Error
+date: 2025-08-21
+---
+
 # Troubleshooting IPMI Insufficient Privilege Level Error
 
 ## Issue
+
 When attempting to run the `ipmitool hpm check` command over the LAN interface, the following error occurred:
 
 ```
@@ -17,9 +24,11 @@ ID  Name             Callin  Link Auth  IPMI Msg   Channel Priv Limit
 ```
 
 ## Root Cause
+
 The error (`0xd4 Insufficient privilege level`) was due to the `admin` user lacking enabled IPMI messaging and proper channel access settings for the LAN interface (likely channel 1 or 14, as indicated by `ipmitool sol info 1` showing `Payload Channel: 14`).
 
 ## Quick Fix
+
 To resolve the issue, the following commands were used to enable the `admin` user and configure channel access:
 
 ```bash
@@ -37,6 +46,7 @@ ipmitool -I lanplus -H 10.230.1.55 -U admin -P admin hpm check
 ```
 
 ## Bonus: Verify Channel Access
+
 To confirm the channel access settings for the `admin` user on channel 1:
 
 ```bash
@@ -46,6 +56,7 @@ ipmitool channel getaccess 1 2
 This displays the current settings, ensuring `link=on`, `ipmi=on`, and `privilege=4`.
 
 ## Bonus 2: Reset Admin Password
+
 If the `admin` user’s password needs to be reset (e.g., due to being unknown or for security reasons), use the following commands:
 
 ```bash
@@ -61,6 +72,7 @@ ipmitool user enable 2
 - `user enable 2`: Re-enables the `admin` user.
 
 ## Diagnostic Step: Verify LAN Interface
+
 If the `hpm check` command still fails after applying the quick fix, the LAN interface for channel 1 may be disabled. Check the LAN configuration:
 
 ```bash
@@ -81,6 +93,7 @@ ipmitool lan set 14 access on
 ```
 
 ## Additional Notes
+
 - **Channel Verification**: The `ipmitool sol info 1` output indicated the LAN payload channel might be 14 (`Payload Channel: 14`). If the fix doesn’t work on channel 1, try configuring channel 14:
   ```bash
   ipmitool channel setaccess 14 2 link=on ipmi=on callin=on privilege=4
