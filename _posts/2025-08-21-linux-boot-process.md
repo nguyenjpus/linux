@@ -13,7 +13,7 @@
 ## Diagram
 
 ```
-+---------------+       +---------------+       +---------------+         +---------------+       +---------------+
++---------------+       +-----------------+       +---------------+       +---------------+       +---------------+
 | UEFI Firmware | ----> | GRUB Bootloader | ----> | Linux Kernel  | ----> | initramfs     | ----> | Systemd Init  |
 | (Hardware     |       | (Loads kernel   |       | (Initializes  |       | (Sets up      |       | (Starts user  |
 | init, EFI     |       | from /boot,     |       | basic hw,     |       | storage, RAID,|       | services,     |
