@@ -133,7 +133,7 @@ This warning means: The kernel hasn't reloaded the updated partition table yet, 
      sudo lvreduce -L 6G /dev/myvg/mylv
      ```
      - Confirm with `y` when prompted (use `-f` to skip the prompt, but be cautious).
-   - For **XFS**, shrinking is not supported. You’d need to back up data, reformat, and restore.
+   - <span style="color: red;">For **XFS**, shrinking is not supported. You’d need to back up data, reformat, and restore.</span>
    - Remount and verify:
      ```bash
      sudo mount /dev/myvg/mylv /data
