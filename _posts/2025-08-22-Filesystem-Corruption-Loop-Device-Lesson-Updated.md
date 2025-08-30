@@ -100,12 +100,51 @@ To ensure a fresh start:
 
 - **Commands**:
   ```bash
+  sudo fsck.ext4 -y $LOOPDEV # tried on a new install Linux (Updated 8/30/25)
   sudo fsck.ext4 -b 8193 -y $LOOPDEV
   sudo fsck.ext4 -b 16385 -y $LOOPDEV
   sudo fsck.ext4 -b 24576 -y $LOOPDEV
   sudo e2fsck -b 32768 -y $LOOPDEV
   ```
 - **Outcome**: All failed due to severe metadata damage.
+- **Outcome update 8/30/25**: All failed due to severe metadata damage.
+  ```bash
+  root@usv:~# fsck.ext4 -y $LOOPDEV
+  e2fsck 1.47.0 (5-Feb-2023)
+  Superblock has an invalid journal (inode 8).
+  Clear? yes
+
+**_ journal has been deleted _**
+
+Superblock has_journal flag is clear, but a journal is present.
+Clear? yes
+
+Pass 1: Checking inodes, blocks, and sizes
+Journal inode is not in use, but contains data. Clear? yes
+
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+Block bitmap differences: -(16384--17407)
+Fix? yes
+
+Free blocks count wrong for group #2 (7168, counted=8192).
+Fix? yes
+
+Free blocks count wrong (22809, counted=23833).
+Fix? yes
+
+Recreate journal? yes
+
+Creating journal (1024 blocks): Done.
+
+**_ journal has been regenerated _**
+
+/dev/loop1: **\*** FILE SYSTEM WAS MODIFIED **\***
+/dev/loop1: 11/25600 files (0.0% non-contiguous), 2791/25600 blocks
+```
+
 - **Is `e2fsck` Another Tool?**:
   - **Answer**: No, `fsck.ext4` is a symbolic link to `e2fsck`. Verify:
     ```bash
