@@ -1,6 +1,7 @@
 # Linux Hands-On Practice: Disk Management, LVM, RAID, and fstab
 
 This document summarizes hands-on exercises for Linux disk management and related tasks, based on practice in an Ubuntu VM on UTM. It includes step-by-step instructions, verifications, pitfalls, and lessons learned.
+(Updated: 08/30/25 - shrinking lv added)
 
 ## 1. Practice Hands-On: Creating a GPT Partition with gdisk
 
@@ -72,9 +73,87 @@ This warning means: The kernel hasn't reloaded the updated partition table yet, 
 
 ### Resizing Steps
 
-1. Extend the LV (add 2GB): First, ensure free space in VG with `sudo vgdisplay`. Then `sudo lvextend -L +2G /dev/myvg/mylv`.
-2. Resize the filesystem: For XFS: `sudo xfs_growfs /data`. For ext4: `sudo resize2fs /dev/myvg/mylv`.
-3. Verify new size: `df -h /data`.
+1. **Check Available Space in the Volume Group (VG)**:
+
+   - Before resizing, verify free space in the VG `myvg` to ensure you can extend the LV:
+     ```bash
+     sudo vgdisplay myvg | grep "Free PE"
+     ```
+     - **Output Example**: `Free PE / Size: 1024 / 4.00 GiB` (indicates 4GB available).
+     - If no free space is available, add a new Physical Volume (PV) to the VG (see **Potential Pitfalls and Extensions** below).
+
+2. **Extend the Logical Volume (LV)**:
+
+   - To increase the LV size by 2GB (e.g., from 8GB to 10GB):
+     ```bash
+     sudo lvextend -L +2G /dev/myvg/mylv
+     ```
+     - Alternatively, set an absolute size (e.g., to 10GB total):
+       ```bash
+       sudo lvextend -L 10G /dev/myvg/mylv
+       ```
+     - Verify the new LV size:
+       ```bash
+       sudo lvs /dev/myvg/mylv
+       ```
+       - **Output Example**: `mylv myvg -wi-ao---- 10.00g`.
+
+3. **Resize the Filesystem**:
+
+   - For **XFS** (if `/dev/myvg/mylv` was formatted with `mkfs.xfs`):
+     ```bash
+     sudo xfs_growfs /data
+     ```
+     - Note: XFS only supports growing, not shrinking.
+   - For **ext4** (if formatted with `mkfs.ext4`):
+     ```bash
+     sudo resize2fs /dev/myvg/mylv
+     ```
+     - `resize2fs` automatically adjusts to the new LV size.
+   - Verify the new filesystem size:
+     ```bash
+     df -h /data
+     ```
+     - **Output Example**: Shows `/data` now has ~10GB capacity.
+
+4. **Reduce the Logical Volume (Optional)**:
+
+   - **Warning**: Reducing an LV is destructive if not done carefully. Always back up data and unmount the filesystem first.
+   - Unmount the filesystem:
+     ```bash
+     sudo umount /data
+     ```
+   - For **ext4**, check the filesystem and resize it to a smaller size (e.g., 6GB):
+     ```bash
+     sudo e2fsck -f /dev/myvg/mylv
+     sudo resize2fs /dev/myvg/mylv 6G
+     ```
+   - Reduce the LV to match (e.g., to 6GB):
+     ```bash
+     sudo lvreduce -L 6G /dev/myvg/mylv
+     ```
+     - Confirm with `y` when prompted (use `-f` to skip the prompt, but be cautious).
+   - For **XFS**, shrinking is not supported. You’d need to back up data, reformat, and restore.
+   - Remount and verify:
+     ```bash
+     sudo mount /dev/myvg/mylv /data
+     df -h /data
+     ```
+     - **Output Example**: Shows `/data` now has ~6GB capacity.
+
+5. **Verify the Changes**:
+   - Check LV details:
+     ```bash
+     sudo lvdisplay /dev/myvg/mylv
+     ```
+   - Check filesystem size:
+     ```bash
+     df -h /data
+     ```
+   - Check VG free space:
+     ```bash
+     sudo vgdisplay myvg
+     ```
 
 ### Lessons Learned: Wiping Signatures for pvcreate
 
@@ -91,7 +170,9 @@ The wipe commands are: `sudo wipefs -a /dev/vdd1` and then `sudo wipefs -a /dev/
 
 ### Lessons Learned: Resizing Filesystem After Extending Logical Volume
 
-**After extending a logical volume with `lvextend`, you must resize the filesystem to make the additional space usable on the mounted /data directory.** Simply extending the LV increases the underlying block device size, but the filesystem (e.g., ext4 or XFS) on top of it remains unchanged until you explicitly expand it to use the new space. For ext4, use `sudo resize2fs /dev/myvg/mylv` to grow the filesystem. For XFS, use `sudo xfs_growfs /data`. Without this step, `df -h /data` will show the original size, and the extended space will remain inaccessible.
+**After extending a logical volume with `lvextend`, you must resize the filesystem to make the additional space usable on the mounted `/data` directory.** Simply extending the LV increases the underlying block device size, but the filesystem (e.g., ext4 or XFS) remains unchanged until explicitly expanded. For ext4, use `sudo resize2fs /dev/myvg/mylv` to grow the filesystem to the new LV size. For XFS, use `sudo xfs_growfs /data`. Without this step, `df -h /data` will show the original size, and the extended space will remain inaccessible.
+
+**Shrinking Considerations**: Reducing an LV requires unmounting the filesystem (`sudo umount /data`) and, for ext4, checking and resizing the filesystem first with `sudo e2fsck -f` and `sudo resize2fs` before running `sudo lvreduce`. XFS does not support shrinking, so you must back up data, reformat, and restore if reduction is needed. Always verify free space in the VG with `sudo vgdisplay` before extending, and back up data before shrinking to avoid data loss.
 
 ### Verification Steps
 
