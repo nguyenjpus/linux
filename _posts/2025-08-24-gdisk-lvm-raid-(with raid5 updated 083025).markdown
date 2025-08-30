@@ -73,6 +73,7 @@ This warning means: The kernel hasn't reloaded the updated partition table yet, 
 ### Resizing Steps
 
 1. **Check Available Space in the Volume Group (VG)**:
+
    - Before resizing, verify free space in the VG `myvg` to ensure you can extend the LV:
      ```bash
      sudo vgdisplay myvg | grep "Free PE"
@@ -81,6 +82,7 @@ This warning means: The kernel hasn't reloaded the updated partition table yet, 
      - If no free space is available, add a new Physical Volume (PV) to the VG (see **Potential Pitfalls and Extensions** below).
 
 2. **Extend the Logical Volume (LV)**:
+
    - To increase the LV size by 2GB (e.g., from 8GB to 10GB):
      ```bash
      sudo lvextend -L +2G /dev/myvg/mylv
@@ -96,11 +98,12 @@ This warning means: The kernel hasn't reloaded the updated partition table yet, 
        - **Output Example**: `mylv myvg -wi-ao---- 10.00g`.
 
 3. **Resize the Filesystem**:
+
    - For **XFS** (if `/dev/myvg/mylv` was formatted with `mkfs.xfs`):
      ```bash
      sudo xfs_growfs /data
      ```
-     - Note: XFS only supports growing, not shrinking.
+     - <span style="color: red;">NOTE: For **XFS**, shrinking is not supported. You’d need to back up data, reformat, and restore.</span>
    - For **ext4** (if formatted with `mkfs.ext4`):
      ```bash
      sudo resize2fs /dev/myvg/mylv
@@ -113,6 +116,7 @@ This warning means: The kernel hasn't reloaded the updated partition table yet, 
      - **Output Example**: Shows `/data` now has ~10GB capacity.
 
 4. **Reduce the Logical Volume (Optional)**:
+
    - **Warning**: Reducing an LV is destructive if not done carefully. Always back up data and unmount the filesystem first.
    - Unmount the filesystem:
      ```bash
@@ -259,6 +263,7 @@ To add the RAID array to `/etc/fstab`:
 This section outlines the process to create a RAID 5 array (with RAID 1 as an alternative) using `/dev/vdb`, `/dev/vdc`, and `/dev/vdd`, repurposing disks previously used for LVM. This leverages three disks for better capacity (RAID 5: 10GB usable) or maximum redundancy (RAID 1: 5GB usable).
 
 #### Prerequisites
+
 - **Install mdadm**: Ensure `mdadm` is installed:
   ```bash
   sudo apt update && sudo apt install mdadm -y
@@ -275,31 +280,39 @@ This section outlines the process to create a RAID 5 array (with RAID 1 as an al
   Ensure no critical data exists on these disks.
 
 #### Step 1: Remove LVM Configurations
+
 Since `/dev/vdb1`, `/dev/vdb2`, and `/dev/vdc2` are part of `myvg`, remove them to use the whole disks for RAID.
 
 1. **Unmount `/dev/myvg/mylv` (if mounted)**:
+
    ```bash
    sudo umount /data
    ```
+
    - If `umount` fails (e.g., “device not mounted”), proceed as it’s not mounted.
 
 2. **Deactivate and Remove the Logical Volume**:
+
    ```bash
    sudo lvremove /dev/myvg/mylv
    ```
+
    - Confirm with `y` when prompted.
 
 3. **Remove the Volume Group**:
+
    ```bash
    sudo vgremove myvg
    ```
 
 4. **Remove Physical Volumes**:
+
    ```bash
    sudo pvremove /dev/vdb1 /dev/vdb2 /dev/vdc2
    ```
 
 5. **Wipe Filesystem and LVM Signatures**:
+
    - Remove existing partitions and signatures:
      ```bash
      sudo wipefs -a /dev/vdb
@@ -311,19 +324,24 @@ Since `/dev/vdb1`, `/dev/vdb2`, and `/dev/vdc2` are part of `myvg`, remove them 
    - Whole disks are used for RAID (as in the previous RAID section). If you prefer partitions, use `gdisk` to create new ones (type `8300`) and adjust commands to use `/dev/vdb1`, `/dev/vdc1`, `/dev/vdd1`.
 
 #### Step 2: Create the RAID Array
+
 For **RAID 5** (10GB usable):
+
 ```bash
 sudo mdadm --create --verbose /dev/md1 --level=5 --raid-devices=3 /dev/vdb /dev/vdc /dev/vdd
 ```
+
 - Type `yes` to confirm if prompted.
 - **Expected Size**: `(3-1) * 5GB = 10GB`.
 
 **Alternative RAID 1** (5GB usable):
+
 ```bash
 sudo mdadm --create --verbose /dev/md1 --level=1 --raid-devices=3 /dev/vdb /dev/vdc /dev/vdd
 ```
 
 #### Step 3: Wait for Sync
+
 - Monitor synchronization:
   ```bash
   cat /proc/mdstat
@@ -331,12 +349,14 @@ sudo mdadm --create --verbose /dev/md1 --level=1 --raid-devices=3 /dev/vdb /dev/
 - Look for `/dev/md1` with `[UUU]` (all disks up). Sync may take minutes.
 
 #### Step 4: Format the RAID Array
+
 - Format with ext4:
   ```bash
   sudo mkfs.ext4 /dev/md1
   ```
 
 #### Step 5: Mount the RAID Array
+
 - Create and mount:
   ```bash
   sudo mkdir /raiddata
@@ -349,6 +369,7 @@ sudo mdadm --create --verbose /dev/md1 --level=1 --raid-devices=3 /dev/vdb /dev/
   ```
 
 #### Step 6: Ensure Persistence
+
 - Save configuration:
   ```bash
   sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
@@ -359,6 +380,7 @@ sudo mdadm --create --verbose /dev/md1 --level=1 --raid-devices=3 /dev/vdb /dev/
   ```
 
 #### Step 7: Add to `/etc/fstab` for Automatic Mounting
+
 1. Get UUID:
    ```bash
    sudo blkid /dev/md1
@@ -384,6 +406,7 @@ sudo mdadm --create --verbose /dev/md1 --level=1 --raid-devices=3 /dev/vdb /dev/
    ```
 
 #### Step 8: Verify Post-Reboot
+
 - Reboot:
   ```bash
   sudo reboot
@@ -396,6 +419,7 @@ sudo mdadm --create --verbose /dev/md1 --level=1 --raid-devices=3 /dev/vdb /dev/
   ```
 
 ### Verification Steps
+
 - **Array Status**:
   ```bash
   cat /proc/mdstat
@@ -412,6 +436,7 @@ sudo mdadm --create --verbose /dev/md1 --level=1 --raid-devices=3 /dev/vdb /dev/
   ```
 
 ### Potential Pitfalls and Extensions
+
 - **Pitfall: LVM Conflicts**: Failing to remove `/dev/vdb1`, `/dev/vdb2`, `/dev/vdc2` from `myvg` causes `mdadm` errors like “device in use.” Always wipe signatures and LVM metadata.
 - **Pitfall: Size Mismatch**: `/dev/vdd` (10GB) contributes only 5GB to match `/dev/vdb` and `/dev/vdc`. RAID 5 yields 10GB; RAID 1 yields 5GB.
 - **Lesson**: Wipe signatures with `wipefs -a` before repurposing disks for RAID (as done for LVM in Section 2).
