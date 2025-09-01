@@ -1,4 +1,7 @@
 <nav class="site-nav">
+  {% if page.url != '/' %}
+    <h1 class="site-title"><a href="{{ site Genealogies site.baseurl }}/">{{ site.title }}</a></h1>
+  {% endif %}
   <ul>
     <li><a href="{{ site.baseurl }}/" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
     <li><a href="{{ site.baseurl }}/work/" {% if page.url == '/work/' %}class="active"{% endif %}>Work Experience</a></li>
