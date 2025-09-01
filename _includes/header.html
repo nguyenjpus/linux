@@ -1,6 +1,8 @@
-<nav>
-  <a href="{{ site.baseurl }}/">Home</a>
-  <a href="{{ site.baseurl }}/work/">Work Experience</a>
-  <a href="{{ site.baseurl }}/about/">About</a>
-  <a href="{{ site.baseurl }}/archives/">Archives</a>
+<nav class="site-nav">
+  <ul>
+    <li><a href="{{ site.baseurl }}/" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
+    <li><a href="{{ site.baseurl }}/work/" {% if page.url == '/work/' %}class="active"{% endif %}>Work Experience</a></li>
+    <li><a href="{{ site.baseurl }}/archives/" {% if page.url == '/archives/' %}class="active"{% endif %}>Archives</a></li>
+    <li><a href="{{ site.baseurl }}/about/" {% if page.url == '/about/' %}class="active"{% endif %}>About</a></li>
+  </ul>
 </nav>
