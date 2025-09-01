@@ -11,3 +11,6 @@ plugins:
   - jekyll-seo-tag
 github:
   is_project_page: true
+sass:
+  sass_dir: _sass
+  style: compressed
