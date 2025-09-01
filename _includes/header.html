@@ -1,6 +1,85 @@
-<nav>
-  <a href="{{ site.baseurl }}/">Home</a>
-  <a href="{{ site.baseurl }}/work/">Work Experience</a>
-  <a href="{{ site.baseurl }}/about/">About</a>
-  <a href="{{ site.baseurl }}/archives/">Archives</a>
+<nav class="navbar">
+  <div class="logo">
+    <a href="{{ site.baseurl }}/">🚀 MySite</a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="{{ site.baseurl }}/">Home</a></li>
+    <li><a href="{{ site.baseurl }}/work/">Work Experience</a></li>
+    <li><a href="{{ site.baseurl }}/archives/">Archives</a></li>
+    <li><a href="{{ site.baseurl }}/about/">About</a></li>
+  </ul>
 </nav>
+
+<style>
+  /* General reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    padding: 15px 40px;
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  nav .logo a {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+  }
+
+  nav .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+  }
+
+  nav .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+  }
+
+  nav .nav-links li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: #ffcc00;
+    transition: width 0.3s ease;
+  }
+
+  nav .nav-links li a:hover {
+    color: #ffcc00;
+  }
+
+  nav .nav-links li a:hover::after {
+    width: 100%;
+  }
+
+  /* Mobile friendly */
+  @media (max-width: 768px) {
+    nav.navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    nav .nav-links {
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 10px;
+    }
+  }
+</style>
