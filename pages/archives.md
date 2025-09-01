@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Archives
-permalink: /linux/archives/
+permalink: /archives/
 ---
 
 # Archives
