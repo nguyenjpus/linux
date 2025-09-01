@@ -4,7 +4,7 @@ title: Work Experience
 permalink: /work/
 ---
 
-# Work Experience
+# Just something I want to remind myself about.
 
 Below are my professional experiences in tech.
 {% assign sorted_work = site.work | sort: 'date' | reverse %}

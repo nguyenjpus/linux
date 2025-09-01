@@ -2,7 +2,7 @@
 layout: home
 ---
 
-# My Learning Journey
+# My Journey: A Step-by-Step Look at Linux, Servers, and Networking
 
 Welcome! I’m documenting my progress toward earning the **CompTIA Linux+**, **CompTIA Server+**, and **Cisco CCNA** certifications through work experience and self-study. This site, built with GitHub Pages and Jekyll, captures my notes, reflections, and projects as I develop practical tech skills. My goals are to achieve Linux+ by early 2026, Server+ by July 2026, and CCNA by 2028 to advance my career in data center, system administration, and networking.
 

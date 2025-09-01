@@ -4,7 +4,7 @@ title: About Me
 permalink: /about/
 ---
 
-# About Me
+# Just another ramdom guy!
 
 I'm studying for Linux+ and documenting my journey here.
 Will fix this page to make it looks better when I have time.
