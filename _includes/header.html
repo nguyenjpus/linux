@@ -8,15 +8,23 @@
     <li><a href="{{ site.baseurl }}/archives/">Archives</a></li>
     <li><a href="{{ site.baseurl }}/about/">About</a></li>
   </ul>
-</nav>
 
-<div class="arena-quote">
-  <p>
-    “It is not the critic who counts; not the man who points out how the strong
-    man stumbles, or where the doer of deeds could have done them better. The
-    credit belongs to the man who is actually in the arena…”
-  </p>
-</div>
+  <div class="arena-quote">
+    <p>
+      “It is not the critic who counts; not the man who points out how the
+      strong man stumbles, or where the doer of deeds could have done them
+      better. The credit belongs to the man who is actually in the arena, whose
+      face is marred by dust and sweat and blood; who strives valiantly; who
+      errs, who comes short again and again, because there is no effort without
+      error and shortcoming; but who does actually strive to do the deeds; who
+      knows great enthusiasms, the great devotions; who spends himself in a
+      worthy cause; who at the best knows in the end the triumph of high
+      achievement, and who at the worst, if he fails, at least fails while
+      daring greatly, so that his place shall never be with those cold and timid
+      souls who neither know victory nor defeat.”
+    </p>
+  </div>
+</nav>
 
 <style>
   /* Reset */
@@ -28,7 +36,7 @@
 
   nav.navbar {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     background: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
     padding: 15px 40px;
@@ -47,6 +55,7 @@
     list-style: none;
     display: flex;
     gap: 25px;
+    margin: 15px 0;
   }
 
   nav .nav-links li a {
@@ -79,12 +88,31 @@
 
   /* Arena quote - scrolling banner */
   .arena-quote {
+    width: 100%;
     overflow: hidden;
     white-space: nowrap;
     background: #111;
     border-top: 2px solid rgba(255, 215, 0, 0.2);
     border-bottom: 2px solid rgba(255, 215, 0, 0.2);
     padding: 15px 0;
+    position: relative;
+  }
+
+  .arena-quote::before,
+  .arena-quote::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to right, #111, transparent);
+    z-index: 2;
+  }
+
+  .arena-quote::after {
+    right: 0;
+    transform: rotate(180deg);
   }
 
   .arena-quote p {
@@ -95,7 +123,7 @@
     color: #eee;
     text-shadow: 1px 1px 2px #000;
     padding-left: 100%; /* start off-screen */
-    animation: scrollQuote 25s linear infinite;
+    animation: scrollQuote 60s linear infinite;
   }
 
   @keyframes scrollQuote {
@@ -109,20 +137,15 @@
 
   /* Mobile tweaks */
   @media (max-width: 768px) {
-    nav.navbar {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
     nav .nav-links {
       flex-direction: column;
       gap: 15px;
-      margin-top: 10px;
+      margin: 10px 0;
     }
 
     .arena-quote p {
       font-size: 0.85rem;
-      animation-duration: 35s; /* slower on mobile */
+      animation-duration: 90s; /* slower on mobile */
     }
   }
 </style>
