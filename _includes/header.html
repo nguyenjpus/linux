@@ -1,6 +1,6 @@
 <nav class="navbar">
   <div class="logo">
-    <a href="{{ site.baseurl }}/">🚀 MySite</a>
+    <a href="{{ site.baseurl }}/">⚔️ Arena</a>
   </div>
   <ul class="nav-links">
     <li><a href="{{ site.baseurl }}/">Home</a></li>
@@ -10,8 +10,16 @@
   </ul>
 </nav>
 
+<div class="arena-quote">
+  <p>
+    “It is not the critic who counts; not the man who points out how the strong
+    man stumbles, or where the doer of deeds could have done them better. The
+    credit belongs to the man who is actually in the arena…”
+  </p>
+</div>
+
 <style>
-  /* General reset */
+  /* Reset */
   * {
     margin: 0;
     padding: 0;
@@ -22,14 +30,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    background: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
     padding: 15px 40px;
     font-family: "Segoe UI", sans-serif;
   }
 
   nav .logo a {
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: bold;
     text-decoration: none;
     letter-spacing: 1px;
@@ -57,16 +65,31 @@
     bottom: -3px;
     width: 0;
     height: 2px;
-    background: #ffcc00;
+    background: #ffd700;
     transition: width 0.3s ease;
   }
 
   nav .nav-links li a:hover {
-    color: #ffcc00;
+    color: #ffd700;
   }
 
   nav .nav-links li a:hover::after {
     width: 100%;
+  }
+
+  /* Engraved quote */
+  .arena-quote {
+    text-align: center;
+    padding: 20px 10%;
+    font-family: "Georgia", serif;
+    font-style: italic;
+    color: #eee;
+    background: #111;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border-top: 2px solid rgba(255, 215, 0, 0.2);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+    text-shadow: 1px 1px 2px #000;
   }
 
   /* Mobile friendly */
@@ -80,6 +103,11 @@
       flex-direction: column;
       gap: 15px;
       margin-top: 10px;
+    }
+
+    .arena-quote {
+      font-size: 0.85rem;
+      padding: 15px;
     }
   }
 </style>
