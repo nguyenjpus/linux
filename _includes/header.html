@@ -9,6 +9,17 @@
     <li><a href="{{ site.baseurl }}/about/">About</a></li>
   </ul>
 
+  <!-- Theme Selector -->
+  <div class="theme-selector">
+    <label for="theme">🎨 Theme:</label>
+    <select id="theme">
+      <option value="sunset">Gladiator Sunset</option>
+      <option value="bronze">Spartan Bronze</option>
+      <option value="steel">Midnight Steel</option>
+      <option value="crimson">Imperial Crimson</option>
+    </select>
+  </div>
+
   <div class="arena-quote">
     <p>
       “It is not the critic who counts; not the man who points out how the
@@ -38,7 +49,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
+    background: var(--theme-gradient);
     padding: 15px 40px;
     font-family: "Segoe UI", sans-serif;
   }
@@ -74,16 +85,30 @@
     bottom: -3px;
     width: 0;
     height: 2px;
-    background: #ffd700;
+    background: var(--theme-accent);
     transition: width 0.3s ease;
   }
 
   nav .nav-links li a:hover {
-    color: #ffd700;
+    color: var(--theme-accent);
   }
 
   nav .nav-links li a:hover::after {
     width: 100%;
+  }
+
+  /* Theme selector */
+  .theme-selector {
+    margin-bottom: 15px;
+    color: #fff;
+    font-size: 0.9rem;
+  }
+  .theme-selector select {
+    margin-left: 5px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
   }
 
   /* Arena quote - scrolling banner */
@@ -92,8 +117,8 @@
     overflow: hidden;
     white-space: nowrap;
     background: #111;
-    border-top: 2px solid rgba(255, 215, 0, 0.2);
-    border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+    border-top: 2px solid var(--theme-border);
+    border-bottom: 2px solid var(--theme-border);
     padding: 15px 0;
     position: relative;
   }
@@ -126,6 +151,10 @@
     animation: scrollQuote 60s linear infinite;
   }
 
+  .arena-quote p:hover {
+    animation-play-state: paused;
+  }
+
   @keyframes scrollQuote {
     from {
       transform: translateX(0);
@@ -142,10 +171,48 @@
       gap: 15px;
       margin: 10px 0;
     }
-
     .arena-quote p {
       font-size: 0.85rem;
-      animation-duration: 90s; /* slower on mobile */
+      animation-duration: 90s;
     }
   }
+
+  /* Default theme (Gladiator Sunset) */
+  :root {
+    --theme-gradient: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
+    --theme-accent: #ffd700;
+    --theme-border: rgba(255, 215, 0, 0.4);
+  }
 </style>
+
+<script>
+  const themes = {
+    sunset: {
+      "--theme-gradient": "linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b)",
+      "--theme-accent": "#ffd700",
+      "--theme-border": "rgba(255, 215, 0, 0.4)",
+    },
+    bronze: {
+      "--theme-gradient": "linear-gradient(90deg, #5c3d2e, #b08d57, #e6c200)",
+      "--theme-accent": "#ffdd55",
+      "--theme-border": "rgba(255, 221, 85, 0.4)",
+    },
+    steel: {
+      "--theme-gradient": "linear-gradient(90deg, #0f2027, #203a43, #2c5364)",
+      "--theme-accent": "#66fcf1",
+      "--theme-border": "rgba(102, 252, 241, 0.4)",
+    },
+    crimson: {
+      "--theme-gradient": "linear-gradient(90deg, #6a040f, #d00000, #ffba08)",
+      "--theme-accent": "#ffdd00",
+      "--theme-border": "rgba(255, 218, 0, 0.4)",
+    },
+  };
+
+  document.getElementById("theme").addEventListener("change", (e) => {
+    const theme = themes[e.target.value];
+    for (let key in theme) {
+      document.documentElement.style.setProperty(key, theme[key]);
+    }
+  });
+</script>
