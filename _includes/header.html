@@ -1,33 +1,25 @@
 <nav class="navbar">
-  <!-- Logo (left) -->
-  <div class="logo">
-    <a href="{{ site.baseurl }}/">
-      <!-- Crossed Swords Icon (bolder minimalist design) -->
-      <svg
-        class="swords-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="28"
-        height="28"
-        aria-hidden="true"
-      >
-        <path
-          fill="var(--theme-accent)"
-          d="M21 3l-8 8-2-2-1.5 1.5 2.5 2.5L3 22h3l9-9 2.5 2.5 1.5-1.5-2-2 8-8-1.5-1.5zM6 20H4l8-8 2 2-8 8zm10-10l-2-2 5-5 2 2-5 5z"
-        />
-      </svg>
-      Arena ⚔️
-    </a>
-  </div>
-
-  <!-- Right side: Nav + Theme buttons all inline -->
-  <div class="right-side">
-    <ul class="nav-links">
-      <li><a href="{{ site.baseurl }}/">Home</a></li>
-      <li><a href="{{ site.baseurl }}/work/">Work Experience</a></li>
-      <li><a href="{{ site.baseurl }}/archives/">Archives</a></li>
-      <li><a href="{{ site.baseurl }}/about/">About</a></li>
-    </ul>
+  <!-- Left side: Logo + Theme buttons -->
+  <div class="left-side">
+    <div class="logo">
+      <a href="{{ site.baseurl }}/">
+        <!-- Crossed Swords Icon (bolder minimalist design) -->
+        <svg
+          class="swords-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="28"
+          height="28"
+          aria-hidden="true"
+        >
+          <path
+            fill="var(--theme-accent)"
+            d="M21 3l-8 8-2-2-1.5 1.5 2.5 2.5L3 22h3l9-9 2.5 2.5 1.5-1.5-2-2 8-8-1.5-1.5zM6 20H4l8-8 2 2-8 8zm10-10l-2-2 5-5 2 2-5 5z"
+          />
+        </svg>
+        Arena ⚔️
+      </a>
+    </div>
     <div class="theme-buttons">
       <button
         data-theme="sunset"
@@ -50,6 +42,16 @@
         title="Imperial Crimson"
       ></button>
     </div>
+  </div>
+
+  <!-- Right side: Nav links -->
+  <div class="right-side">
+    <ul class="nav-links">
+      <li><a href="{{ site.baseurl }}/">Home</a></li>
+      <li><a href="{{ site.baseurl }}/work/">Work Experience</a></li>
+      <li><a href="{{ site.baseurl }}/archives/">Archives</a></li>
+      <li><a href="{{ site.baseurl }}/about/">About</a></li>
+    </ul>
   </div>
 </nav>
 
@@ -86,6 +88,14 @@
     padding: 8px 20px;
     font-family: "Segoe UI", sans-serif;
     transition: background 0.6s ease;
+    flex-wrap: nowrap;
+  }
+
+  /* Left side: Logo + Theme buttons */
+  .left-side {
+    display: flex;
+    align-items: center;
+    gap: 15px;
   }
 
   /* Logo */
@@ -112,7 +122,7 @@
     filter: drop-shadow(0 0 6px var(--theme-accent));
   }
 
-  /* Right side = nav + theme inline */
+  /* Right side: Nav links */
   .right-side {
     display: flex;
     align-items: center;
@@ -247,10 +257,17 @@
       align-items: flex-start;
       gap: 8px;
     }
+    .left-side {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
     .right-side {
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
+      width: 100%;
     }
     nav .nav-links {
       flex-direction: column;
