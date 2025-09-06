@@ -77,22 +77,37 @@
     width: 100%;
   }
 
-  /* Engraved quote */
+  /* Arena quote - scrolling banner */
   .arena-quote {
-    text-align: center;
-    padding: 20px 10%;
-    font-family: "Georgia", serif;
-    font-style: italic;
-    color: #eee;
+    overflow: hidden;
+    white-space: nowrap;
     background: #111;
-    font-size: 0.95rem;
-    line-height: 1.6;
     border-top: 2px solid rgba(255, 215, 0, 0.2);
     border-bottom: 2px solid rgba(255, 215, 0, 0.2);
-    text-shadow: 1px 1px 2px #000;
+    padding: 15px 0;
   }
 
-  /* Mobile friendly */
+  .arena-quote p {
+    display: inline-block;
+    font-family: "Georgia", serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #eee;
+    text-shadow: 1px 1px 2px #000;
+    padding-left: 100%; /* start off-screen */
+    animation: scrollQuote 25s linear infinite;
+  }
+
+  @keyframes scrollQuote {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Mobile tweaks */
   @media (max-width: 768px) {
     nav.navbar {
       flex-direction: column;
@@ -105,9 +120,9 @@
       margin-top: 10px;
     }
 
-    .arena-quote {
+    .arena-quote p {
       font-size: 0.85rem;
-      padding: 15px;
+      animation-duration: 35s; /* slower on mobile */
     }
   }
 </style>
