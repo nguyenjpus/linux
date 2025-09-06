@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Some of my teamwork principles - just to remind myself again
+title: Principles of Effective Teamwork - Re-remind Myself
 date: 2025-09-06
 ---
 
