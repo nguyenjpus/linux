@@ -177,17 +177,17 @@ Your main toolbox (the MBR disk) has 4 slots.
 
 **So, to directly answer your question:**
 
-> "My main toolbox has slots for:
-> Slot 1: Primary Partition 1
-> Slot 2: Primary Partition 2
-> Slot 3: Primary Partition 3
-> Slot 4: Extended Partition (Container)
-> Slot 5: WILL BE RESERVED for free??
-> Slot 6: Available for another Primary Partition 5
-> Slot 7: Available for another Primary Partition 6
-> Slot 8: Available for another Primary Partition 7
-> Slot 9: no more extended partition nested inside an extended partition.
-> Is this correct?"
+> - "My main toolbox has slots for:
+> - Slot 1: Primary Partition 1
+> - Slot 2: Primary Partition 2
+> - Slot 3: Primary Partition 3
+> - Slot 4: Extended Partition (Container)
+> - Slot 5: WILL BE RESERVED for free??
+> - Slot 6: Available for another Primary Partition 5
+> - Slot 7: Available for another Primary Partition 6
+> - Slot 8: Available for another Primary Partition 7
+> - Slot 9: no more extended partition nested inside an extended partition.
+> - Is this correct?"
 
 **No, this is not quite correct.**
 
