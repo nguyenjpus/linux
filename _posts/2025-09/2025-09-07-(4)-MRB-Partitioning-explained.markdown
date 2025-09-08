@@ -221,21 +221,3 @@ There isn't a strict theoretical limit imposed by the MBR scheme itself on the _
 3.  **OS and Tool Limitations**: The operating system or partitioning tools (`fdisk`, `parted`) might have their own practical limits for managing a very large number of partitions, but it's generally very high. For most practical purposes, you can create dozens or even hundreds of logical partitions.
 
 ---
-
-## `losetup -P` for Partition Detection 🔍
-
-You asked: "To access partitions on a loop device, you need to enable partition detection using the -P (or --partscan) option with losetup"
-
-- **Analogy**: Imagine you have a large box of pre-packaged food items (your disk image). Each item is already wrapped individually (a partition).
-
-  - When you just connect the box to your kitchen counter (mount the loop device without `-P`), your kitchen only sees the _entire box_. It doesn't know what's inside each individual package.
-  - When you use the `-P` option with `losetup`, it's like giving your kitchen a special scanner that can **look inside the box** and identify each individual pre-packaged item. The scanner then makes those individual items available as separate things you can work with.
-
-- **Explanation**:
-  - A disk image file (like `~/multi_mbr.img`) can contain a partition table (like MBR or GPT). This table defines how the disk space is divided into partitions.
-  - When you use `sudo losetup /dev/loop0 ~/multi_mbr.img`, the system creates a **block device** (`/dev/loop0`) that represents the _entire disk image_. However, it doesn't automatically know about the partitions _within_ that image.
-  - The `-P` or `--partscan` option tells `losetup` to **read the partition table** on the associated disk image.
-  - Once the partition table is read, `losetup` will automatically create **additional device nodes** for each detected partition. For example, if your image has partitions, `losetup -P /dev/loop0 ~/multi_mbr.img` might create devices like `/dev/loop0p1`, `/dev/loop0p2`, etc., which correspond to the partitions defined in the image's partition table.
-  - You can then mount these partition-specific loop devices (e.g., `sudo mount /dev/loop0p1 /mnt/partition1`).
-
-Without `-P`, you can only mount the _entire disk image_ as a single volume if it's not partitioned, or if you intend to treat it as a raw disk. If it _is_ partitioned and you want to access those partitions individually, you need `-P`.
