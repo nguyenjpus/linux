@@ -36,7 +36,7 @@ sudo mount -o loop ~/ext4.img /mnt/ext4
 
 ---
 
-## `losetup` followed by `mount` Method
+### `losetup` followed by `mount` Method
 
 This method involves two explicit steps: first setting up the loop device, then mounting it.
 
@@ -76,7 +76,7 @@ sudo mount /dev/loop0 /mnt/ext4
 
 ---
 
-### Equivalence and Differences
+#### Equivalence and Differences
 
 While both methods ultimately result in the `~/ext4.img` file being mounted at `/mnt/ext4`, they are **not strictly equivalent** in their execution and cleanup procedures:
 
@@ -89,7 +89,7 @@ Therefore, while they achieve the same mounting goal, the `mount -o loop` comman
 
 ---
 
-## `losetup -P` for Partition Detection 🔍
+##### `losetup -P` for Partition Detection 🔍
 
 You asked: "To access partitions on a loop device, you need to enable partition detection using the -P (or --partscan) option with losetup"
 
@@ -107,7 +107,10 @@ You asked: "To access partitions on a loop device, you need to enable partition 
 
 Without `-P`, you can only mount the _entire disk image_ as a single volume if it's not partitioned, or if you intend to treat it as a raw disk. If it _is_ partitioned and you want to access those partitions individually, you need `-P`.
 
-- **Case study**:
+---
+
+- **Case study for `losetup -P`**:
+
 - After running `sudo losetup /dev/loop0 ~/mbr.img` and creating a partition table with fdisk, the loop device `/dev/loop0` represents the entire disk image, not the individual partitions within it.
 - By default, `losetup` without additional options doesn't automatically expose the partitions (like `/dev/loop0p1`) unless you explicitly enable partition scanning.
 - When you tried `sudo mkfs.ext4 /dev/loop0` instead, you got the warning:
