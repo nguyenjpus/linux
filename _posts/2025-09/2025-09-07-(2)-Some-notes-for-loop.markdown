@@ -106,3 +106,33 @@ You asked: "To access partitions on a loop device, you need to enable partition 
   - You can then mount these partition-specific loop devices (e.g., `sudo mount /dev/loop0p1 /mnt/partition1`).
 
 Without `-P`, you can only mount the _entire disk image_ as a single volume if it's not partitioned, or if you intend to treat it as a raw disk. If it _is_ partitioned and you want to access those partitions individually, you need `-P`.
+
+- **Case study**:
+- After running `sudo losetup /dev/loop0 ~/mbr.img` and creating a partition table with fdisk, the loop device `/dev/loop0` represents the entire disk image, not the individual partitions within it.
+- By default, `losetup` without additional options doesn't automatically expose the partitions (like `/dev/loop0p1`) unless you explicitly enable partition scanning.
+- When you tried `sudo mkfs.ext4 /dev/loop0` instead, you got the warning:
+
+```bash
+Found a dos partition table in /dev/loop0
+Proceed anyway? (y,N)
+```
+
+- This warning from mke2fs indicates that `/dev/loop0` contains a partition table (the MBR you created with fdisk), and formatting the entire device would overwrite it, which is not what you want if you're trying to format only the first partition (`/dev/loop0p1`).
+- Proceeding with y would destroy the partition table and create a filesystem directly on the entire image, which would break the intended setup for partition recovery if needed.
+- Thus, to preserve the MBR parition table, we only need to:
+- 1/ Attach the loop device with partition suport:
+- `sudo losetup -P /dev/loop0 ~/mbr.img`
+- then:
+- 2/ Format the first partition as ext4:
+- `sudo mkfs.ext4 /dev/loop0p1`
+- Expected output: Something like:
+
+```bash
+mke2fs 1.47.0 (5-Feb-2023)
+Creating filesystem with 25600 4k blocks and 25600 inodes
+...
+Writing superblocks and filesystem accounting information: done
+Writing superblocks and filesystem accounting information: done
+```
+
+- This formats only the first partition, preserving the MBR partition table.
