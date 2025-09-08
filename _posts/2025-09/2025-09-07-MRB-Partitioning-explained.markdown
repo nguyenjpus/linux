@@ -2,6 +2,86 @@
 
 This document explains the structure of the Master Boot Record (MBR) partitioning scheme, focusing on the roles of primary, extended, and logical partitions.
 
+## Given the following output:
+
+```bash
+ron@usv:~$ dd if=/dev/zero of=~/multi_mbr.img bs=1M count=400
+400+0 records in
+400+0 records out
+419430400 bytes (419 MB, 400 MiB) copied, 0.145743 s, 2.9 GB/s
+ron@usv:~$ sudo fdisk ~/multi_mbr.img
+
+Welcome to fdisk (util-linux 2.39.3).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table.
+Created a new DOS (MBR) disklabel with disk identifier 0x40d48b17.
+
+Command (m for help): o
+Created a new DOS (MBR) disklabel with disk identifier 0x7b0d7ff3.
+
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (1-4, default 1): #selected default here.
+First sector (2048-819199, default 2048): #selected default here.
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-819199, default 819199): +100M
+
+Created a new partition 1 of type 'Linux' and of size 100 MiB.
+
+Command (m for help): n
+Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (2-4, default 2): #selected default here.
+First sector (206848-819199, default 206848): #selected default here.
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (206848-819199, default 819199): +100M
+
+Created a new partition 2 of type 'Linux' and of size 100 MiB.
+
+Command (m for help): n
+Partition type
+   p   primary (2 primary, 0 extended, 2 free)
+   e   extended (container for logical partitions)
+Select (default p): e
+Partition number (3,4, default 3): #selected default here.
+First sector (411648-819199, default 411648): #selected default here.
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (411648-819199, default 819199): #selected default here.
+
+Created a new partition 3 of type 'Extended' and of size 199 MiB.
+
+Command (m for help): n
+All space for primary partitions is in use.
+Adding logical partition 5
+First sector (413696-819199, default 413696): #selected default here.
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (413696-819199, default 819199): +100M
+
+Created a new partition 5 of type 'Linux' and of size 100 MiB.
+
+Command (m for help): p
+Disk /home/ron/multi_mbr.img: 400 MiB, 419430400 bytes, 819200 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x7b0d7ff3
+
+Device                   Boot  Start    End Sectors  Size Id Type
+/home/ron/multi_mbr.img1        2048 206847  204800  100M 83 Linux
+/home/ron/multi_mbr.img2      206848 411647  204800  100M 83 Linux
+/home/ron/multi_mbr.img3      411648 819199  407552  199M  5 Extended
+/home/ron/multi_mbr.img5      413696 618495  204800  100M 83 Linux
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+```
+
 ## The MBR Partitioning Scheme 🧱
 
 The Master Boot Record (MBR) is an older method for partitioning hard drives. It has a primary limitation: it can only define a maximum of **four primary partitions** on a disk. This was often insufficient for users who needed more partitions. To overcome this, the concept of an **extended partition** was introduced.
