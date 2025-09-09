@@ -109,7 +109,7 @@ sudo testdisk ~/multi_mbr.img
   - `[Intel/PC partition]`.
   - `[Analyse] > [Quick Search]`.
   - Quick Search output (initially incorrect):
-    ```
+    ```bash
     * Linux                    0  32 33    12 223 19     204800
     P Linux                   12 223 20    57 126  5     716800
     P Linux                   57 158 38    70  94 24     204800
