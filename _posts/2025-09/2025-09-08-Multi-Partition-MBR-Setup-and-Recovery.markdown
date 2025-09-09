@@ -1,4 +1,4 @@
-# Scenario 2: Multi-Partition MBR Setup and Recovery
+# Multi-Partition MBR Setup and Recovery (a complicated case for "testdisk" utility)
 
 ## Objective
 
@@ -115,7 +115,7 @@ sudo testdisk ~/multi_mbr.img
     P Linux                   57 158 38    70  94 24     204800
     ```
   - Select `[Deeper Search]` or manually adjust:
-    - <span style="color: red;">Change third partition from `P` to `L` (logical). then Enter </span>
+    - <span style="color: red;">Change third partition from `P` to `L` (logical), then Enter </span>
   - Final structure:
     ```
     1 * Linux                    0  32 33    12 223 19     204800
