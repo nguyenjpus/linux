@@ -223,7 +223,7 @@ sudo rmdir /mnt/p1 /mnt/p2 /mnt/p3 /mnt/p4
 5. **gdisk Recovery Incompleteness**:
 
    - **Issue**: gdisk (`r > b`) didn’t sync partitions; `lsblk` showed no subdevices.
-   - **Resolution**: TestDisk recovered reliably; gdisk needed reboot/sync.
+   - **Resolution**: TestDisk recovered reliably; gdisk needed reboot/sync or additional steps?
 
 6. **TestDisk Deleted Partitions**:
    - **Issue**: Partitions marked `D` (deleted) in TestDisk.
@@ -233,12 +233,12 @@ sudo rmdir /mnt/p1 /mnt/p2 /mnt/p3 /mnt/p4
 
 - **GPT Structure**: GPT’s primary and backup tables enhance redundancy; corrupting both requires signature-based recovery.
 - **TestDisk for GPT**: Automatically detects partitions but may mark them `D` (deleted); verify and set to `P` for GPT primary partitions.
-- **gdisk Usage**: Effective for manual recovery (`r > b`) but requires kernel sync (`partprobe`/reboot).
-- **gdisk vs. TestDisk**: TestDisk is more automated and reliable for GPT recovery; gdisk offers precise control but may need additional steps.
+- **gdisk Usage**: Effective for manual recovery (`r > b`) but requires kernel sync (`partprobe`/reboot). Did not see that gdisk was able to recover the corrupt system within this lesson.
+- **gdisk vs. TestDisk**: TestDisk is more automated and reliable for GPT recovery; gdisk offers precise control but may need additional steps (maybe??)
 - **Filesystem Choices**: XFS requires ≥300 MiB; ext4 suits smaller partitions.
 - **Loop Devices and Kernel**: Unmount before detaching; use `partprobe` or reboot for table updates.
 - **CompTIA Linux+ Skills**: Mastered GPT partitioning, recovery with TestDisk/gdisk, and troubleshooting kernel sync issues.
 
 ## Conclusion
 
-Scenario 3 demonstrated successful GPT recovery using TestDisk and gdisk. TestDisk’s automated recovery, with careful adjustment of partition types (`D` to `P`), proved effective, while gdisk required additional sync steps. The experiment reinforced critical Linux disk management skills for the CompTIA Linux+ certification.
+This lesson demonstrated successful GPT recovery using TestDisk but not gdisk. TestDisk’s automated recovery, with careful adjustment of partition types (`D` to `P`), proved effective, while gdisk required additional sync steps (failed in this lesson). The experiment reinforced critical Linux disk management skills for the CompTIA Linux+ certification.
