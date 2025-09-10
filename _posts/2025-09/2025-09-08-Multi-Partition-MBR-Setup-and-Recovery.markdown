@@ -105,15 +105,19 @@ sudo testdisk ~/multi_mbr.img
 ```
 
 - Steps in TestDisk:
+
   - `[Create]` (log for debugging).
   - `[Intel/PC partition]`.
   - `[Analyse] > [Quick Search]`.
   - Quick Search output (initially incorrect):
+  - Quick Search output (initially incorrect):
+
     ```
     * Linux                    0  32 33    12 223 19     204800
     P Linux                   12 223 20    57 126  5     716800
     P Linux                   57 158 38    70  94 24     204800
     ```
+
   - Select `[Deeper Search]` or manually adjust:
     - <span style="color: red;">Change third partition from `P` to `L` (logical), then Enter </span>
   - Final structure:
