@@ -110,7 +110,6 @@ sudo testdisk ~/multi_mbr.img
   - `[Intel/PC partition]`.
   - `[Analyse] > [Quick Search]`.
   - Quick Search output (initially incorrect):
-  - Quick Search output (initially incorrect):
 
     ```
     * Linux                    0  32 33    12 223 19     204800
