@@ -4,26 +4,6 @@
 
 Continue practicing the previous lessons (posted on 2025/09/09) focusing on LUKS.
 
-### Detailed Step-by-Step Guide to Proceed
-
-Since the original LUKS data was overwritten by `luksFormat`, we’ll:
-
-1. Restart from a clean disk image to simulate the LUKS setup and corruption.
-2. Recover the partition table using `gdisk` (since TestDisk is unreliable with LUKS).
-3. Access the encrypted data to confirm recovery.
-   This guide assumes you want to practice the full process again, including LUKS setup, corruption, and recovery.
-
-#### 0. Reset the Environment
-
-Clean up any existing setup:
-
-```
-sudo umount /mnt/encrypted /mnt/p1 /mnt/p2 /mnt/p3 /mnt/p4 2>/dev/null
-sudo cryptsetup luksClose encrypted 2>/dev/null
-sudo losetup -d /dev/loop0 2>/dev/null
-rm ~/gpt.img 2>/dev/null
-```
-
 #### 1. Recreate the Disk Image
 
 Create a new 1000 MiB image:
