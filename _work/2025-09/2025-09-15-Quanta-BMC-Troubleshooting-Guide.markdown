@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Quanta Server BMC Troubleshooting - A note for future reference
-date: 2025-09-06
+date: 2025-09-15
 ---
 
 # Quanta Server BMC Troubleshooting Guide
