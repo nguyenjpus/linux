@@ -458,8 +458,7 @@ To locate the BMC, scan subnets starting with commonly used smaller ranges (e.g.
 ### 6. CMOS/BMC Reset (if DHCP or credentials fail)
 
 - Unplug power cables.
-- Locate jumper (“CLR_CMOS”, “JCMOS1”, “BMC_RST”; 2-pin or 3-pin).
-- Reset: 3-pin (1-2 to 2-3, 15–30 seconds, back); 2-pin (short 15–30 seconds).
+- Locate jumper (deep switches) and reset BIOS, BMC settings.
 - Reconnect power, wait 3–5 minutes.
 - Monitor DHCP and scan:
 
@@ -550,4 +549,3 @@ To locate the BMC, scan subnets starting with commonly used smaller ranges (e.g.
 - **Success**: BMC switched from static (`192.168.0.120`) to DHCP (`192.168.0.13`) with `admin/adminpassword`.
 - **Current Case**: BMC at `10.138.36.197` (static, expected `10.138.32.197`), found via `10.138.0.0/16` scan, pingable after setting `en17` to `10.138.36.1/24`, but credentials failed.
 - **No BMC Access**: If credentials fail, try CMOS reset or contact Quanta support.
-- **Next Steps**: Contact Quanta support with model if issues recur.
