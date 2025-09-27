@@ -2,7 +2,7 @@
 layout: post
 title: " Bootloader Troubleshooting and Recovery Practice for CompTIA Linux+"
 date: 2025-09-25
-tags: [linux, initramfs]
+tags: [Linux+, initramfs]
 ---
 
 ## Introduction and Safety Notes
