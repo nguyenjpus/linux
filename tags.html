@@ -1,28 +1,23 @@
----
-layout: default
-title: "Tags"
----
+{% assign all_docs = site.posts | concat: site.work %} {% assign tags_list =
+all_docs | map: "tags" | join: "," | split: "," | uniq | sort %}
 
 <h1>Browse by Tags</h1>
-
 <ul>
-  {% assign tags_list = site.tags | sort %} {% for tag in tags_list %}
-  <li><a href="#{{ tag[0] }}">{{ tag[0] }}</a> ({{ tag[1].size }})</li>
+  {% for tag in tags_list %}
+  <li><a href="#{{ tag }}">{{ tag }}</a></li>
   {% endfor %}
 </ul>
 
 <hr />
 
 {% for tag in tags_list %}
-<h2 id="{{ tag[0] }}">{{ tag[0] }}</h2>
+<h2 id="{{ tag }}">{{ tag }}</h2>
 <ul>
-  {% for post in tag[1] %}
-  <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-  {% endfor %}
+  {% for doc in all_docs %} {% if doc.tags contains tag %}
+  <li>
+    <a href="{{ doc.url | relative_url }}">{{ doc.title }}</a> {% if
+    doc.collection %} <em>({{ doc.collection }})</em>{% endif %}
+  </li>
+  {% endif %} {% endfor %}
 </ul>
-{% endfor %} {% for post in tag[1] %}
-<li>
-  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-  {% if post.collection %} <em>({{ post.collection }})</em>{% endif %}
-</li>
 {% endfor %}
