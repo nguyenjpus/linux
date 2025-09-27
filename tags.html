@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Tags"
+---
+
 {% assign all_docs = site.posts | concat: site.work %} {% assign tags_list =
 all_docs | map: "tags" | join: "," | split: "," | uniq | sort %}
 
