@@ -20,4 +20,9 @@ title: "Tags"
   <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
   {% endfor %}
 </ul>
+{% endfor %} {% for post in tag[1] %}
+<li>
+  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+  {% if post.collection %} <em>({{ post.collection }})</em>{% endif %}
+</li>
 {% endfor %}

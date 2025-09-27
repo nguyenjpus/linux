@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Principles of Effective Teamwork - Re-remind Myself
+title: "Principles of Effective Teamwork - Re-remind Myself"
 date: 2025-09-06
 tags: [work, teamwork]
 ---
