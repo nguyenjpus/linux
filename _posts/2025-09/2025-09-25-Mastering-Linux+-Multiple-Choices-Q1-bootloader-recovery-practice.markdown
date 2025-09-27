@@ -1,11 +1,9 @@
 ---
 layout: post
-title: " Bootloader Troubleshooting and Recovery Practice for CompTIA Linux+"
+title: "Bootloader Troubleshooting and Recovery Practice for CompTIA Linux+"
 date: 2025-09-25
 tags: [Linux+, initramfs]
 ---
-
-## Introduction and Safety Notes
 
 This document summarizes the entire hands-on practice session for CompTIA Linux+ objective 2.6: Scenario-Based Multiple-Choice Questions for System Management. The session focused on troubleshooting a server that fails to start after BIOS/UEFI POST, suspecting corruption in the initial bootloader stage. We started with the multiple-choice question, explained concepts, answered tag questions, and performed a detailed, beginner-friendly hands-on simulation on your UTM Ubuntu VM (running Ubuntu on a Mac, with kernel 6.8.0-79-generic).
 

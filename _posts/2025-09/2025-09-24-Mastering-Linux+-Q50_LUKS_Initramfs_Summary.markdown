@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "# Q50: LUKS Initramfs Emergency Recovery - Summary"
+title: "Q50: LUKS Initramfs Emergency Recovery - Summary"
 date: 2025-09-24
 tags: [Linux+, initramfs]
 ---
