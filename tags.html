@@ -17,7 +17,7 @@ all_docs | map: "tags" | join: "," | split: "," | uniq | sort %}
 <hr />
 
 {% for tag in tags_list %}
-<h2>{{ tag }}</h2>
+<h2 id="{{ tag }}">{{ tag }}</h2>
 
 {% for collection in "posts,work" | split: "," %} {% assign docs =
 site[collection] %} {% assign tagged_docs = docs | where_exp: "d", "d.tags
