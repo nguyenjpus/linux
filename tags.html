@@ -21,7 +21,7 @@ title: "Tags"
 
   {% for collection in "posts,work" | split: "," %}
     {% assign docs = site[collection] %}
-    {% assign tagged_docs = docs | where_exp: "d", "d.tags contains tag" %}
+    {% assign tagged_docs = docs | where_exp: "d", "d.tags and d.tags contains tag" %}
 
     {% if tagged_docs.size > 0 %}
       <h3>{{ collection | capitalize }}</h3>
