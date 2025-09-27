@@ -35,15 +35,6 @@ The practice simulated a boot failure by intentionally corrupting the GRUB confi
 - Partitioning: GPT/UEFI (modern, not MBR), with LVM on root (Logical Volume `/dev/mapper/ubuntu--vg-ubuntu--lv`, UUID `97788617-ae17-4940-ab7d-d488fffba8ab`, ext4).
 - Bootloader: GRUB2 in EFI System Partition (`/dev/vda1`, mounted at `/boot/efi`).
 
-**Key Guidelines**:
-
-- Assume good intent; treat as adult learning for CompTIA Linux+ preparation.
-- Use analogies for memory retention and clarity.
-- Explain parameters/options for complex commands (e.g., `grub-install`).
-- Clean up to revert changes (use your UTM VM snapshot as worst-case backup).
-- Pro-tips and best practices added for data center value (e.g., automation, logging).
-- All commands run as root in `initramfs` (no `sudo` needed) or with `sudo` in normal system.
-
 **Analogies Used Throughout**:
 
 - **Bootloader**: Ignition switch in a car or doorknob on a house—if faulty, you can't start the car or enter the house.
@@ -199,16 +190,14 @@ These were additional questions you asked to deepen understanding, relevant to b
 
 4. **Reboot to trigger failure**.  
    Command: `sudo reboot`  
-   Expected Output: System reboots and drops to `(initramfs)` prompt with error like:
-   ```
+   Expected Output: System reboots and drops to `(initramfs)` prompt.
    Gave up waiting for root file system device. Common problems:
-    - Boot args (cat /proc/cmdline)
-      - Check rootdelay= (did the system wait long enough?)
-    - Missing modules (cat /proc/modules; ls /dev)
-   ALERT! /dev/invalid does not exist. Dropping to a shell!
-   (initramfs)
-   ```
-   **Explanation**: The kernel can’t mount the root filesystem due to invalid `root=/dev/invalid`, so it loads `initramfs` (a minimal RAM-based filesystem with BusyBox) for manual recovery. **Lesson Learned**: This confirms you successfully triggered the failure, a huge win after your past attempts! **Analogy**: Car breaks down due to wrong directions; you’re now in the emergency kit. **Data Center Tie-In**: This mimics real-world issues like disk failures or bad kernel updates, requiring remote console recovery.
+   - Boot args (cat /proc/cmdline)
+     - Check rootdelay= (did the system wait long enough?)
+   - Missing modules (cat /proc/modules; ls /dev)
+     ALERT! /dev/invalid does not exist. Dropping to a shell!
+     (initramfs)
+     **Explanation**: The kernel can’t mount the root filesystem due to invalid `root=/dev/invalid`, so it loads `initramfs` (a minimal RAM-based filesystem with BusyBox) for manual recovery. **Lesson Learned**: This confirms you successfully triggered the failure, a huge win after your past attempts! **Analogy**: Car breaks down due to wrong directions; you’re now in the emergency kit. **Data Center Tie-In**: This mimics real-world issues like disk failures or bad kernel updates, requiring remote console recovery.
 
 ### Phase 3: Recover from Initramfs Prompt
 
@@ -400,7 +389,11 @@ These were additional questions you asked to deepen understanding, relevant to b
      ```
    - **Check EFI files**: `ls /boot/efi/EFI/ubuntu` showed `shimaa64.efi grubx64.efi ...`—bootloader files intact.
    - **Check GRUB modules**: `ls /usr/lib/grub/x86_64-efi` (expected `modinfo.sh`, but missing).
-   - **Attempted Fix**: Tried `apt update && apt install -y grub-efi-amd64`, but networking likely unavailable in `initramfs` chroot.
+   - **Attempted Fix**:
+     ```
+     update-grub
+     ```
+     Tried `apt update && apt install -y grub-efi-amd64`, but networking likely unavailable in `initramfs` chroot.
    - **Resolution**: Skipped `grub-install` since `update-grub` fixed `grub.cfg` and EFI files were intact. **Explanation**: `grub-install` rewrites EFI bootloader files; if already present and `grub.cfg` fixed, boot can succeed without it. **Question Answered**: _Why did grub-install fail?_ Missing `/usr/lib/grub/x86_64-efi/modinfo.sh` (GRUB EFI modules), likely due to incomplete package or chroot issue. **Pro-Tip**: In production, ensure `grub-efi-amd64` is pre-installed in rescue images; check networking with `ping -c 2 8.8.8.8`.
 
 8. **Exit chroot**.  
