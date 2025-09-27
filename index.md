@@ -12,16 +12,22 @@ Welcome! I’m documenting my progress toward earning the **CompTIA Linux+**, **
 
 Explore my posts and work experiences below to follow my journey!
 
+---
+
 ## Latest Posts
 
-{% assign sorted_posts = site.posts | sort: 'date' | reverse %}
-{% for post in sorted_posts %}
+{% assign sorted_posts = site.posts | sort: "date" | reverse %}
+{% for post in sorted_posts limit:10 %}
 
-  <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-  <p>{{ post.date | date: "%B %d, %Y" }}</p>
-  <p>{{ post.content | strip_html | truncatewords: 30 }}</p>
+  <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+  <p><small>{{ post.date | date: "%B %d, %Y" }}</small></p>
+  <p>{{ post.excerpt }}</p>
 {% endfor %}
+
+<p><a href="{{ '/all-posts/' | relative_url }}">See All Posts →</a></p>
+
+---
 
 ## Work Experience
 
-Discover my professional journey in tech [here]({{ site.baseurl }}/work/).
+Discover my professional journey in tech [here]({{ '/work/' | relative_url }}).
