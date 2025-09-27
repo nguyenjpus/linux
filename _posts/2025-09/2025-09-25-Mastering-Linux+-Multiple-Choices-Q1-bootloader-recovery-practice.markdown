@@ -198,6 +198,7 @@ These were additional questions you asked to deepen understanding, relevant to b
      ALERT! /dev/invalid does not exist. Dropping to a shell!
      (initramfs)
      **Explanation**: The kernel can’t mount the root filesystem due to invalid `root=/dev/invalid`, so it loads `initramfs` (a minimal RAM-based filesystem with BusyBox) for manual recovery. **Lesson Learned**: This confirms you successfully triggered the failure, a huge win after your past attempts! **Analogy**: Car breaks down due to wrong directions; you’re now in the emergency kit. **Data Center Tie-In**: This mimics real-world issues like disk failures or bad kernel updates, requiring remote console recovery.
+     **A SIDE NOTE FOR ME**: With UTM, some documents pointed out that by editting /etc/crypttab, such as replace the key by using "sed -i 's|/root/wrong-key|/root/luks-key|' ", making it unable to open a luks device, then reboot, the system would boot to (initramfs). However, this is not true with my case.
 
 ### Phase 3: Recover from Initramfs Prompt
 
