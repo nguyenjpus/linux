@@ -8,8 +8,9 @@ title: "Tags"
 
 <h2>Browse by Tags</h2>
 
-<div>
-  <button id="sortByCount" class="sort-button" aria-label="Sort tags by count in descending order">Sort by Count (Descending)</button>
+<div class="controls">
+  <input type="text" id="tagSearch" class="search-bar" placeholder="Search tags..." aria-label="Search tags">
+  <button id="sortByCount" class="sort-button" aria-label="Sort tags by count in descending order">Sort by Count</button>
   <button id="sortByAlpha" class="sort-button" aria-label="Sort tags alphabetically">Sort Alphabetically</button>
 </div>
 
@@ -33,7 +34,7 @@ title: "Tags"
     {% assign tag_count = parts[1] %}
     <div class="tag-cell" data-tag="{{ tag | slugify }}" data-count="{{ tag_count }}">
       <a href="#{{ tag | slugify }}" class="tag-link" title="{{ tag }}">{{ tag }}</a>
-      <span class="tag-count">({{ tag_count }})</span>
+      <span class="tag-count">{{ tag_count }}</span>
     </div>
   {% endfor %}
 </div>
@@ -50,15 +51,15 @@ title: "Tags"
 </script>
 
 <script>
-  // Parse tags data from template
+  // Parse tags data
   const tagsData = JSON.parse(document.getElementById('tagsDataTemplate').textContent.replace(/,\s*]/, ']'));
-
   const tagsGrid = document.getElementById('tagsGrid');
   const sortByCountButton = document.getElementById('sortByCount');
   const sortByAlphaButton = document.getElementById('sortByAlpha');
+  const tagSearch = document.getElementById('tagSearch');
 
   function getBackgroundColor(count) {
-    const intensity = Math.min(240, 255 - count * 5); // Darker for higher counts
+    const intensity = Math.min(240, 255 - count * 5);
     return `rgb(${intensity}, ${intensity}, 255)`;
   }
 
@@ -72,7 +73,7 @@ title: "Tags"
       cell.style.backgroundColor = getBackgroundColor(item.count);
       cell.innerHTML = `
         <a href="#${item.slug}" class="tag-link" title="${item.tag.replace(/"/g, '&quot;')}">${item.tag}</a>
-        <span class="tag-count">(${item.count})</span>
+        <span class="tag-count">${item.count}</span>
       `;
       tagsGrid.appendChild(cell);
     });
@@ -83,6 +84,7 @@ title: "Tags"
     renderGrid(sorted);
     sortByCountButton.disabled = true;
     sortByAlphaButton.disabled = false;
+    tagSearch.value = ''; // Clear search on sort
   });
 
   sortByAlphaButton.addEventListener('click', () => {
@@ -90,6 +92,14 @@ title: "Tags"
     renderGrid(sorted);
     sortByCountButton.disabled = false;
     sortByAlphaButton.disabled = true;
+    tagSearch.value = ''; // Clear search on sort
+  });
+
+  tagSearch.addEventListener('input', () => {
+    const query = tagSearch.value.toLowerCase();
+    const filtered = tagsData.filter(item => item.tag.toLowerCase().includes(query));
+    const sorted = sortByCountButton.disabled ? filtered.sort((a, b) => b.count - a.count) : filtered.sort((a, b) => a.tag.localeCompare(b.tag));
+    renderGrid(sorted);
   });
 
   // Initial state: sort by count
@@ -97,10 +107,14 @@ title: "Tags"
 </script>
 
 <style>
+  .controls {
+    margin-bottom: 1em;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
   .sort-button {
     padding: 8px 16px;
-    margin-right: 8px;
-    margin-bottom: 1em;
     cursor: pointer;
     background-color: #f0f0f0;
     border: 1px solid #ddd;
@@ -118,6 +132,17 @@ title: "Tags"
   .sort-button:focus {
     outline: 2px solid #2980b9;
     outline-offset: 2px;
+  }
+  .search-bar {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+    font-size: 0.9em;
+  }
+  .search-bar:focus {
+    outline: 2px solid #2980b9;
+    border-color: #2980b9;
   }
   .tags-grid {
     display: grid;
@@ -159,7 +184,30 @@ title: "Tags"
   }
   .tag-count {
     font-size: 0.8em;
-    color: #666;
+    color: #fff;
+    background-color: #2980b9;
+    border-radius: 12px;
+    padding: 2px 8px;
+    margin-top: 4px;
+    display: inline-block;
+    min-width: 20px;
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .tags-grid {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    .tag-cell {
+      height: 50px;
+    }
+    .tag-link {
+      font-size: 0.85em;
+      max-width: 100px;
+    }
+    .tag-count {
+      font-size: 0.75em;
+      padding: 2px 6px;
+    }
   }
 </style>
 
