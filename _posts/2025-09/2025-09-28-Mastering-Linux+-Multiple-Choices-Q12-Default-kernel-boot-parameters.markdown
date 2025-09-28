@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choice - Q12 - Modifying Default Kernel Boot Parameters"
 date: 2025-09-28
-tags: [Linux+, cmdline, pcie]
+tags: [Linux+, cmdline, pcie, quiet]
 ---
 
 This lesson covers how to persistently modify kernel boot parameters by editing `/etc/default/grub` and updating GRUB. We focused on the file `/etc/default/grub` as the correct choice for adding parameters like hardware enablers (e.g., `pci=pcie_bus_safe`). Other options like `/boot/grub/grub.cfg` (generated file, don't edit directly), `/proc/cmdline` (read-only current params), and `/etc/fstab` (filesystem mounts) were explained as incorrect.
@@ -30,6 +30,7 @@ We simulated a data center scenario: Adding `pci=pcie_bus_safe` to handle PCIe d
 - Use `grub-editenv` for advanced tweaks. (Have not tried)
 - In production, test on staging servers; monitor with `dmesg | grep pci` for PCIe logs.
 - Best practice: Script checks (e.g., Bash to verify params post-boot) for automated deployments.
+- With "quiet", we will not see options to get into GRUB> in current UTM settings.
 
 ## FAQ Section
 
