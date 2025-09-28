@@ -1,19 +1,29 @@
-# CompTIA Linux+ Practice: Temporary Filesystems, Redirection, and Process Locking
+---
+layout: post
+title: "Q36, Q43, Q45: Temporary Filesystems, Redirection, and Process Locking"
+date: 2025-09-23
+tags: [Linux+, tmpf, Redirection, flock]
+---
 
 This guide summarizes a hands-on practice session for CompTIA Linux+ questions Q36, Q43, and Q45, performed on a UTM Ubuntu system (`uname -r: 6.8.0-79-generic`, LVM on `/dev/vda3`). It covers configuring a temporary RAM-backed filesystem (tmpfs), redirecting script output, and automating tasks with `flock` to prevent overlaps. Errors encountered (permissions, history expansion, and `flock` issues) were resolved, building skills for data center automation and troubleshooting.
 
 ## Scenario
+
 As a data center technician, I set up a monitoring system:
+
 1. **Q36**: Create a 64 MiB tmpfs at `/run/temp` with `noexec` to store logs securely.
 2. **Q43**: Write a script that logs stdout to console and file, stderr to a separate file.
 3. **Q45**: Automate the script with a systemd timer, using `flock` to ensure single instances.
 
 ## Q36: Temporary RAM-backed Filesystem
+
 **Question**: Configure a tmpfs at `/run/temp` (64 MiB, `noexec`). Which `systemd-tmpfiles` entry is correct?
+
 - Options: `z /run/temp 0755 root root 64M noexec`, `z /run/temp 0755 root root 0 0`, `d /run/temp 0755 root root - -`, `d /run/temp 0755 root root 64M`
 - **Answer**: None are fully correct; `d /run/temp 0755 root root 64M` is closest but flawed, as `systemd-tmpfiles` `d` doesn’t support size/`noexec`.
 
 **What We Did**:
+
 - Tried `/etc/tmpfiles.d/temp.conf` with `d /run/temp 0755 root root 64M noexec`, but got error: `/etc/tmpfiles.d/temp.conf:1: d lines don't take argument fields, ignoring`.
 - **Fix**: Used a systemd mount unit (`/etc/systemd/system/run-temp.mount`):
   ```bash
@@ -42,15 +52,19 @@ As a data center technician, I set up a monitoring system:
 **Why It Matters**: In data centers, tmpfs stores volatile data (e.g., server metrics) to reduce disk I/O. `noexec` prevents malicious code execution. **Analogy**: tmpfs is a hotel safe (temporary, erased on reboot); `noexec` locks out gadgets.
 
 **Connection Clarified**:
+
 - `test.sh`: Tests `noexec` by failing to run in `/run/temp`.
 - `tempfiles.d/temp.conf`: Attempted tmpfs setup but limited; doesn’t support `noexec` or size.
 - `run-temp.mount`: Correct way to configure tmpfs with custom options, used in practice.
 
 ## Q43: Redirecting stdout and stderr
+
 **Question**: Redirect a script’s stdout to console and `out.log`, stderr to `err.log`.
+
 - **Answer**: `myscript.sh > >(tee out.log) 2>err.log`
 
 **What We Did**:
+
 - Created `~/monitor.sh`:
   ```bash
   #!/bin/bash
@@ -68,10 +82,13 @@ As a data center technician, I set up a monitoring system:
 **Why It Matters**: In data centers, scripts monitor servers (e.g., disk usage). Stdout to console/logs tracks progress; stderr logs isolate issues. **Analogy**: Stdout is a chef’s progress report; stderr is a separate error log for fixes.
 
 ## Q45: Using flock with Systemd Timer
+
 **Question**: Ensure one instance of `cleanup.sh` runs via systemd timer with `flock`.
+
 - **Answer**: `ExecStart=/usr/bin/flock -n /tmp/cleanup.lock /usr/local/bin/cleanup.sh`
 
 **What We Did**:
+
 - Moved script: `sudo mv ~/monitor.sh /usr/local/bin/monitor.sh`.
 - Created service: `/etc/systemd/system/monitor.service`:
   ```bash
@@ -107,6 +124,7 @@ As a data center technician, I set up a monitoring system:
 **Why It Matters**: In data centers, timers automate backups or log cleanups. `flock` prevents overlaps, avoiding conflicts. **Analogy**: `flock` is a single-key meeting room; only one task uses it at a time.
 
 ## Errors and Fixes
+
 1. **Q36 tmpfiles.d Error**: `/etc/tmpfiles.d/temp.conf` ignored (`d` doesn’t support `64M noexec`). **Fix**: Used `run-temp.mount` for tmpfs.
 2. **Q36 Permission Denied**: Non-root couldn’t write `test.sh` to `/run/temp`. **Fix**: `sudo bash -c 'echo "#!/bin/bash" > /run/temp/test.sh'`.
 3. **Q36 History Expansion**: `sudo bash -c "echo '#!/bin/bash' ..."` failed (`!/bin/bash` event not found). **Fix**: Used single quotes or escaped `!`.
@@ -115,12 +133,14 @@ As a data center technician, I set up a monitoring system:
 6. **Q45 flock Inconsistency**: Non-root `flock` runs sometimes worked. **Cause**: No lock file initially; timer created it later. **Fix**: Ensure lock file exists with write permissions for tests.
 
 ## Data Center Relevance
+
 - **Q36**: tmpfs reduces disk wear (SSDs); `noexec` secures servers.
 - **Q43**: Separating logs streamlines monitoring and debugging.
 - **Q45**: `flock` and timers ensure reliable automation (e.g., backups).
 - **Troubleshooting**: Permissions and quoting errors mimic real data center issues, teaching debugging.
 
 ## Cleanup
+
 ```bash
 sudo systemctl stop monitor.timer
 sudo systemctl disable monitor.timer
@@ -133,6 +153,7 @@ rm ~/err.log
 ```
 
 ## FAQ
+
 - **Q**: Why did `tempfiles.d` fail for tmpfs?
   - **A**: `d` type doesn’t support size/`noexec`; use mount units or `/etc/fstab`.
 - **Q**: Why `test.sh` for `noexec` test?
@@ -147,6 +168,7 @@ rm ~/err.log
   - **A**: Likely 04:14 UTC 2025-09-22 (first timer run); check with `sudo stat /run/temp/monitor.lock`.
 
 ## Practice Questions
+
 1. **Q**: How to verify tmpfs options?
    - **A**: `mount | grep /run/temp` or `cat /proc/mounts`.
 2. **Q**: Why does `noexec` block execution even with `sudo`?
