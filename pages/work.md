@@ -28,6 +28,4 @@ Limit to 10 items on this page, like homepage
 </div>
 {% endfor %}
 
-<p><a href="{{ '/all-work/' | relative_url }}">See All Work Experience →</a></p>
-
 <p><a href="{{ '/archives/#work-experiences' | relative_url }}">See All Work Experience →</a></p>
