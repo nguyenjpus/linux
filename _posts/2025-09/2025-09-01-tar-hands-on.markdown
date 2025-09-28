@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Rsync and ddrescue"
+title: "Tar"
 date: 2025-09-02
 tags: [Basic, tar]
 ---

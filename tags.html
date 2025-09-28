@@ -4,11 +4,45 @@ title: "Tags"
 ---
 
 {% assign all_docs = site.posts | concat: site.work %}
-{% assign all_tags = all_docs | map: "tags" | join: "," | split: "," | uniq | sort %}
+
+{%- comment -%}
+Build a tag-count hash so we can sort two ways:
+- alphabetically
+- by frequency
+{%- endcomment -%}
+{% assign all_tags = "" | split: "" %}
+{% for doc in all_docs %}
+  {% for tag in doc.tags %}
+    {% assign all_tags = all_tags | push: tag %}
+  {% endfor %}
+{% endfor %}
+{% assign all_tags = all_tags | uniq | sort %}
+
+{%- comment -%}
+We’ll prepare a version sorted by count
+{%- endcomment -%}
+{% assign tags_with_count = "" | split: "" %}
+{% for tag in all_tags %}
+  {% assign tag_count = 0 %}
+  {% for doc in all_docs %}
+    {% if doc.tags contains tag %}
+      {% assign tag_count = tag_count | plus: 1 %}
+    {% endif %}
+  {% endfor %}
+  {% assign entry = tag | append: "::" | append: tag_count %}
+  {% assign tags_with_count = tags_with_count | push: entry %}
+{% endfor %}
+{% assign tags_count_sorted = tags_with_count | sort: "last" | reverse %}
 
 <h1>Browse by Tags</h1>
 
-<div class="tags-grid">
+<div class="tag-controls">
+  <button onclick="showTags('alpha')">Sort A–Z</button>
+  <button onclick="showTags('count')">Sort by Count</button>
+</div>
+
+<!-- Alphabetical -->
+<div id="tags-alpha" class="tags-grid">
   {% for tag in all_tags %}
     {% assign tag_count = 0 %}
     {% for doc in all_docs %}
@@ -16,7 +50,19 @@ title: "Tags"
         {% assign tag_count = tag_count | plus: 1 %}
       {% endif %}
     {% endfor %}
-    <a href="#{{ tag }}" class="tag-link">
+    <a href="#{{ tag | slugify }}" class="tag-link">
+      {{ tag }} <span class="tag-count">({{ tag_count }})</span>
+    </a>
+  {% endfor %}
+</div>
+
+<!-- By Count -->
+<div id="tags-count" class="tags-grid" style="display:none;">
+  {% for entry in tags_count_sorted %}
+    {% assign parts = entry | split: "::" %}
+    {% assign tag = parts[0] %}
+    {% assign tag_count = parts[1] %}
+    <a href="#{{ tag | slugify }}" class="tag-link">
       {{ tag }} <span class="tag-count">({{ tag_count }})</span>
     </a>
   {% endfor %}
@@ -24,8 +70,9 @@ title: "Tags"
 
 <hr />
 
+<!-- Tag sections -->
 {% for tag in all_tags %}
-  <h2 id="{{ tag }}">{{ tag }}</h2>
+  <h2 id="{{ tag | slugify }}">{{ tag }}</h2>
   <ul>
     {% for doc in all_docs %}
       {% if doc.tags contains tag %}
@@ -41,31 +88,56 @@ title: "Tags"
 {% endfor %}
 
 <style>
+  .tag-controls {
+    margin-bottom: 1rem;
+  }
+  .tag-controls button {
+    margin-right: 0.5rem;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 6px;
+    background: var(--theme-accent, #007acc);
+    color: #111;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  .tag-controls button:hover {
+    transform: scale(1.05);
+    background: var(--theme-border, #005a99);
+  }
   .tags-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 8px 16px;
     margin: 1em 0;
   }
-
   .tag-link {
     display: block;
-    background: #f5f5f5;
+    background: rgba(255, 255, 255, 0.05);
     padding: 6px 10px;
     border-radius: 6px;
     text-decoration: none;
-    color: #333;
+    color: #fff;
     font-size: 0.9rem;
+    border-left: 3px solid var(--theme-accent);
     transition: background 0.2s ease, transform 0.2s ease;
   }
-
   .tag-link:hover {
-    background: #eaeaea;
+    background: rgba(255, 255, 255, 0.1);
     transform: scale(1.02);
   }
-
   .tag-count {
-    color: #666;
+    color: var(--theme-accent);
     font-size: 0.8rem;
   }
 </style>
+
+<script>
+function showTags(mode) {
+  document.getElementById('tags-alpha').style.display =
+    (mode === 'alpha') ? 'grid' : 'none';
+  document.getElementById('tags-count').style.display =
+    (mode === 'count') ? 'grid' : 'none';
+}
+</script>
