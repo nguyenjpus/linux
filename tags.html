@@ -13,42 +13,32 @@ title: "Tags"
   <button id="sortByAlpha" class="sort-button">Sort Alphabetically</button>
 </div>
 
-<table id="tagsTable" style="border-collapse: collapse; width: 100%; margin-top: 1em;">
-  <thead>
-    <tr style="border-bottom: 1px solid #ddd;">
-      <th style="padding: 8px; text-align: left;">Tag</th>
-      <th style="padding: 8px; text-align: left;">Count</th>
-    </tr>
-  </thead>
-  <tbody id="tagsTableBody">
-    {% assign tags_with_count = '' | split: '' %}
-    {% for tag in all_tags %}
-      {% assign tag_count = 0 %}
-      {% for doc in all_docs %}
-        {% if doc.tags contains tag %}
-          {% assign tag_count = tag_count | plus: 1 %}
-        {% endif %}
-      {% endfor %}
-      {% assign padded_count = tag_count | prepend: '0000' | slice: -4,4 %}
-      {% assign entry = padded_count | append: '|' | append: tag_count | append: '|' | append: tag %}
-      {% assign tags_with_count = tags_with_count | push: entry %}
+<div id="tagsGrid" class="tags-grid">
+  {% assign tags_with_count = '' | split: '' %}
+  {% for tag in all_tags %}
+    {% assign tag_count = 0 %}
+    {% for doc in all_docs %}
+      {% if doc.tags contains tag %}
+        {% assign tag_count = tag_count | plus: 1 %}
+      {% endif %}
     {% endfor %}
-    {% assign sorted_entries = tags_with_count | sort | reverse %}
-    {% for entry in sorted_entries %}
-      {% assign parts = entry | split: '|' %}
-      {% assign tag = parts[2] %}
-      {% assign tag_count = parts[1] %}
-      <tr class="tag-row" data-tag="{{ tag | slugify }}" data-count="{{ tag_count }}">
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
-          <a href="#{{ tag | slugify }}">{{ tag }}</a>
-        </td>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ tag_count }}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    {% assign padded_count = tag_count | prepend: '0000' | slice: -4,4 %}
+    {% assign entry = padded_count | append: '|' | append: tag_count | append: '|' | append: tag %}
+    {% assign tags_with_count = tags_with_count | push: entry %}
+  {% endfor %}
+  {% assign sorted_entries = tags_with_count | sort | reverse %}
+  {% for entry in sorted_entries %}
+    {% assign parts = entry | split: '|' %}
+    {% assign tag = parts[2] %}
+    {% assign tag_count = parts[1] %}
+    <div class="tag-cell" data-tag="{{ tag | slugify }}" data-count="{{ tag_count }}">
+      <a href="#{{ tag | slugify }}">{{ tag }}</a> ({{ tag_count }})
+    </div>
+  {% endfor %}
+</div>
 
 <script>
+  // Ascending
   // Store tags data for sorting
   const tagsData = [
     {% for entry in sorted_entries %}
@@ -59,37 +49,32 @@ title: "Tags"
     {% endfor %}
   ];
 
-  const tableBody = document.getElementById('tagsTableBody');
+  const tagsGrid = document.getElementById('tagsGrid');
   const sortByCountButton = document.getElementById('sortByCount');
   const sortByAlphaButton = document.getElementById('sortByAlpha');
 
-  function renderTable(data) {
-    tableBody.innerHTML = '';
+  function renderGrid(data) {
+    tagsGrid.innerHTML = '';
     data.forEach(item => {
-      const row = document.createElement('tr');
-      row.className = 'tag-row';
-      row.dataset.tag = item.slug;
-      row.dataset.count = item.count;
-      row.innerHTML = `
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
-          <a href="#${item.slug}">${item.tag}</a>
-        </td>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.count}</td>
-      `;
-      tableBody.appendChild(row);
+      const cell = document.createElement('div');
+      cell.className = 'tag-cell';
+      cell.dataset.tag = item.slug;
+      cell.dataset.count = item.count;
+      cell.innerHTML = `<a href="#${item.slug}">${item.tag}</a> (${item.count})`;
+      tagsGrid.appendChild(cell);
     });
   }
 
   sortByCountButton.addEventListener('click', () => {
     const sorted = [...tagsData].sort((a, b) => b.count - a.count);
-    renderTable(sorted);
+    renderGrid(sorted);
     sortByCountButton.disabled = true;
     sortByAlphaButton.disabled = false;
   });
 
   sortByAlphaButton.addEventListener('click', () => {
     const sorted = [...tagsData].sort((a, b) => a.tag.localeCompare(b.tag));
-    renderTable(sorted);
+    renderGrid(sorted);
     sortByCountButton.disabled = false;
     sortByAlphaButton.disabled = true;
   });
@@ -102,14 +87,45 @@ title: "Tags"
   .sort-button {
     padding: 8px 16px;
     margin-right: 8px;
+    margin-bottom: 1em;
     cursor: pointer;
     background-color: #f0f0f0;
     border: 1px solid #ddd;
     border-radius: 4px;
+    transition: background-color 0.2s;
   }
   .sort-button:disabled {
     background-color: #d0d0d0;
     cursor: not-allowed;
+  }
+  .sort-button:hover:not(:disabled) {
+    background-color: #e0e0e0;
+  }
+  .tags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 10px 0;
+  }
+  .tag-cell {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #eee;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .tag-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .tag-cell a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+  }
+  .tag-cell a:hover {
+    color: #2980b9;
   }
 </style>
 
