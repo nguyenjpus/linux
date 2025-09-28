@@ -4,227 +4,61 @@ title: "Tags"
 ---
 
 {% assign all_docs = site.posts | concat: site.work %}
+{% assign all_tags = all_docs | map: "tags" | join: "," | split: "," | uniq %}
 
-{%- comment -%}
-Collect unique tags from all documents (guard against missing tags)
-{%- endcomment -%}
-{% assign tag_list = "" | split: "" %}
-{% for doc in all_docs %}
-  {% if doc.tags %}
-    {% for tag in doc.tags %}
-      {% assign t = tag | strip %}
-      {% unless tag_list contains t %}
-        {% assign tag_list = tag_list | push: t %}
-      {% endunless %}
-    {% endfor %}
-  {% endif %}
-{% endfor %}
-{% assign all_tags = tag_list | sort %}
+<h2>Browse by Tags</h2>
 
-{%- comment -%}
-Build an array of "padded_count::tag" so lexical sort order becomes numeric order.
-We add a large offset (10000) to ensure fixed-width positive padding.
-{%- endcomment -%}
-{% assign tags_with_count = "" | split: "" %}
-{% for tag in all_tags %}
-  {% assign tag_count = 0 %}
-  {% for doc in all_docs %}
-    {% if doc.tags and doc.tags contains tag %}
-      {% assign tag_count = tag_count | plus: 1 %}
-    {% endif %}
-  {% endfor %}
-  {% assign padded = tag_count | plus: 10000 %}
-  {% assign entry = padded | append: "::" | append: tag %}
-  {% assign tags_with_count = tags_with_count | push: entry %}
-{% endfor %}
-
-{%- comment -%}
-Sort the padded entries ascending then reverse => highest count first
-{%- endcomment -%}
-{% assign tags_count_sorted = tags_with_count | sort | reverse %}
-
-<h1>Browse by Tags</h1>
-
-<div class="tag-controls">
-  <button id="btn-alpha" class="active" type="button">Sort A–Z</button>
-  <button id="btn-count" type="button">Sort by Count</button>
-</div>
-
-<!-- Alphabetical -->
-<div id="tags-alpha" class="tags-grid">
+<h3>Tags Sorted by Count (Descending)</h3>
+<ul>
+  {% assign tags_with_count = '' | split: '' %}
   {% for tag in all_tags %}
     {% assign tag_count = 0 %}
     {% for doc in all_docs %}
-      {% if doc.tags and doc.tags contains tag %}
+      {% if doc.tags contains tag %}
         {% assign tag_count = tag_count | plus: 1 %}
       {% endif %}
     {% endfor %}
-    <a href="#{{ tag | slugify }}" class="tag-link">
-      {{ tag }} <span class="tag-count">({{ tag_count }})</span>
-    </a>
+    {% assign tags_with_count = tags_with_count | push: tag | push: tag_count %}
   {% endfor %}
-</div>
-
-<!-- By Count -->
-<div id="tags-count" class="tags-grid" style="display:none;">
-  {% for entry in tags_count_sorted %}
-    {% assign parts = entry | split: "::" %}
-    {% assign padded = parts[0] %}
-    {% assign tag = parts[1] %}
-    {% assign tag_count = padded | minus: 10000 %}
-    <a href="#{{ tag | slugify }}" class="tag-link">
-      {{ tag }} <span class="tag-count">({{ tag_count }})</span>
-    </a>
-  {% endfor %}
-</div>
-
-<hr />
-
-{%- comment -%}
-Tag sections listing matching docs.
-We also create extra invisible anchors for collection-prefixed links:
-#<tag-slug>, #posts-<tag-slug>, #work-<tag-slug>
-That preserves compatibility if post tag links included a collection prefix.
-{%- endcomment -%}
-
-{% for tag in all_tags %}
-  {% assign tag_slug = tag | slugify %}
-  <!-- compatibility anchors so both "#tag" and "#posts-tag" / "#work-tag" land here -->
-  <span id="{{ tag_slug }}" style="display:block; height:0; margin-top:-80px; padding-top:80px;"></span>
-  <span id="posts-{{ tag_slug }}" style="display:block; height:0; margin-top:-80px; padding-top:80px;"></span>
-  <span id="work-{{ tag_slug }}" style="display:block; height:0; margin-top:-80px; padding-top:80px;"></span>
-
-  <h2>{{ tag }} <small class="section-count">(
-    {% assign c = 0 %}
-    {% for d in all_docs %}
-      {% if d.tags and d.tags contains tag %}
-        {% assign c = c | plus: 1 %}
-      {% endif %}
-    {% endfor %}
-    {{ c }})</small></h2>
-
-  {% comment %} Show Posts grouped by collection for clarity {% endcomment %}
-  {% assign posts_in_tag = "" | split: "" %}
-  {% assign work_in_tag  = "" | split: "" %}
-  {% for doc in all_docs %}
-    {% if doc.tags and doc.tags contains tag %}
-      {% if doc.collection == "work" %}
-        {% assign work_in_tag = work_in_tag | push: doc %}
-      {% else %}
-        {% assign posts_in_tag = posts_in_tag | push: doc %}
-      {% endif %}
+  {% assign sorted_tags = tags_with_count | sort: 1 | reverse %}
+  
+  {% for i in (0..sorted_tags.size) step:2 %}
+    {% if sorted_tags[i] %}
+      <li>
+        <a href="#{{ sorted_tags[i] | slugify }}">{{ sorted_tags[i] }}</a> ({{ sorted_tags[i+1] }})
+      </li>
     {% endif %}
   {% endfor %}
+</ul>
 
-  {% if posts_in_tag.size > 0 %}
-    <h3>Posts</h3>
-    <ul>
-      {% for p in posts_in_tag %}
-        <li><a href="{{ p.url | relative_url }}">{{ p.title }}</a></li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+<h3>Tags Sorted Alphabetically</h3>
+<ul>
+  {% assign alpha_tags = all_tags | sort %}
+  {% for tag in alpha_tags %}
+    {% assign tag_count = 0 %}
+    {% for doc in all_docs %}
+      {% if doc.tags contains tag %}
+        {% assign tag_count = tag_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+    <li>
+      <a href="#{{ tag | slugify }}">{{ tag }}</a> ({{ tag_count }})
+    </li>
+  {% endfor %}
+</ul>
 
-  {% if work_in_tag.size > 0 %}
-    <h3>Work</h3>
-    <ul>
-      {% for w in work_in_tag %}
-        <li><a href="{{ w.url | relative_url }}">{{ w.title }}</a></li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-
+{% for tag in all_tags %}
+  <h3 id="{{ tag | slugify }}">{{ tag }}</h3>
+  <ul>
+    {% for doc in all_docs %}
+      {% if doc.tags contains tag %}
+        <li>
+          <a href="{{ doc.url }}">{{ doc.title }}</a>
+          {% if doc.collection %}
+            ({{ doc.collection }})
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
 {% endfor %}
-
-<style>
-/* controls */
-.tag-controls {
-  margin-bottom: 1rem;
-}
-.tag-controls button {
-  margin-right: 0.5rem;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.06);
-  color: var(--theme-accent);
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform .12s ease, background .12s ease;
-}
-.tag-controls button.active {
-  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.10));
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-}
-
-/* grid */
-.tags-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px 14px;
-  margin: 1em 0;
-}
-
-/* tag links: use theme accent color for text (visible on dark & light) */
-.tag-link {
-  display: block;
-  background: rgba(255,255,255,0.03);
-  padding: 8px 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--theme-accent);
-  font-size: 0.95rem;
-  font-weight: 600;
-  border-left: 4px solid rgba(255,255,255,0.04);
-  transition: transform .12s ease, background .12s ease;
-}
-.tag-link:hover {
-  transform: translateY(-3px);
-  background: rgba(255,255,255,0.06);
-}
-
-/* small count */
-.tag-count {
-  color: rgba(255,255,255,0.8);
-  font-weight: 500;
-  font-size: 0.85rem;
-  margin-left: 6px;
-}
-
-/* section counts */
-.section-count {
-  font-weight: 400;
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.7);
-}
-
-/* heading spacing */
-h2 { margin-top: 1.25rem; }
-h3 { margin-top: 0.75rem; margin-bottom: 0.25rem; }
-</style>
-
-<script>
-(function(){
-  const btnAlpha = document.getElementById('btn-alpha');
-  const btnCount = document.getElementById('btn-count');
-  const alphaBox = document.getElementById('tags-alpha');
-  const countBox = document.getElementById('tags-count');
-
-  function showTags(mode) {
-    if (mode === 'alpha') {
-      alphaBox.style.display = 'grid';
-      countBox.style.display = 'none';
-      btnAlpha.classList.add('active');
-      btnCount.classList.remove('active');
-    } else {
-      alphaBox.style.display = 'none';
-      countBox.style.display = 'grid';
-      btnCount.classList.add('active');
-      btnAlpha.classList.remove('active');
-    }
-  }
-
-  btnAlpha.addEventListener('click', () => showTags('alpha'));
-  btnCount.addEventListener('click', () => showTags('count'));
-})();
-</script>
