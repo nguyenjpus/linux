@@ -18,16 +18,19 @@ title: "Tags"
         {% assign tag_count = tag_count | plus: 1 %}
       {% endif %}
     {% endfor %}
-    {% assign tags_with_count = tags_with_count | push: tag | push: tag_count %}
+    {% assign padded_count = tag_count | prepend: '0000' | slice: -4,4 %}
+    {% assign entry = padded_count | append: '|' | append: tag_count | append: '|' | append: tag %}
+    {% assign tags_with_count = tags_with_count | push: entry %}
   {% endfor %}
-  {% assign sorted_tags = tags_with_count | sort: 1 | reverse %}
+  {% assign sorted_entries = tags_with_count | sort | reverse %}
   
-  {% for i in (0..sorted_tags.size) step:2 %}
-    {% if sorted_tags[i] %}
-      <li>
-        <a href="#{{ sorted_tags[i] | slugify }}">{{ sorted_tags[i] }}</a> ({{ sorted_tags[i+1] }})
-      </li>
-    {% endif %}
+  {% for entry in sorted_entries %}
+    {% assign parts = entry | split: '|' %}
+    {% assign tag = parts[2] %}
+    {% assign tag_count = parts[1] %}
+    <li>
+      <a href="#{{ tag | slugify }}">{{ tag }}</a> ({{ tag_count }})
+    </li>
   {% endfor %}
 </ul>
 
@@ -47,6 +50,7 @@ title: "Tags"
   {% endfor %}
 </ul>
 
+{% assign all_tags = all_tags | sort %}
 {% for tag in all_tags %}
   <h3 id="{{ tag | slugify }}">{{ tag }}</h3>
   <ul>
