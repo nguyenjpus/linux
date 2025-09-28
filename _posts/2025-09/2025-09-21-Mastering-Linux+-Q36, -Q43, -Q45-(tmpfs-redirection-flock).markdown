@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Q36, Q43, Q45: Temporary Filesystems, Redirection, and Process Locking"
-date: 2025-09-23
+date: 2025-09-21
 tags: [Linux+, tmpf, Redirection, flock]
 ---
 

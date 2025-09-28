@@ -1,6 +1,11 @@
-# Understanding Initramfs Checks for Linux+ Prep
+---
+layout: post
+title: "Understanding Initramfs Checks"
+date: 2025-08-17
+tags: [Basic, LVM]
+---
 
-As part of my **CompTIA Linux+** studies, I'm diving into the Linux boot process, focusing on the initramfs stage. Below is a summary of key checks to perform before and after initramfs to troubleshoot boot issues, based on my recent learning.
+Understanding Initramfs Checks for Linux+ Prep as part of my **CompTIA Linux+** studies, I'm diving into the Linux boot process, focusing on the initramfs stage. Below is a summary of key checks to perform before and after initramfs to troubleshoot boot issues, based on my recent learning.
 
 ## Before Initramfs (Pre-Boot Preparation)
 

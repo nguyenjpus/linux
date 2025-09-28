@@ -2,7 +2,7 @@
 layout: post
 title: "Q14, Q21, Q23: Iptables, Rsync, and LVM"
 date: 2025-09-20
-tags: [Linux+, iptables, rsync, LVM]
+tags: [Linux+, iptables, rsync, LVM, modprobe]
 ---
 
 Fix a data center node (Ubuntu 24.04 VM, user ron@usv) after a config error and data loss. Tasks:

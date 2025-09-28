@@ -2,7 +2,7 @@
 layout: post
 title: "CompTIA Linux+ Study Guide: Comprehensive Review - System Management - 2nd Batch"
 date: 2025-09-14
-tags: [Linux+]
+tags: [Linux+, modprobe]
 ---
 
 This study guide organizes key concepts from CompTIA Linux+ practice questions 26–50, covering **Virtualization**, **Scripting and Automation**, **Networking**, **System Monitoring**, **Storage Management**, and **Security**. It serves as a centralized reference for retention and knowledge connection, with mnemonics, practical tasks, and common errors to reinforce learning. The guide addresses discrepancies in questions (e.g., Q36, Q42, Q44) to clarify exam nuances. Retention tips optimize learning through spaced repetition and scenario-based practice. No review quiz is included per user preference, focusing on practical application and connections across domains.

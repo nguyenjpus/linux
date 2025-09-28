@@ -1,4 +1,11 @@
-# Linux Boot Process Memory Aid
+---
+layout: post
+title: "Linux Boot Process"
+date: 2025-08-21
+tags: [Basic]
+---
+
+Discussing Linux Boot Process Memory Aid
 
 ## Mnemonic
 

@@ -1,4 +1,9 @@
-# RAID Setup Notes for Linux+
+---
+layout: post
+title: "RAID Setup Notes for Linux+"
+date: 2025-08-18
+tags: [Basic, RAID]
+---
 
 As part of my Linux+ prep, here's a quick guide to setting up RAID.
 

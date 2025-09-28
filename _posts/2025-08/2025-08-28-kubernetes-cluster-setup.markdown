@@ -1,4 +1,9 @@
-# Setting Up a Kubernetes Cluster: A Theater Analogy
+---
+layout: post
+title: "Setting Up a Kubernetes Cluster: A Theater Analogy"
+date: 2025-08-28
+tags: [Experiment, Kubernetes]
+---
 
 This document summarizes the process of setting up a Kubernetes cluster with two nodes (`mrgenjplinux` as the control plane on amd64, `usv` as a worker on arm64) to host an nginx website, accessible via a single IP (`10.0.0.200`). The analogy of a theater company makes the concepts memorable, followed by technical steps, commands, and explanations addressing all questions asked during the process.
 

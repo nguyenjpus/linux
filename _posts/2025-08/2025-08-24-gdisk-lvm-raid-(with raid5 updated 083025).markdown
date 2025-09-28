@@ -1,4 +1,9 @@
-# Linux Hands-On Practice: Disk Management, LVM, RAID, and fstab
+---
+layout: post
+title: "Linux Hands-On Practice: Disk Management, LVM, RAID, and fstab"
+date: 2025-08-24
+tags: [Basic, LVM, RAID, fstab]
+---
 
 This document summarizes hands-on exercises for Linux disk management and related tasks, based on practice in an Ubuntu VM on UTM. It includes step-by-step instructions, verifications, pitfalls, and lessons learned.
 

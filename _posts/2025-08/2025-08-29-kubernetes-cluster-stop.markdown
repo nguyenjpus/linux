@@ -1,4 +1,9 @@
-## Stopping the Kubernetes Theater
+---
+layout: post
+title: "Stopping the Kubernetes Theater"
+date: 2025-08-29
+tags: [Experiment, Kubernetes]
+---
 
 This section extends the Kubernetes cluster setup guide, explaining how to stop the cluster (temporarily or permanently) and addressing errors with `kubectl` and MetalLB deletion, using the theater analogy.
 
@@ -55,6 +60,7 @@ kubectl delete deployment nginx
   kubectl get pods
   kubectl get services
   ```
+
   - Expect no nginx pods and only the `kubernetes` service.
 
 #### Step 3: Remove the Ticket Booth
@@ -100,6 +106,7 @@ sudo systemctl stop containerd
   sudo systemctl start containerd
   sudo systemctl start kubelet
   ```
+
 - **Verification**:
 
   ```bash

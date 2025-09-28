@@ -1,6 +1,9 @@
-# Lesson Learned: Filesystem Corruption with Clean Slate Setup in Ubuntu
-
-## Overview
+---
+layout: post
+title: "Lesson Learned: Filesystem Corruption with Clean Slate Setup in Ubuntu"
+date: 2025-08-22
+tags: [Basic]
+---
 
 This document summarizes a hands-on exercise (conducted on August 23, 2025, in an Ubuntu VM, kernel 6.14.0-28-generic, aarch64, running in UTM) to simulate and attempt repair of filesystem corruption on a 100 MB ext4 image (`test.img`). It includes testing `fsck.ext4` on a healthy filesystem, clarifying `e2fsck`, and using a clean slate setup to avoid issues like stale loop devices or variable accumulation. It builds on previous exercises (e.g., `parport` blacklisting, swap file troubleshooting).
 

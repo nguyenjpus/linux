@@ -1,8 +1,14 @@
-# Testing Filesystem Creation and Management
+---
+layout: post
+title: "Testing Filesystem Creation and Management"
+date: 2025-08-19
+tags: [Basic]
+---
 
 This guide outlines steps to create, mount, unmount, and check a test filesystem using Linux commands. These steps help build familiarity with filesystem operations.
 
 ## Step 1: Create a Test Filesystem
+
 Create a 100MB disk image and format it as an ext4 filesystem.
 
 ```bash
@@ -13,6 +19,7 @@ sudo mkfs.ext4 test.img
 **Mnemonic**: "DD: Input Flows Out, Block_Size Count" (for `dd` command: input file, output file, block size, count).
 
 ## Step 2: Mount the Filesystem
+
 Create a mount point and mount the disk image.
 
 ```bash
@@ -21,6 +28,7 @@ sudo mount test.img /mnt/test
 ```
 
 ## Step 3: Unmount and Check the Filesystem
+
 Unmount the filesystem and perform a filesystem check.
 
 ```bash
@@ -35,6 +43,7 @@ sudo fsck.ext4 -f test.img
 ```
 
 ## Step 4: Repeat and Experiment
+
 Repeat the above steps multiple times to gain familiarity. Experiment with variations, such as:
 
 - Adding timestamps to system logs for debugging:

@@ -1,6 +1,9 @@
-# Learning Kubernetes: A Hands-On Journey to Understand Its Concepts
-
-## Summary: Mastering Kubernetes – A Hands-On Journey
+---
+layout: post
+title: "Learning Kubernetes: A Hands-On Journey to Understand Its Concepts"
+date: 2025-08-26
+tags: [Experiment, Kubernetes]
+---
 
 Kubernetes (often called K8s) is a powerful open-source platform for automating the deployment, scaling, and management of containerized applications. Think of it as the head chef and manager of a busy restaurant chain: containers are self-contained kitchens (packaging your app with everything it needs), pods are the smallest units of work (like a table with dishes), nodes are the physical kitchens (your machines), and Kubernetes orchestrates everything—assigning tasks, scaling during rush hours, and fixing issues automatically.
 
