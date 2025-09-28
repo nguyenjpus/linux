@@ -2,6 +2,7 @@
 layout: post
 title: Troubleshooting IPMI Insufficient Privilege Level Error
 date: 2025-08-21
+tags: [Node, chassis, Ipmitool, BMC, Troubleshooting]
 ---
 
 # Troubleshooting IPMI Insufficient Privilege Level Error

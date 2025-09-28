@@ -2,7 +2,7 @@
 layout: post
 title: "Q50: LUKS Initramfs Emergency Recovery - Summary"
 date: 2025-09-24
-tags: [Linux+, initramfs]
+tags: [Linux+, initramfs, LUKS, LVM]
 ---
 
 This guide summarizes the hands-on practice for CompTIA Linux+ Q50, focusing on resolving an initramfs emergency where `/dev/mapper/cryptroot` is missing, using a LUKS-encrypted loop device with LVM. It includes an overview of LUKS fundamentals, key lessons, step-by-step actions, troubleshooting (e.g., "device in use," "loop device busy," and mount errors), and relevance to a data center technician role, making it ideal for revisiting or sharing on GitHub.

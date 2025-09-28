@@ -2,6 +2,7 @@
 layout: post
 title: Accessing a Node's BMC from Another Node in a Multi-Node Chassis
 date: 2025-08-22
+tags: [Node, Ipmitool, BMC, Troubleshooting]
 ---
 
 # Accessing a Node's BMC from Another Node in a Multi-Node Chassis

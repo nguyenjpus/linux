@@ -2,6 +2,7 @@
 layout: post
 title: Server Diagnostic Notes And Some Last Hopes Cases
 date: 2025-08-31
+tags: [Ipmitool, dmidecode, Troubleshooting, ipnmi]
 ---
 
 # Server Diagnostic Notes

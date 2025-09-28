@@ -2,6 +2,7 @@
 layout: post
 title: Quanta Server BMC Troubleshooting - A note for future reference
 date: 2025-09-15
+tags: [Quanta, BMC, Ipmitool, Troubleshooting]
 ---
 
 # Quanta Server BMC Troubleshooting Guide
