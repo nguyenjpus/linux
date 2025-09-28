@@ -140,7 +140,7 @@ title: "Tags"
     transform: scale(1.02);
   }
   .search-container::before {
-    content: '\1F50D'; /* Magnifying glass emoji */
+    content: '\1F50D';
     position: absolute;
     left: 10px;
     top: 50%;
@@ -189,7 +189,7 @@ title: "Tags"
     border-radius: 6px;
     border: 1px solid #eee;
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 70px; /* Increased to avoid overlap */
+    height: 70px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -258,7 +258,7 @@ title: "Tags"
     {% for doc in all_docs %}
       {% if doc.tags contains tag %}
         <li>
-          <a href="{{ doc.url }}">{{ doc.title }}</a>
+          <a href="{{ site.baseurl }}{{ doc.url }}">{{ doc.title }}</a>
           {% if doc.collection %}
             ({{ doc.collection }})
           {% endif %}
