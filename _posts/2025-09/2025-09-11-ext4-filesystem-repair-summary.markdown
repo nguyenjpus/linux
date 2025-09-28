@@ -1,4 +1,9 @@
-# Ext4 Filesystem Repair Practice Summary
+---
+layout: post
+title: "Ext4 Filesystem Repair Practice Summary"
+date: 2025-09-11
+tags: [Basic, filesystem, ext4, e2fsck, tune2fs]
+---
 
 This document summarizes hands-on practice with ext4 filesystem corruption and repair on Ubuntu, using `dd`, `mkfs.ext4`, `e2fsck`, `tune2fs`, `debugfs`, and `dumpe2fs`. The focus was on simulating superblock, journal, and metadata corruption, with a final attempt to recover an orphaned file.
 

@@ -1,6 +1,9 @@
-# GPT/EFI Partition Table Recovery with TestDisk and gdisk Comparison - Complete Lesson with LUKS
-
-## Objective
+---
+layout: post
+title: "GPT/EFI Partition Table Recovery with TestDisk and gdisk Comparison - Complete Lesson with LUKS"
+date: 2025-09-10
+tags: [Basic, LUKS]
+---
 
 Continue practicing the previous lessons (posted on 2025/09/09) focusing on LUKS.
 

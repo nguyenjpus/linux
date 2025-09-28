@@ -1,4 +1,9 @@
-# Data Recovery Tools
+---
+layout: post
+title: "Using Loop and loseupt"
+date: 2025-09-07
+tags: [Basic, extundelete, photorec, Recovery Tools]
+---
 
 This document summarizes the hands-on practices for data recovery on ext4, XFS, and Btrfs filesystems, based on CompTIA Linux+ objectives. It incorporates lessons from attempts where recovery failed, highlighting tool limitations and pitfalls. Expanded from Fermin O. Goetz's book.
 

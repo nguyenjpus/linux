@@ -1,4 +1,9 @@
-## MBR vs. GPT: A Comparison of Disk Partitioning Schemes
+---
+layout: post
+title: "MBR vs. GPT: A Comparison of Disk Partitioning Schemes"
+date: 2025-09-07
+tags: [Basic, MRB, GPT]
+---
 
 Here's a comparison of the Master Boot Record (MBR) and GUID Partition Table (GPT) partitioning schemes, presented in a format suitable for a downloadable Markdown file. It is useful for next hands-on practices.
 

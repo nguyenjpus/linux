@@ -1,6 +1,11 @@
-# USING LOOP And LOSETUP
-
 ---
+layout: post
+title: "Using Loop and loseupt"
+date: 2025-09-07
+tags: [Basic, losetup]
+---
+
+Just discussing about using loop and losetup command.
 
 # `mount -o loop` vs. `losetup` for Disk Images
 

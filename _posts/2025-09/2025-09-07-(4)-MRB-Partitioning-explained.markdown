@@ -1,4 +1,9 @@
-# Understanding MBR Partitioning: Primary, Extended, and Logical Partitions
+---
+layout: post
+title: "Understanding MBR Partitioning: Primary, Extended, and Logical Partitions"
+date: 2025-09-07
+tags: [Basic, MRB]
+---
 
 This document explains the structure of the Master Boot Record (MBR) partitioning scheme, focusing on the roles of primary, extended, and logical partitions.
 

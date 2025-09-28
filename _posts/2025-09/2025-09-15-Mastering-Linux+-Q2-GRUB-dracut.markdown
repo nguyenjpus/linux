@@ -1,6 +1,9 @@
-# Linux+ Q2: Rebuilding Initramfs for RAID Driver with Dracut and GRUB Testing
-
-## Overview
+---
+layout: post
+title: "Q2: Rebuilding Initramfs for RAID Driver with Dracut and GRUB Testing"
+date: 2025-09-15
+tags: [Linux+, GRUB, Dracut, initramfs]
+---
 
 This complete lab simulates a CompTIA Linux+ Q2 scenario: a server fails to boot because the initramfs lacks a RAID driver, preventing the RAID array (`/raiddata`) from assembling. We’ll use `dracut` to rebuild the initramfs, include the RAID driver (`md_mod`), simulate a failure by omitting it, verify contents, and test the failure by editing GRUB. Based on real output from an Ubuntu 24.04 VM (aarch64, UTM), it addresses why simulations may not always "crash" (e.g., kernel fallbacks) and provides ways to force errors. Uses a software RAID5 (`md1`) as a hardware HBA stand-in.
 

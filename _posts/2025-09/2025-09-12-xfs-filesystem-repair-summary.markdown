@@ -1,4 +1,9 @@
-# XFS Filesystem Repair Practice Summary (Sep 12, 2025)
+---
+layout: post
+title: "XFS Filesystem Repair Practice Summary"
+date: 2025-09-12
+tags: [Basic, xfs]
+---
 
 This document summarizes hands-on practice with XFS filesystem corruption and repair on Ubuntu 24.04, using `dd`, `mkfs.xfs`, `xfs_db`, and `xfs_repair`. The focus was on superblock corruption, repair, and an attempt at orphan file recovery.
 

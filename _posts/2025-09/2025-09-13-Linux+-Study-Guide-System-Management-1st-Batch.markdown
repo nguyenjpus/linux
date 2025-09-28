@@ -1,6 +1,9 @@
-# CompTIA Linux+ Study Guide: Comprehensive Review - Systm Management - 1st batch
-
-## Overview
+---
+layout: post
+title: "CompTIA Linux+ Study Guide: Comprehensive Review - System Management - 1st Batch"
+date: 2025-09-13
+tags: [Linux+]
+---
 
 This study guide organizes key concepts from 25 CompTIA Linux+ practice questions, covering System Management, Networking, Security, Scripting, and Virtualization domains. It serves as a centralized reference for retention and connection of knowledge, with mnemonics, practice tasks, and a review quiz to reinforce learning. The guide addresses discrepancies in questions 15, 20, and 21 to clarify potential exam nuances. Quiz answers are provided in a separate section for self-assessment, with answer options randomized to avoid predictability.
 
