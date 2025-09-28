@@ -5,8 +5,6 @@ date: 2025-08-22
 tags: [Node, Ipmitool, BMC, Troubleshooting]
 ---
 
-# Accessing a Node's BMC from Another Node in a Multi-Node Chassis
-
 In multi-node systems, such as blade servers or rackmount chassis with multiple nodes, you can use one node's Baseboard Management Controller (BMC) to issue `ipmitool` commands to another node's BMC, even if the target node's operating system fails to boot. This is particularly useful for troubleshooting, accessing the BMC's GUI, or performing management tasks when a node is down, as long as its BMC remains operational. This post explains how to use the `ipmitool` command with the `-t` option to target a specific node's BMC via the Intelligent Platform Management Bus (IPMB) within the same chassis.
 
 ## Prerequisites

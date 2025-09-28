@@ -5,8 +5,6 @@ date: 2025-09-16
 tags: [Quanta, BMC, Ipmitool, Troubleshooting]
 ---
 
-# Quanta Server BMC Troubleshooting Guide (Final)
-
 This guide details the successful process of accessing a Quanta server’s BMC (likely ASPEED) to retrieve the SDR list using `ipmitool`, `nmap`, and `dnsmasq` on a macOS 12 laptop with a USB-to-Ethernet adapter (`en17`, `192.168.0.1/24`). One unit was configured from static IP (`192.168.0.120`) to DHCP (`192.168.0.13`) with `admin/adminpassword`. Another unit was found at `10.138.36.197` (static, expected `10.138.32.197`), pingable after setting `en17` to `10.138.36.1/24`, but credentials failed. This guide includes steps to identify `en17`, set the DHCP pool, troubleshoot tool installations, handle no BMC response, scan subnets systematically (from common small subnets to larger ones), address `ping` failures, and manage credential issues.
 
 ## Objective

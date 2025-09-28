@@ -4,8 +4,6 @@ title: Archives
 permalink: /archives/
 ---
 
-# Archives
-
 Below are my blog posts and work experiences, organized by month.
 
 ## Blog Posts

@@ -5,8 +5,6 @@ date: 2025-08-31
 tags: [Ipmitool, dmidecode, Troubleshooting, ipnmi]
 ---
 
-# Server Diagnostic Notes
-
 This guide summarizes key procedures and tools for diagnosing server hardware issues, based on practical experience. It’s designed to clarify troubleshooting steps and avoid common pitfalls.
 
 ## 1. Check the POST Screen

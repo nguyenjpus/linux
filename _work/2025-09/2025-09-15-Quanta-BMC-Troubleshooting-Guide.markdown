@@ -5,8 +5,6 @@ date: 2025-09-15
 tags: [Quanta, BMC, Ipmitool, Troubleshooting]
 ---
 
-# Quanta Server BMC Troubleshooting Guide
-
 This guide summarizes the process of troubleshooting a Quanta server’s BMC (likely ASPEED) to retrieve the SDR list using `ipmitool`, `nmap`, and `dnsmasq` on a macOS 12 laptop with a USB-to-Ethernet adapter (`en17`, `192.168.0.1/24`). Despite multiple attempts, the BMC didn’t respond, likely due to a hardware fault, incorrect port, or configuration issue. Use this guide to retry when conditions (e.g., correct BMC port, functional hardware) are met.
 
 ## Objective
