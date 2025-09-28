@@ -8,47 +8,110 @@ title: "Tags"
 
 <h2>Browse by Tags</h2>
 
-<h3>Tags Sorted by Count (Descending)</h3>
-<ul>
-  {% assign tags_with_count = '' | split: '' %}
-  {% for tag in all_tags %}
-    {% assign tag_count = 0 %}
-    {% for doc in all_docs %}
-      {% if doc.tags contains tag %}
-        {% assign tag_count = tag_count | plus: 1 %}
-      {% endif %}
-    {% endfor %}
-    {% assign padded_count = tag_count | prepend: '0000' | slice: -4,4 %}
-    {% assign entry = padded_count | append: '|' | append: tag_count | append: '|' | append: tag %}
-    {% assign tags_with_count = tags_with_count | push: entry %}
-  {% endfor %}
-  {% assign sorted_entries = tags_with_count | sort | reverse %}
-  
-  {% for entry in sorted_entries %}
-    {% assign parts = entry | split: '|' %}
-    {% assign tag = parts[2] %}
-    {% assign tag_count = parts[1] %}
-    <li>
-      <a href="#{{ tag | slugify }}">{{ tag }}</a> ({{ tag_count }})
-    </li>
-  {% endfor %}
-</ul>
+<div>
+  <button id="sortByCount" class="sort-button">Sort by Count (Descending)</button>
+  <button id="sortByAlpha" class="sort-button">Sort Alphabetically</button>
+</div>
 
-<h3>Tags Sorted Alphabetically</h3>
-<ul>
-  {% assign alpha_tags = all_tags | sort %}
-  {% for tag in alpha_tags %}
-    {% assign tag_count = 0 %}
-    {% for doc in all_docs %}
-      {% if doc.tags contains tag %}
-        {% assign tag_count = tag_count | plus: 1 %}
-      {% endif %}
+<table id="tagsTable" style="border-collapse: collapse; width: 100%; margin-top: 1em;">
+  <thead>
+    <tr style="border-bottom: 1px solid #ddd;">
+      <th style="padding: 8px; text-align: left;">Tag</th>
+      <th style="padding: 8px; text-align: left;">Count</th>
+    </tr>
+  </thead>
+  <tbody id="tagsTableBody">
+    {% assign tags_with_count = '' | split: '' %}
+    {% for tag in all_tags %}
+      {% assign tag_count = 0 %}
+      {% for doc in all_docs %}
+        {% if doc.tags contains tag %}
+          {% assign tag_count = tag_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+      {% assign padded_count = tag_count | prepend: '0000' | slice: -4,4 %}
+      {% assign entry = padded_count | append: '|' | append: tag_count | append: '|' | append: tag %}
+      {% assign tags_with_count = tags_with_count | push: entry %}
     {% endfor %}
-    <li>
-      <a href="#{{ tag | slugify }}">{{ tag }}</a> ({{ tag_count }})
-    </li>
-  {% endfor %}
-</ul>
+    {% assign sorted_entries = tags_with_count | sort | reverse %}
+    {% for entry in sorted_entries %}
+      {% assign parts = entry | split: '|' %}
+      {% assign tag = parts[2] %}
+      {% assign tag_count = parts[1] %}
+      <tr class="tag-row" data-tag="{{ tag | slugify }}" data-count="{{ tag_count }}">
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+          <a href="#{{ tag | slugify }}">{{ tag }}</a>
+        </td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ tag_count }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  // Store tags data for sorting
+  const tagsData = [
+    {% for entry in sorted_entries %}
+      {% assign parts = entry | split: '|' %}
+      {% assign tag = parts[2] %}
+      {% assign tag_count = parts[1] %}
+      { tag: "{{ tag }}", count: {{ tag_count }}, slug: "{{ tag | slugify }}" },
+    {% endfor %}
+  ];
+
+  const tableBody = document.getElementById('tagsTableBody');
+  const sortByCountButton = document.getElementById('sortByCount');
+  const sortByAlphaButton = document.getElementById('sortByAlpha');
+
+  function renderTable(data) {
+    tableBody.innerHTML = '';
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.className = 'tag-row';
+      row.dataset.tag = item.slug;
+      row.dataset.count = item.count;
+      row.innerHTML = `
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+          <a href="#${item.slug}">${item.tag}</a>
+        </td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.count}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  sortByCountButton.addEventListener('click', () => {
+    const sorted = [...tagsData].sort((a, b) => b.count - a.count);
+    renderTable(sorted);
+    sortByCountButton.disabled = true;
+    sortByAlphaButton.disabled = false;
+  });
+
+  sortByAlphaButton.addEventListener('click', () => {
+    const sorted = [...tagsData].sort((a, b) => a.tag.localeCompare(b.tag));
+    renderTable(sorted);
+    sortByCountButton.disabled = false;
+    sortByAlphaButton.disabled = true;
+  });
+
+  // Initial state: sort by count
+  sortByCountButton.disabled = true;
+</script>
+
+<style>
+  .sort-button {
+    padding: 8px 16px;
+    margin-right: 8px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .sort-button:disabled {
+    background-color: #d0d0d0;
+    cursor: not-allowed;
+  }
+</style>
 
 {% assign all_tags = all_tags | sort %}
 {% for tag in all_tags %}
