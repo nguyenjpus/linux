@@ -9,8 +9,8 @@ title: "Tags"
 <h2>Browse by Tags</h2>
 
 <div>
-  <button id="sortByCount" class="sort-button">Sort by Count (Descending)</button>
-  <button id="sortByAlpha" class="sort-button">Sort Alphabetically</button>
+  <button id="sortByCount" class="sort-button" aria-label="Sort tags by count in descending order">Sort by Count (Descending)</button>
+  <button id="sortByAlpha" class="sort-button" aria-label="Sort tags alphabetically">Sort Alphabetically</button>
 </div>
 
 <div id="tagsGrid" class="tags-grid">
@@ -32,26 +32,35 @@ title: "Tags"
     {% assign tag = parts[2] %}
     {% assign tag_count = parts[1] %}
     <div class="tag-cell" data-tag="{{ tag | slugify }}" data-count="{{ tag_count }}">
-      <a href="#{{ tag | slugify }}" class="tag-link">{{ tag }}</a>
+      <a href="#{{ tag | slugify }}" class="tag-link" title="{{ tag }}">{{ tag }}</a>
       <span class="tag-count">({{ tag_count }})</span>
     </div>
   {% endfor %}
 </div>
 
+<script type="text/template" id="tagsDataTemplate">
+[
+  {% for entry in sorted_entries %}
+    {% assign parts = entry | split: '|' %}
+    {% assign tag = parts[2] %}
+    {% assign tag_count = parts[1] %}
+    { "tag": "{{ tag | replace: '"', '\\"' }}", "count": {{ tag_count }}, "slug": "{{ tag | slugify }}" },
+  {% endfor %}
+]
+</script>
+
 <script>
-  // Store tags data for sorting
-  const tagsData = [
-    {% for entry in sorted_entries %}
-      {% assign parts = entry | split: '|' %}
-      {% assign tag = parts[2] %}
-      {% assign tag_count = parts[1] %}
-      { tag: "{{ tag }}", count: {{ tag_count }}, slug: "{{ tag | slugify }}" },
-    {% endfor %}
-  ];
+  // Parse tags data from template
+  const tagsData = JSON.parse(document.getElementById('tagsDataTemplate').textContent.replace(/,\s*]/, ']'));
 
   const tagsGrid = document.getElementById('tagsGrid');
   const sortByCountButton = document.getElementById('sortByCount');
   const sortByAlphaButton = document.getElementById('sortByAlpha');
+
+  function getBackgroundColor(count) {
+    const intensity = Math.min(240, 255 - count * 5); // Darker for higher counts
+    return `rgb(${intensity}, ${intensity}, 255)`;
+  }
 
   function renderGrid(data) {
     tagsGrid.innerHTML = '';
@@ -60,8 +69,9 @@ title: "Tags"
       cell.className = 'tag-cell';
       cell.dataset.tag = item.slug;
       cell.dataset.count = item.count;
+      cell.style.backgroundColor = getBackgroundColor(item.count);
       cell.innerHTML = `
-        <a href="#${item.slug}" class="tag-link">${item.tag}</a>
+        <a href="#${item.slug}" class="tag-link" title="${item.tag.replace(/"/g, '&quot;')}">${item.tag}</a>
         <span class="tag-count">(${item.count})</span>
       `;
       tagsGrid.appendChild(cell);
@@ -95,7 +105,7 @@ title: "Tags"
     background-color: #f0f0f0;
     border: 1px solid #ddd;
     border-radius: 4px;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s;
   }
   .sort-button:disabled {
     background-color: #d0d0d0;
@@ -103,6 +113,11 @@ title: "Tags"
   }
   .sort-button:hover:not(:disabled) {
     background-color: #e0e0e0;
+    transform: scale(1.05);
+  }
+  .sort-button:focus {
+    outline: 2px solid #2980b9;
+    outline-offset: 2px;
   }
   .tags-grid {
     display: grid;
@@ -112,7 +127,6 @@ title: "Tags"
     justify-content: start;
   }
   .tag-cell {
-    background-color: #f9f9f9;
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #eee;
