@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Multiple-choice - Q18 - Automatically Loading Kernel Modules at Boot"
+title: "Multiple-choice - Q18 - Q20 - Automatically Loading Kernel Modules at Boot"
 date: 2025-09-28
-tags: [Linux+, cmdline, modprobe, quiet, modules-load, joydev]
+tags: [Linux+, cmdline, modprobe, quiet, modules-load, joydev, blacklist]
 ---
 
-This lesson addresses CompTIA+ Objective 2.6 by configuring a kernel module to load automatically at boot using `/etc/modules-load.d/`, the modern `systemd` approach. We practiced with the `joydev` module (joystick driver) on Ubuntu 24.04.3 LTS (kernel 6.8.0-79-generic, aarch64), confirming it as a loadable module (unlike `loop`, which was builtin). We troubleshooted `joydev` persisting after cleanup due to kernel/udev auto-loading, resolved via blacklisting.
+This lesson addresses CompTIA+ Objective 2.6, covering two key tasks: configuring a kernel module to load automatically at boot (Question 18) and preventing a module from auto-loading via blacklisting (Question 20). Both are critical for data center operations to ensure hardware compatibility and system stability. We practiced with the `joydev` module (joystick driver) on Ubuntu 24.04.3 LTS (kernel 6.8.0-79-generic, aarch64), confirming it as a loadable module (unlike `loop`, which was builtin). We also troubleshooted `joydev` persisting after cleanup due to kernel/udev auto-loading, resolved via blacklisting.
 
-**Original Question**:
+**Question 18**:
 
 > An administrator wants to ensure that a specific kernel module, `power_saver`, is loaded automatically every time the system boots. What is the recommended modern approach to configure this?
 >
@@ -16,18 +16,32 @@ This lesson addresses CompTIA+ Objective 2.6 by configuring a kernel module to l
 > - Edit the `/boot/grub/grub.cfg` file to include the module.
 > - Manually run `modprobe power_saver` after each boot.
 
-**Correct Answer**: Create a new file in `/etc/modules-load.d/` containing the module name.
+**Correct Answer (Q18)**: Create a new file in `/etc/modules-load.d/` containing the module name.
 
-**Rationale for Correct Answer**:
-The goal is persistent, automatic module loading. `/etc/modules-load.d/` is the `systemd`-native method, where `.conf` files (e.g., `power_saver.conf`) list modules for `systemd-modules-load` to load at boot. Alternatives fail: `/etc/rc.local` is deprecated and error-prone; `/boot/grub/grub.cfg` is for bootloader config, not modules, and overwritten by updates; manual `modprobe` isn’t automatic. This approach scales for data centers, where automation ensures consistent hardware support. Analogy: It’s like adding a task to a digital to-do list that runs automatically, unlike manual or outdated methods.
+**Rationale for Q18**:
+The goal is persistent, automatic module loading. `/etc/modules-load.d/` is the `systemd`-native method, where `.conf` files (e.g., `power_saver.conf`) list modules for `systemd-modules-load` to load at boot. Alternatives fail: `/etc/rc.local` is deprecated and error-prone; `/boot/grub/grub.cfg` is for bootloader config, not modules, and overwritten by updates; manual `modprobe` isn’t automatic. This approach scales for data centers, ensuring consistent hardware support. Analogy: It’s like adding a task to a digital to-do list that runs automatically.
+
+**Question 20**:
+
+> A specific kernel module is known to conflict with a piece of hardware. To prevent this module from ever being loaded automatically, the administrator needs to "blacklist" it. How can this be achieved persistently?
+>
+> - By adding a `blacklist [module name]` line to a configuration file in `/etc/modprobe.d/`.
+> - By deleting the module’s `.ko` file from the `/lib/modules/` directory.
+> - By running `mmod [module name]` every time the system boots.
+> - By setting the module’s file permissions to 000.
+
+**Correct Answer (Q20)**: By adding a `blacklist [module name]` line to a configuration file in `/etc/modprobe.d/`.
+
+**Rationale for Q20**:
+The goal is to persistently prevent auto-loading of a conflicting module. A `blacklist <module>` entry in `/etc/modprobe.d/` (e.g., `blacklist-joydev.conf`) stops the kernel from loading it via `udev` or `systemd-modules-load`, even if hardware triggers it. Alternatives are flawed: deleting `.ko` files is destructive and non-persistent; `mmod` (likely `rmmod`) isn’t persistent and requires manual scripting; setting permissions to 000 is non-standard and breaks updates. Blacklisting is safe and standard for data centers. Analogy: It’s like adding a “do not call” entry to a phone list.
 
 ### Why This Matters in Real Life (Especially for Data Center Jobs)
 
-Kernel modules enable critical hardware or features (e.g., RAID drivers, input devices). In a data center, automating module loading ensures servers boot correctly without manual fixes, vital for scaling across thousands of machines. Troubleshooting persistent modules (like `joydev`) preps you for real-world issues where hardware or initramfs triggers unwanted loads. Analogy: It’s like setting your coffee maker to brew automatically, but also knowing how to stop it if it starts unexpectedly. Blacklisting is a key skill for optimizing server performance and security.
+Kernel modules enable critical hardware or features (e.g., RAID drivers, input devices) or can cause conflicts if loaded inappropriately. In a data center, automating module loading ensures servers boot correctly, while blacklisting prevents issues like hardware crashes, vital for scaling across thousands of machines. Troubleshooting persistent modules (like `joydev`) preps you for real-world scenarios where virtual or physical hardware triggers unwanted loads. Analogy: It’s like setting your coffee maker to brew automatically but knowing how to stop it if it malfunctions. These skills are key for CompTIA+ and data center roles.
 
 ### Hands-On Practice Summary
 
-We simulated a data center task: Ensuring the `joydev` module loads at boot for hardware support, then cleaning up fully.
+We simulated a data center task: Ensuring the `joydev` module loads at boot (Q18) and preventing its auto-loading via blacklisting (Q20).
 
 1. **Checked loaded modules**: `lsmod | grep joydev` → Empty (not loaded initially).
 2. **Backed up configs**: `cp -r /etc/modules-load.d /root/backups/modules-load.d.bak`.
