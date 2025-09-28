@@ -19,15 +19,35 @@ Explore my posts and work experiences below to follow my journey!
 {% assign sorted_posts = site.posts | sort: "date" | reverse %}
 {% for post in sorted_posts limit:10 %}
 
+<div class="post-card">
+  {% for tag in post.tags %}
+    <span class="post-badge">{{ tag }}</span>
+  {% endfor %}
   <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
   <p><small>{{ post.date | date: "%B %d, %Y" }}</small></p>
   <p>{{ post.excerpt }}</p>
+</div>
+
 {% endfor %}
 
-<p><a href="{{ '/archives/' | relative_url }}">See All Posts →</a></p>
+<p><a href="{{ '/all-posts/' | relative_url }}">See All Posts →</a></p>
 
 ---
 
 ## Work Experience
 
-Discover my professional journey in tech [here]({{ '/work/' | relative_url }}).
+{% assign sorted_work = site.work | sort: "date" | reverse %}
+{% for work in sorted_work limit:10 %}
+
+<div class="post-card">
+  {% for tag in work.tags %}
+    <span class="post-badge">{{ tag }}</span>
+  {% endfor %}
+  <h2><a href="{{ work.url | relative_url }}">{{ work.title }}</a></h2>
+  <p><small>{{ work.date | date: "%B %d, %Y" }}</small></p>
+  <p>{{ work.content | strip_html | truncatewords: 30 }}</p>
+</div>
+
+{% endfor %}
+
+<p><a href="{{ '/work/' | relative_url }}">See All Work Experience →</a></p>
