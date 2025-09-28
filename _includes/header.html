@@ -251,28 +251,34 @@
     }
   }
 
+  /* Work Experience / Post Cards */
   .post-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid var(--theme-accent);
+    background: rgba(255, 255, 255, 0.05); /* subtle translucent background */
+    border-left: 4px solid var(--theme-accent); /* dynamic accent color */
     padding: 12px 16px;
     margin-bottom: 12px;
     border-radius: 6px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+      border-color 0.4s ease, background 0.4s ease;
   }
 
   .post-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-left-color: var(--theme-accent);
+    background: rgba(255, 255, 255, 0.08);
   }
 
+  /* Tags / Badges */
   .post-badge {
-    background: var(--theme-accent);
+    background: var(--theme-accent); /* dynamic with theme */
     color: #111;
     padding: 2px 6px;
     border-radius: 3px;
     font-size: 0.8rem;
     font-weight: bold;
     margin-right: 6px;
+    transition: background 0.4s ease;
   }
 
   hr {
