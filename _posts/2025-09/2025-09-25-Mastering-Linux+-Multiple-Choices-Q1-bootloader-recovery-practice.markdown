@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Bootloader Troubleshooting and Recovery Practice for CompTIA Linux+"
+title: "Multiple-choice - Q1 - Bootloader Troubleshooting and Recovery Practice for CompTIA Linux+"
 date: 2025-09-25
 tags: [Linux+, initramfs, MRB, GRUB, chroot, efi]
 ---

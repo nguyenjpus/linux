@@ -1,6 +1,9 @@
-# Mastering LVM: A Comprehensive Guide to Shrinking, Extending, and Managing Filesystems
-
-## Introduction
+---
+layout: post
+title: "Q6: Linux RAID Recovery Lesson"
+date: 2025-09-18
+tags: [Linux+, LVM]
+---
 
 This guide captures a hands-on journey to master Logical Volume Manager (LVM) on an Ubuntu VM (kernel 6.8.0-79, Intel UTM), tackling real-world storage challenges like those faced in data centers. We fixed an over-allocated Logical Volume (LV), extended it precisely with a new Physical Volume (PV), and navigated filesystem checks on a mounted root filesystem. Designed for CompTIA+ Linux+ prep and data center roles, it covers shrinking an LV from 65.94 GiB to 30.47 GiB, extending it by 5 GiB, and understanding why PVs don’t need filesystems. FAQs address critical concepts like skipping `resize2fs`, determining `lvreduce` sizes, and LVM’s abstraction. With analogies (VG as a community fridge, LV as a tenant), this guide is beginner-friendly yet deep enough for your GitHub portfolio to impress future employers!
 

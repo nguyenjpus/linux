@@ -1,4 +1,9 @@
-# Fixing NFS Boot Hangs with nofail and x-systemd.automount
+---
+layout: post
+title: "Q19: Fixing NFS Boot Hangs with nofail and x-systemd.automount"
+date: 2025-09-18
+tags: [Linux+, NFS, nofail]
+---
 
 This guide walks through simulating and resolving an NFS boot hang caused by an offline NAS, as seen in a CompTIA Linux+ practice question (Q9/50). It’s designed for beginners, with steps tested on an Ubuntu 24.04 VM (UTM, 32GB disk, LVM root). The goal: Ensure servers boot without delay, critical for data center high-availability (e.g., racking blades for a Kubernetes cluster). We’ll simulate a problematic NFS mount, observe the hang, apply the fix (`nofail,x-systemd.automount`), and clean up. Analogies and data center context make it stick for cert prep and job readiness.
 
