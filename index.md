@@ -30,7 +30,7 @@ Explore my posts and work experiences below to follow my journey!
 
 {% endfor %}
 
-<p><a href="{{ '/all-posts/' | relative_url }}">See All Posts →</a></p>
+<p><a href="{{ '/archives/' | relative_url }}">See All Posts →</a></p>
 
 ---
 
