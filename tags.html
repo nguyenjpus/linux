@@ -4,27 +4,68 @@ title: "Tags"
 ---
 
 {% assign all_docs = site.posts | concat: site.work %}
-{% assign tags_list = all_docs | map: "tags" | join: "," | split: "," | uniq | sort %}
-
-{% assign all_docs = site.posts | concat: site.work %}
-{% assign tags_list = all_docs | map: "tags" | join: "," | split: "," | uniq | sort %}
+{% assign all_tags = all_docs | map: "tags" | join: "," | split: "," | uniq | sort %}
 
 <h1>Browse by Tags</h1>
-<ul>
-  {% for tag in tags_list %}
-    <li><a href="#{{ tag }}">{{ tag }}</a></li>
+
+<div class="tags-grid">
+  {% for tag in all_tags %}
+    {% assign tag_count = 0 %}
+    {% for doc in all_docs %}
+      {% if doc.tags contains tag %}
+        {% assign tag_count = tag_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+    <a href="#{{ tag }}" class="tag-link">
+      {{ tag }} <span class="tag-count">({{ tag_count }})</span>
+    </a>
   {% endfor %}
-</ul>
+</div>
 
-<hr>
+<hr />
 
-{% for tag in tags_list %}
+{% for tag in all_tags %}
   <h2 id="{{ tag }}">{{ tag }}</h2>
   <ul>
     {% for doc in all_docs %}
       {% if doc.tags contains tag %}
-        <li><a href="{{ doc.url | relative_url }}">{{ doc.title }}</a> {% if doc.collection %} <em>({{ doc.collection }})</em>{% endif %}</li>
+        <li>
+          <a href="{{ doc.url | relative_url }}">{{ doc.title }}</a>
+          {% if doc.collection %}
+            <em>({{ doc.collection }})</em>
+          {% endif %}
+        </li>
       {% endif %}
     {% endfor %}
   </ul>
 {% endfor %}
+
+<style>
+  .tags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px 16px;
+    margin: 1em 0;
+  }
+
+  .tag-link {
+    display: block;
+    background: #f5f5f5;
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .tag-link:hover {
+    background: #eaeaea;
+    transform: scale(1.02);
+  }
+
+  .tag-count {
+    color: #666;
+    font-size: 0.8rem;
+  }
+</style>
