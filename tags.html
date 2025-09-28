@@ -32,13 +32,13 @@ title: "Tags"
     {% assign tag = parts[2] %}
     {% assign tag_count = parts[1] %}
     <div class="tag-cell" data-tag="{{ tag | slugify }}" data-count="{{ tag_count }}">
-      <a href="#{{ tag | slugify }}">{{ tag }}</a> ({{ tag_count }})
+      <a href="#{{ tag | slugify }}" class="tag-link">{{ tag }}</a>
+      <span class="tag-count">({{ tag_count }})</span>
     </div>
   {% endfor %}
 </div>
 
 <script>
-  // Ascending
   // Store tags data for sorting
   const tagsData = [
     {% for entry in sorted_entries %}
@@ -60,7 +60,10 @@ title: "Tags"
       cell.className = 'tag-cell';
       cell.dataset.tag = item.slug;
       cell.dataset.count = item.count;
-      cell.innerHTML = `<a href="#${item.slug}">${item.tag}</a> (${item.count})`;
+      cell.innerHTML = `
+        <a href="#${item.slug}" class="tag-link">${item.tag}</a>
+        <span class="tag-count">(${item.count})</span>
+      `;
       tagsGrid.appendChild(cell);
     });
   }
@@ -103,29 +106,46 @@ title: "Tags"
   }
   .tags-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, 140px);
     gap: 10px;
     padding: 10px 0;
+    justify-content: start;
   }
   .tag-cell {
     background-color: #f9f9f9;
-    padding: 10px;
+    padding: 8px;
     border-radius: 6px;
-    text-align: center;
     border: 1px solid #eee;
     transition: transform 0.2s, box-shadow 0.2s;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
   }
   .tag-cell:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
-  .tag-cell a {
+  .tag-link {
+    font-size: 0.9em;
     text-decoration: none;
     color: #2c3e50;
     font-weight: 500;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
   }
-  .tag-cell a:hover {
+  .tag-link:hover {
     color: #2980b9;
+  }
+  .tag-count {
+    font-size: 0.8em;
+    color: #666;
   }
 </style>
 
