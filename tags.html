@@ -9,7 +9,9 @@ title: "Tags"
 <h2>Browse by Tags</h2>
 
 <div class="controls">
-  <input type="text" id="tagSearch" class="search-bar" placeholder="Search tags..." aria-label="Search tags">
+  <div class="search-container">
+    <input type="text" id="tagSearch" class="search-bar" placeholder="Search tags..." aria-label="Search tags">
+  </div>
   <button id="sortByCount" class="sort-button" aria-label="Sort tags by count in descending order">Sort by Count</button>
   <button id="sortByAlpha" class="sort-button" aria-label="Sort tags alphabetically">Sort Alphabetically</button>
 </div>
@@ -84,7 +86,9 @@ title: "Tags"
     renderGrid(sorted);
     sortByCountButton.disabled = true;
     sortByAlphaButton.disabled = false;
-    tagSearch.value = ''; // Clear search on sort
+    sortByCountButton.classList.add('bounce');
+    setTimeout(() => sortByCountButton.classList.remove('bounce'), 300);
+    tagSearch.value = '';
   });
 
   sortByAlphaButton.addEventListener('click', () => {
@@ -92,7 +96,9 @@ title: "Tags"
     renderGrid(sorted);
     sortByCountButton.disabled = false;
     sortByAlphaButton.disabled = true;
-    tagSearch.value = ''; // Clear search on sort
+    sortByAlphaButton.classList.add('bounce');
+    setTimeout(() => sortByAlphaButton.classList.remove('bounce'), 300);
+    tagSearch.value = '';
   });
 
   tagSearch.addEventListener('input', () => {
@@ -108,41 +114,68 @@ title: "Tags"
 
 <style>
   .controls {
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-container {
+    position: relative;
+    width: 220px;
+  }
+  .search-bar {
+    padding: 8px 8px 8px 32px;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    font-size: 0.9em;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s, transform 0.2s;
+  }
+  .search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(41, 128, 185, 0.5);
+    transform: scale(1.02);
+  }
+  .search-container::before {
+    content: '\1F50D'; /* Magnifying glass emoji */
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #666;
   }
   .sort-button {
     padding: 8px 16px;
     cursor: pointer;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.2s, transform 0.2s;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: white;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.3s;
   }
   .sort-button:disabled {
-    background-color: #d0d0d0;
+    background: #bdc3c7;
     cursor: not-allowed;
   }
   .sort-button:hover:not(:disabled) {
-    background-color: #e0e0e0;
     transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
   }
   .sort-button:focus {
-    outline: 2px solid #2980b9;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: 0 0 8px rgba(41, 128, 185, 0.7);
   }
-  .search-bar {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 200px;
-    font-size: 0.9em;
+  .sort-button.bounce {
+    animation: bounce 0.3s ease;
   }
-  .search-bar:focus {
-    outline: 2px solid #2980b9;
-    border-color: #2980b9;
+  @keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
   .tags-grid {
     display: grid;
@@ -152,14 +185,14 @@ title: "Tags"
     justify-content: start;
   }
   .tag-cell {
-    padding: 8px;
+    padding: 10px 8px;
     border-radius: 6px;
     border: 1px solid #eee;
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 60px;
+    height: 70px; /* Increased to avoid overlap */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     overflow: hidden;
@@ -183,14 +216,14 @@ title: "Tags"
     color: #2980b9;
   }
   .tag-count {
-    font-size: 0.8em;
+    font-size: 0.75em;
     color: #fff;
     background-color: #2980b9;
-    border-radius: 12px;
-    padding: 2px 8px;
-    margin-top: 4px;
+    border-radius: 10px;
+    padding: 2px 6px;
+    margin-top: 6px;
     display: inline-block;
-    min-width: 20px;
+    min-width: 18px;
     text-align: center;
   }
   @media (max-width: 600px) {
@@ -198,15 +231,22 @@ title: "Tags"
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
     .tag-cell {
-      height: 50px;
+      height: 60px;
     }
     .tag-link {
       font-size: 0.85em;
       max-width: 100px;
     }
     .tag-count {
-      font-size: 0.75em;
-      padding: 2px 6px;
+      font-size: 0.7em;
+      padding: 2px 5px;
+      min-width: 16px;
+    }
+    .search-container {
+      width: 180px;
+    }
+    .search-bar {
+      font-size: 0.85em;
     }
   }
 </style>
