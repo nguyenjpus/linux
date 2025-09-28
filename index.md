@@ -24,7 +24,7 @@ Explore my posts and work experiences below to follow my journey!
   <p>{{ post.excerpt }}</p>
 {% endfor %}
 
-<p><a href="{{ '/all-posts/' | relative_url }}">See All Posts →</a></p>
+<p><a href="{{ '/archives/' | relative_url }}">See All Posts →</a></p>
 
 ---
 

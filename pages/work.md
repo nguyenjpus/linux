@@ -4,13 +4,16 @@ title: Work Experience
 permalink: /work/
 ---
 
-# Just something I want to remind myself about.
+# Work Experience
 
-Below are my professional experiences in tech.
+Below are highlights from my professional experiences in tech.
+
 {% assign sorted_work = site.work | sort: 'date' | reverse %}
-{% for work in sorted_work %}
+{% for work in sorted_work limit:10 %}
 
-  <h2><a href="{{ site.baseurl }}{{ work.url }}">{{ work.title }}</a></h2>
-  <p>{{ work.date | date: "%B %d, %Y" }}</p>
-  <p>{{ work.content | strip_html | truncatewords: 30 }}</p>
+  <h2><a href="{{ work.url | relative_url }}">{{ work.title }}</a></h2>
+  <p><small>{{ work.date | date: "%B %d, %Y" }}</small></p>
+  <p>{{ work.excerpt }}</p>
 {% endfor %}
+
+<p><a href="{{ '/archives/#work-experiences' | relative_url }}">See All Work Experience →</a></p>
