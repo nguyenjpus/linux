@@ -2,7 +2,17 @@
 layout: post
 title: "Multiple-choice - Q18 - Q20 - Automatically Loading Kernel Modules at Boot"
 date: 2025-09-28
-tags: [Linux+, cmdline, modprobe, quiet, modules-load, joydev, blacklist]
+tags:
+  [
+    Linux+,
+    multiple-choice,
+    cmdline,
+    modprobe,
+    quiet,
+    modules-load,
+    joydev,
+    blacklist,
+  ]
 ---
 
 This lesson addresses CompTIA+ Objective 2.6, covering two key tasks: configuring a kernel module to load automatically at boot (Question 18) and preventing a module from auto-loading via blacklisting (Question 20). Both are critical for data center operations to ensure hardware compatibility and system stability. We practiced with the `joydev` module (joystick driver) on Ubuntu 24.04.3 LTS (kernel 6.8.0-79-generic, aarch64), confirming it as a loadable module (unlike `loop`, which was builtin). We also troubleshooted `joydev` persisting after cleanup due to kernel/udev auto-loading, resolved via blacklisting.
