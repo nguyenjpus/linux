@@ -5,221 +5,216 @@ date: 2025-09-30
 tags: [Linux+, multiple-choice]
 ---
 
-This document explains questions 21-30 from a set of 100 scenario-based multiple-choice questions on Linux system management, focusing on storage, LVM, RAID, and filesystems. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.
+This document explains questions 11-20 from a set of 100 scenario-based multiple-choice questions on Linux system management, focusing on boot troubleshooting, kernel modules, and hardware detection. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.
 
-## Question 21: Updating Module Dependency Database
+## Question 11: Cause of "Kernel panic - not syncing: VFS: Unable to mount root fs"
 
-**Question**: After installing new kernel modules, which command regenerates the `modules.dep` file?  
+**Question**: A system fails to boot, displaying "Kernel panic - not syncing: VFS: Unable to mount root fs." What is the most likely cause?  
 **Options**:
 
-- modprobe -u
-- depmod -a
-- update-initramfs -u
-- modules-update
+- The BIOS/UEFI is configured with the wrong boot order.
+- The kernel cannot find or mount the root filesystem specified in the bootloader configuration.
+- The systemd service has crashed.
+- The network interface card is not configured correctly.
 
-**Correct Answer**: depmod -a  
-**Why Correct**: `depmod -a` updates the module dependency database (`modules.dep`) in `/lib/modules/$(uname -r)/`, ensuring the kernel knows which modules depend on others for proper loading.  
+**Correct Answer**: The kernel cannot find or mount the root filesystem specified in the bootloader configuration.  
+**Why Correct**: This error occurs when the kernel, after loading, cannot locate or access the root filesystem (/) specified in the bootloader (e.g., GRUB’s `root=` parameter). Common causes include a wrong UUID or device path in GRUB, a missing initramfs, or a corrupted filesystem.  
 **Why Others Wrong**:
 
-- `modprobe -u` is invalid (`modprobe` loads/unloads modules).
-- `update-initramfs -u` updates the initramfs image, not module dependencies.
-- `modules-update` is not a valid command.  
-  **Key Concept**: Run `depmod -a` after adding new modules to ensure `modprobe` works correctly.  
-  **Memory Aid**: “depmod = Dependencies mapped.”
+- Wrong boot order (BIOS/UEFI) would prevent the bootloader from loading, not cause a kernel panic.
+- Systemd starts after the root filesystem is mounted, so it’s not relevant here.
+- Network issues don’t affect mounting the root filesystem unless it’s an NFS root (rare, not implied).  
+  **Key Concept**: Kernel panic halts the system when critical components fail. Check GRUB’s `grub.cfg` or `/etc/fstab` for root FS specs.  
+  **Memory Aid**: “Kernel panic = Can’t find home (root FS)!”
 
-## Question 22: Viewing Kernel Ring Buffer Messages
+## Question 12: File to Edit for Persistent Kernel Boot Parameters
 
-**Question**: Which command is most useful for viewing kernel ring buffer messages for hardware detection and driver issues?  
+**Question**: Which file should be edited to add persistent kernel parameters applied during the next bootloader configuration update?  
 **Options**:
 
-- cat /var/log/syslog
-- journalctl -k or dmesg
-- lspci -v
-- tail /proc/kmsg
-
-**Correct Answer**: journalctl -k or dmesg  
-**Why Correct**: Both `dmesg` and `journalctl -k` display kernel ring buffer messages, which log hardware detection, driver loading, and boot issues. `journalctl -k` is systemd’s equivalent to `dmesg`.  
-**Why Others Wrong**:
-
-- `/var/log/syslog` logs system events, but not always kernel-specific messages.
-- `lspci -v` lists PCI devices, not logs.
-- `/proc/kmsg` is raw kernel log (not user-friendly; requires root).  
-  **Key Concept**: Use `dmesg --follow` for real-time logs.  
-  **Memory Aid**: “dmesg = Debug messages, journalctl -k = Kernel journal.”
-
-## Question 23: Extending an LVM Logical Volume
-
-**Question**: To extend the /data filesystem (an LVM logical volume) using a new disk /dev/sdd, what is the correct sequence of steps?  
-**Options**:
-
-- Create a partition on /dev/sdd, run pvcreate, vgextend, lvextend, and then resize the filesystem.
-- Run lvextend on the logical volume, then vgextend to add the new disk.
-- Create a partition on /dev/sdd, format it, and then mount it inside /data.
-- Run pvcreate on the new disk, then merge it with the existing volume group.
-
-**Correct Answer**: Create a partition on /dev/sdd, run pvcreate, vgextend, lvextend, and then resize the filesystem.  
-**Why Correct**: The sequence is:
-
-1. Partition `/dev/sdd` (e.g., `/dev/sdd1` using `fdisk`).
-2. `pvcreate /dev/sdd1` to make it a physical volume.
-3. `vgextend vg_name /dev/sdd1` to add it to the volume group.
-4. `lvextend -L +size /dev/vg_name/lv_name` to extend the logical volume.
-5. Resize the filesystem (e.g., `resize2fs` for Ext4 or `xfs_growfs` for XFS).  
-   **Why Others Wrong**:
-
-- `lvextend` before `vgextend` fails (no space in volume group).
-- Formatting and mounting bypasses LVM, defeating the purpose.
-- `pvcreate` then “merge” is vague; `vgextend` is the correct term.  
-  **Key Concept**: LVM allows dynamic storage expansion.  
-  **Memory Aid**: “Partition, PV, VG, LV, Filesystem = P-P-V-L-F.”
-
-## Question 24: Creating a New Logical Volume
-
-**Question**: Which command creates a new 50 GB logical volume named `lv-web` from volume group `vg-main`?  
-**Options**:
-
-- vgcreate -n lv-web -L 50G vg-main
-- lvcreate -n lv-web -L 50G vg-main
-- pvcreate -n lv-web -L 50G vg-main
-- lvextend -n lv-web -L 50G vg-main
-
-**Correct Answer**: lvcreate -n lv-web -L 50G vg-main  
-**Why Correct**: `lvcreate -n lv-web -L 50G vg-main` creates a logical volume named `lv-web` with 50GB from the `vg-main` volume group.  
-**Why Others Wrong**:
-
-- `vgcreate` creates volume groups, not logical volumes.
-- `pvcreate` initializes physical volumes, not logical ones.
-- `lvextend` extends existing logical volumes, not creates new ones.  
-  **Key Concept**: LVM hierarchy: Physical Volume → Volume Group → Logical Volume.  
-  **Memory Aid**: “lvcreate = Logical volume creation.”
-
-## Question 25: Creating a RAID 1 Array
-
-**Question**: To configure two disks (/dev/sdb, /dev/sdc) as a mirrored RAID 1 array, which command is the first step?  
-**Options**:
-
-- mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
-- raid-create -l 1 -d 2 /dev/sdb /dev/sdc
-- lvcreate --type raid1 -n mirror -L 100%FREE vg-main /dev/sdb /dev/sdc
-- fdisk -t raid /dev/sdb /dev/sdc
-
-**Correct Answer**: mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc  
-**Why Correct**: `mdadm` creates software RAID arrays; this command sets up a RAID 1 (mirror) array on `/dev/md0` using `/dev/sdb` and `/dev/sdc`.  
-**Why Others Wrong**:
-
-- `raid-create` is not a valid command.
-- `lvcreate --type raid1` is for LVM RAID, not standard software RAID.
-- `fdisk -t raid` sets partition type, not creates RAID.  
-  **Key Concept**: RAID 1 mirrors data for redundancy.  
-  **Memory Aid**: “mdadm = Make disk array, mirror mode.”
-
-## Question 26: Resizing an Ext4 Filesystem After lvextend
-
-**Question**: After extending a logical volume with `lvextend`, which command resizes the Ext4 filesystem to use the new space?  
-**Options**:
-
-- remount -o resize /dev/vg-main/lv-data
-- fsck.ext4 -f /dev/vg-main/lv-data
-- resize2fs /dev/vg-main/lv-data
-- mkfs.ext4 -S /dev/vg-main/lv-data
-
-**Correct Answer**: resize2fs /dev/vg-main/lv-data  
-**Why Correct**: `resize2fs` adjusts the Ext4 filesystem size to match the extended logical volume, making new space available.  
-**Why Others Wrong**:
-
-- `remount -o resize` is invalid.
-- `fsck.ext4 -f` checks for errors, not resizes.
-- `mkfs.ext4 -S` formats the filesystem, destroying data.  
-  **Key Concept**: Use `xfs_growfs` for XFS filesystems instead.  
-  **Memory Aid**: “resize2fs = Resize to fit space.”
-
-## Question 27: Persistent NFS Mount
-
-**Question**: To mount an NFS share from 192.168.1.50:/exports/data at /mnt/nfsdata persistently, which file must be edited?  
-**Options**:
-
-- /etc/exports
+- /boot/grub/grub.cfg
+- /etc/default/grub
+- /proc/cmdline
 - /etc/fstab
-- /etc/mtab
-- /proc/mounts
 
-**Correct Answer**: /etc/fstab  
-**Why Correct**: Adding an entry like `192.168.1.50:/exports/data /mnt/nfsdata nfs defaults 0 0` to `/etc/fstab` ensures the NFS share mounts automatically at boot.  
+**Correct Answer**: /etc/default/grub  
+**Why Correct**: Editing `/etc/default/grub` (specifically the `GRUB_CMDLINE_LINUX` variable) sets kernel parameters (e.g., `quiet splash`) that persist across boots. After editing, run `update-grub` to apply changes to `/boot/grub/grub.cfg`.  
 **Why Others Wrong**:
 
-- `/etc/exports` configures NFS exports on the server, not client mounts.
-- `/etc/mtab` is a runtime mount table, not for persistent config.
-- `/proc/mounts` is a kernel mount table, read-only.  
-  **Key Concept**: `/etc/fstab` format: device, mount point, type, options, dump, pass.  
-  **Memory Aid**: “fstab = Filesystem table for mounts.”
+- /boot/grub/grub.cfg is auto-generated; direct edits are overwritten.
+- /proc/cmdline shows current boot parameters (read-only).
+- /etc/fstab defines filesystem mounts, not kernel params.  
+  **Key Concept**: Use `update-grub` or `grub-mkconfig` to regenerate GRUB config.  
+  **Memory Aid**: “/etc/default/grub = Default boot tweaks.”
 
-## Question 28: Checking RAID Array Status
+## Question 13: Loading a Kernel Module Immediately
 
-**Question**: Which command provides detailed information about the status of a software RAID array /dev/md0?  
+**Question**: A new network card driver is provided as `new_net.ko`. Which command loads this module into the running kernel immediately?  
 **Options**:
 
-- cat /proc/mdstat
-- mdadm --detail /dev/md0
-- lsraid /dev/md0
-- fdisk -l /dev/md0
+- modprobe new_net
+- insmod /path/to/new_net.ko
+- lsmod | grep new_net
+- depmod new_net
 
-**Correct Answer**: mdadm --detail /dev/md0  
-**Why Correct**: `mdadm --detail /dev/md0` shows detailed RAID status, including state (clean, degraded), sync status, and disk roles.  
+**Correct Answer**: insmod /path/to/new_net.ko  
+**Why Correct**: `insmod` directly loads a specific kernel module file (`.ko`) into the kernel, requiring the full path to the file (e.g., `/lib/modules/.../new_net.ko`).  
 **Why Others Wrong**:
 
-- `/proc/mdstat` shows basic RAID status, less detailed.
-- `lsraid` is not a standard command.
-- `fdisk -l` lists partitions, not RAID status.  
-  **Key Concept**: RAID status is critical for redundancy monitoring.  
-  **Memory Aid**: “mdadm --detail = Detailed array monitor.”
+- `modprobe new_net` loads a module by name, resolving dependencies, but doesn’t specify a file path.
+- `lsmod | grep new_net` lists loaded modules, not loads them.
+- `depmod new_net` updates module dependencies, not loads modules.  
+  **Key Concept**: `insmod` is low-level; `modprobe` is preferred for automatic dependency handling.  
+  **Memory Aid**: “insmod = Insert module straight in.”
 
-## Question 29: "Target is busy" Error When Unmounting
+## Question 14: Listing Loaded Kernel Modules
 
-**Question**: Why does unmounting /mnt/data fail with a "target is busy" error?  
+**Question**: Which command lists all currently loaded kernel modules, their memory usage, and dependencies?  
 **Options**:
 
-- The administrator does not have sudo privileges.
-- The filesystem has disk errors and needs fsck.
-- A user or process currently has a file open or is using a directory within /mnt/data.
-- The /etc/fstab file has an incorrect entry.
+- modinfo
+- lsmod
+- depmod -a
+- dmesg
 
-**Correct Answer**: A user or process currently has a file open or is using a directory within /mnt/data.  
-**Why Correct**: The “target is busy” error means a process is accessing files or directories on the mount point, preventing unmounting. Use `lsof /mnt/data` or `fuser -m /mnt/data` to find culprits.  
+**Correct Answer**: lsmod  
+**Why Correct**: `lsmod` displays a table of loaded kernel modules, including their size (in bytes) and modules that depend on them.  
 **Why Others Wrong**:
 
-- Lack of sudo causes a permission error, not “busy.”
-- Disk errors don’t cause this error (use `fsck` to check).
-- Incorrect `/etc/fstab` affects mounting, not unmounting.  
-  **Key Concept**: Unmounting requires no active file handles.  
-  **Memory Aid**: “Busy = Blocked by users.”
+- `modinfo` shows details about a module (not necessarily loaded).
+- `depmod -a` updates module dependency files.
+- `dmesg` shows kernel logs, not a module list.  
+  **Key Concept**: `lsmod` reads from `/proc/modules`.  
+  **Memory Aid**: “lsmod = List system modules.”
 
-## Question 30: Partitioning Scheme for Large Disks
+## Question 15: Listing USB Devices
 
-**Question**: For a 2TB disk to support filesystems >2TB and more than four primary partitions, which partitioning scheme should be used?  
+**Question**: To troubleshoot a USB webcam, which utility lists all connected USB devices with their buses and device IDs?  
 **Options**:
 
-- Master Boot Record (MBR)
-- GUID Partition Table (GPT)
-- Extended Partition
-- Logical Volume Manager (LVM)
+- lspci
+- lsusb
+- lsblk
+- lshw
 
-**Correct Answer**: GUID Partition Table (GPT)  
-**Why Correct**: GPT supports disks >2TB and up to 128 partitions, unlike MBR’s 2TB limit and four primary partitions.  
+**Correct Answer**: lsusb  
+**Why Correct**: `lsusb` lists USB devices, showing bus and device IDs, vendor/product IDs, and device names, ideal for diagnosing USB hardware issues.  
 **Why Others Wrong**:
 
-- MBR is limited to 2TB and four primaries.
-- Extended partitions (within MBR) allow more logical partitions but still cap at 2TB.
-- LVM is a volume management layer, not a partitioning scheme.  
-  **Key Concept**: GPT is standard for modern, large disks.  
-  **Memory Aid**: “GPT = Gigantic Partition Table.”
+- `lspci` lists PCI devices (e.g., GPUs, not USB).
+- `lsblk` lists block devices (e.g., disks).
+- `lshw` lists all hardware but is less specific for USB details.  
+  **Key Concept**: Use `lsusb -v` for verbose output.  
+  **Memory Aid**: “lsusb = List USB stuff.”
 
-## Retention Tips for Questions 21-30
+## Question 16: Unloading a Kernel Module
 
-- **Themes**: Storage management (LVM, RAID, filesystems), kernel module dependencies, and mount troubleshooting.
-- **Mnemonic for LVM Process**: “Partition, Physical Volume, Volume Group, Logical Volume, Filesystem = P-P-V-L-F.”
+**Question**: To unload a kernel module `buggy_driver` causing instability (no dependencies), which command should be used?  
+**Options**:
+
+- insmod -r buggy_driver
+- rmmod buggy_driver
+- modinfo -r buggy_driver
+- blacklist buggy_driver
+
+**Correct Answer**: rmmod buggy_driver  
+**Why Correct**: `rmmod` removes a specified kernel module from the running kernel, assuming no dependencies or active use.  
+**Why Others Wrong**:
+
+- `insmod -r` is invalid (`insmod` loads, doesn’t unload).
+- `modinfo -r` doesn’t exist (`modinfo` shows module info).
+- `blacklist` prevents auto-loading, not unloads.  
+  **Key Concept**: Use `modprobe -r` for dependency-aware unloading.  
+  **Memory Aid**: “rmmod = Remove module now.”
+
+## Question 17: Viewing Kernel Module Metadata
+
+**Question**: Which command displays metadata (author, description, license, parameters) for a module `special_driver`?  
+**Options**:
+
+- modprobe --show-info special_driver
+- lsmod special_driver
+- modinfo special_driver
+- dmesg | grep special_driver
+
+**Correct Answer**: modinfo special_driver  
+**Why Correct**: `modinfo` shows detailed metadata for a kernel module, including author, license, description, and parameters, even if not loaded.  
+**Why Others Wrong**:
+
+- `modprobe --show-info` is invalid.
+- `lsmod` lists loaded modules, not metadata.
+- `dmesg | grep` shows kernel logs, not structured metadata.  
+  **Key Concept**: Find module files in `/lib/modules/$(uname -r)/`.  
+  **Memory Aid**: “modinfo = Module info.”
+
+## Question 18: Auto-Loading a Kernel Module at Boot
+
+**Question**: What’s the modern approach to ensure the `power_saver` module loads automatically at boot?  
+**Options**:
+
+- Add an insmod command to /etc/rc.local
+- Create a file in /etc/modules-load.d/ with the module name
+- Edit /boot/grub/grub.cfg to include the module
+- Manually run modprobe power_saver after each boot
+
+**Correct Answer**: Create a file in /etc/modules-load.d/ with the module name  
+**Why Correct**: Creating a file (e.g., `/etc/modules-load.d/power_saver.conf`) with `power_saver` ensures systemd loads the module at boot.  
+**Why Others Wrong**:
+
+- `/etc/rc.local` is outdated and not always used.
+- `/boot/grub/grub.cfg` is for boot params, not modules.
+- Manual `modprobe` isn’t persistent.  
+  **Key Concept**: Systemd’s `modules-load.d` is the standard for modern distros.  
+  **Memory Aid**: “modules-load.d = Load modules at dawn (boot).”
+
+## Question 19: Listing PCI Devices
+
+**Question**: Which command lists all PCI devices to identify a storage controller model?  
+**Options**:
+
+- lsusb -v
+- lspci
+- dmidecode -t storage
+- lsblk
+
+**Correct Answer**: lspci  
+**Why Correct**: `lspci` lists all PCI devices (e.g., storage controllers, GPUs) with vendor and device IDs, perfect for identifying hardware.  
+**Why Others Wrong**:
+
+- `lsusb -v` is for USB devices.
+- `dmidecode -t storage` shows system hardware info, less specific.
+- `lsblk` lists block devices, not PCI details.  
+  **Key Concept**: Use `lspci -v` for verbose output.  
+  **Memory Aid**: “lspci = List PCI components.”
+
+## Question 20: Blacklisting a Kernel Module
+
+**Question**: How to persistently prevent a kernel module from loading automatically?  
+**Options**:
+
+- Add a blacklist [module_name] line to a file in /etc/modprobe.d/
+- Delete the module’s .ko file from /lib/modules/
+- Run rmmod [module_name] every boot
+- Set the module’s file permissions to 000
+
+**Correct Answer**: Add a blacklist [module_name] line to a file in /etc/modprobe.d/  
+**Why Correct**: Adding `blacklist [module_name]` to a file like `/etc/modprobe.d/blacklist.conf` prevents the module from auto-loading at boot.  
+**Why Others Wrong**:
+
+- Deleting the `.ko` file is destructive and not recommended.
+- `rmmod` every boot isn’t persistent.
+- Setting permissions to 000 may not work and causes issues.  
+  **Key Concept**: Blacklisting doesn’t affect manual loading with `modprobe`.  
+  **Memory Aid**: “Blacklist in modprobe.d = Ban module from booting.”
+
+## Retention Tips for Questions 11-20
+
+- **Themes**: Boot troubleshooting (kernel panic, GRUB config), kernel module management (`insmod`, `rmmod`, `modprobe`, `modinfo`, `lsmod`), and hardware detection (`lsusb`, `lspci`).
+- **Mnemonic for Kernel Modules**: “Insmod Inserts, Rmmod Removes, Modprobe Manages, Modinfo Mentions, Lsmod Lists” (I-R-M-M-L).
 - **Practice**: In a Linux VM:
-  - Create a RAID 1 array with `mdadm` using loop devices.
-  - Add a disk to an LVM volume group and extend a logical volume.
-  - Check `dmesg` for hardware logs and edit `/etc/fstab` for an NFS mount.
-- **Spaced Repetition**: Review these in 24 hours, then in 3 days. Flashcards: “What does mdadm --detail show?” → “RAID status, clean/degraded.”
-- **Quiz Yourself**: What’s the sequence to extend an LVM volume? Why does unmounting fail with “busy”?
+  - Check loaded modules with `lsmod`.
+  - Run `lsusb` and `lspci` to see devices.
+  - Simulate a blacklist by creating `/etc/modprobe.d/test.conf` with `blacklist floppy`.
+  - Edit `/etc/default/grub` to add a parameter (e.g., `quiet`), then run `sudo update-grub`.
+- **Spaced Repetition**: Review these explanations in 24 hours, then in 3 days. Create flashcards (e.g., “What does lsusb show?” → “USB devices, bus/device IDs”).
+- **Quiz Yourself**: What causes a kernel panic about VFS? How do you blacklist a module?
