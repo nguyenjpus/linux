@@ -2,7 +2,7 @@
 layout: post
 title: "Q1: GRUB 2 Rescue Prompt - Hands-On Reflections Summary"
 date: 2025-09-14
-tags: [Linux+, GRUB, Dracut, initramfs]
+tags: [Linux+, GRUB, initramfs]
 ---
 
 This document summarizes our in-depth discussion on CompTIA Linux+ Question 1 (Q1) focusing on troubleshooting boot issues using GRUB 2 rescue mode. We explored simulating a GRUB failure on an Ubuntu Server VM (running on UTM for Mac, aarch64, kernel 6.8.0-79-generic), adapting the generic Q1 commands to an LVM-based setup, and debugging boot freezes/panics. The conversation evolved from basic command practice to advanced discovery techniques (e.g., inferring root filesystems without `lsblk`), GRUB limitations, and verification methods.
