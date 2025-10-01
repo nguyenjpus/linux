@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Multiple-choice - Questions 11-20 Explained"
+title: "Multiple-choice - Questions 21-30 Explained"
 date: 2025-09-30
 tags: [Linux+, multiple-choice]
 ---
