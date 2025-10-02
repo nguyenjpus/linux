@@ -5,7 +5,7 @@ date: 2025-10-01
 tags: [Linux+, multiple-choice]
 ---
 
-This document explains questions 41-50 from a set of 100 scenario-based multiple-choice questions on Linux system management, focusing on networking, DNS, hostname management, and user environment troubleshooting. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.
+Some bonus multiple-choice quetions.
 
 ## Question 1: Persistent Network Configuration
 
@@ -92,10 +92,10 @@ This document explains questions 41-50 from a set of 100 scenario-based multiple
 **Question**: The `/var` directory is nearly full. Which command identifies the largest files or directories consuming space?  
 **Options**:
 
-- find /var -type f -exec du -h {} \;
-- du -h /var | sort -hr | head
-- ls -lh /var
-- df -h /var
+- `find /var -type f -exec du -h {} \;`
+- `du -h /var | sort -hr | head`
+- `ls -lh /var`
+- `df -h /var`
 
 **Correct Answer**: du -h /var | sort -hr | head  
 **Why Correct**: `du -h` calculates disk usage for `/var` and its subdirectories in human-readable format; `sort -hr` sorts by size (highest first), and `head` shows the top consumers.  
