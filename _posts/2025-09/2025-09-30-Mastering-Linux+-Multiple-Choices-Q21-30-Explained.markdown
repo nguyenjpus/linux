@@ -152,7 +152,8 @@ This document explains questions 21-30 from a set of 100 scenario-based multiple
 - `/etc/mtab` is a runtime mount table, not for persistent config.
 - `/proc/mounts` is a kernel mount table, read-only.  
   **Why /etc/exports is Incorrect**: On the NFS server, `/etc/exports` specifies which directories are shared and to whom (e.g., IP ranges). The client (this system) uses `/etc/fstab` to mount those shares. The question focuses on the client’s persistent mount setup, not server export config.  
-  **Key Concept**: `/etc/fstab` format: device, mount point, type, options, dump, pass. NFS server exports vs. client mounts are distinct roles.  
+  **Key Concept**: `/etc/fstab` format: device, mount point, type, options, dump, pass. NFS server exports vs. client mounts are distinct roles.
+  **Bonus**: `/etc/exports` defines NFS shares on the server. An entry like /data/share 192.168.2.0/24(rw,sync) allows read-write access. Run exportfs -ra to apply.  
   **Memory Aid**: “Exports for server sharing, fstab for client grabbing.”
 
 ## Question 28: Checking RAID Array Status
