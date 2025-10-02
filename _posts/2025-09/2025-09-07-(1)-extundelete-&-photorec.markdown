@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using Loop and loseupt"
+title: "Recovery Tools"
 date: 2025-09-07
 tags: [Basic, extundelete, photorec, Recovery Tools]
 ---
