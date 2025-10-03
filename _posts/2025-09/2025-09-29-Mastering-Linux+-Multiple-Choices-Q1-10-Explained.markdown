@@ -27,6 +27,7 @@ This document explains the first 10 questions from a set of 100 scenario-based m
   **Why 512 Bytes?** The 512-byte size is a historical standard from early PC days, fitting bootloader code (~446 bytes), partition table (64 bytes), and boot signature (2 bytes). It matches the sector size of early drives.  
   **Does Disk Type Matter?** No, the 512-byte MBR size is fixed regardless of storage (HDD, SSD, M.2). Modern drives may use 4KB sectors but emulate 512 bytes for MBR compatibility. UEFI systems use GPT, not MBR, but this question specifies MBR.  
   **Key Concept**: MBR vs. GPT—older systems use MBR for legacy BIOS compatibility.  
+  **Note**: If the system uses UEFI (Unified Extensible Firmware Interface) and the disk uses the GPT (GUID Partition Table) scheme, the initial bootloader stage is located on the EFI System Partition (ESP).
   **Memory Aid**: “MBR = My Boot’s Roots” (it’s the root of booting). For 512 bytes, think “postcard-sized boot note.”
 
 ## Question 2: Component for Boot Menu
