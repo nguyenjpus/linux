@@ -42,45 +42,158 @@ tags: [quiz, linux-plus]
 </div>
 
 <style>
-  /* Matches Minima themes via CSS vars. Light/Default/Classic: blue/green/red. Dark/Gemini: inverted for contrast. */
-  :root {
-    --btn-bg: #007cff;
-    --btn-hover: #0056b3;
-    --correct: #28a745;
-    --incorrect: #dc3545;
-    --bg-light: #f8f9fa;
-    --border-light: #007cff;
-    --text-muted: #6c757d;
+/* Quiz Styles - Arena Theme Integrated */
+:root {
+  --btn-bg: var(--theme-accent);
+  --btn-hover: color-mix(in srgb, var(--theme-accent) 70%, black);
+  --correct: #20c997;     /* semantic green */
+  --incorrect: #e83e8c;   /* semantic pink/red */
+  --bg-light: rgba(255, 255, 255, 0.05);
+  --border-light: var(--theme-accent);
+  --text-muted: rgba(255, 255, 255, 0.7);
+}
+
+.quiz-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.4); /* translucent panel */
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  color: #eee;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Tabs */
+.topic-tabs {
+  display: flex;
+  margin: 20px 0;
+  border-bottom: 1px solid var(--theme-border);
+}
+.tab-btn {
+  padding: 10px 20px;
+  margin-right: 0;
+  background: transparent;
+  border: 1px solid var(--theme-border);
+  border-bottom: none;
+  cursor: pointer;
+  color: #ddd;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.tab-btn.active {
+  background: var(--theme-accent);
+  color: #111;
+  font-weight: bold;
+}
+.tab-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+.tab-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.tab-content {
+  padding: 20px;
+  border: 1px solid var(--theme-border);
+  border-top: none;
+}
+.tab-content:not(.active) {
+  display: none;
+}
+
+/* Question Cards */
+.question {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-left: 4px solid var(--border-light);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 4px 4px 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.question.correct {
+  border-left-color: var(--correct);
+  background: rgba(32, 201, 151, 0.2);
+  color: #d4ffd4;
+}
+.question.incorrect {
+  border-left-color: var(--incorrect);
+  background: rgba(232, 62, 140, 0.2);
+  color: #ffd6e5;
+}
+
+.options {
+  list-style: none;
+  padding: 0;
+}
+.options li {
+  margin: 10px 0;
+}
+
+/* Form Elements */
+input[type="radio"],
+textarea {
+  margin-right: 10px;
+  width: auto;
+}
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  color: #eee;
+  padding: 8px;
+  resize: vertical;
+}
+
+/* Buttons */
+button {
+  background: var(--btn-bg);
+  color: #111;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 5px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+  background: var(--btn-hover);
+  transform: translateY(-2px);
+}
+
+/* Explanation */
+.explanation {
+  font-style: italic;
+  margin-top: 10px;
+  color: var(--text-muted);
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+/* Progress Text */
+#progress {
+  text-align: center;
+  font-weight: bold;
+  color: var(--theme-accent);
+  margin: 10px 0;
+  letter-spacing: 1px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .topic-tabs {
+    flex-direction: column;
   }
-  [data-theme="dark"], body.dark-mode {  /* Adjust for your theme switcher classes/attrs */
-    --btn-bg: #0d6efd;
-    --btn-hover: #0b5ed7;
-    --correct: #20c997;
-    --incorrect: #e83e8c;
-    --bg-light: #343a40;
-    --border-light: #17a2b8;
-    --text-muted: #adb5bd;
+  .tab-btn {
+    margin-right: 0;
+    border-radius: 0;
   }
-  .quiz-container { max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border: 1px solid #e9ecef; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-  .topic-tabs { display: flex; margin: 20px 0; border-bottom: 1px solid #e9ecef; }
-  .tab-btn { padding: 10px 20px; margin-right: 0; background: #f8f9fa; border: 1px solid #dee2e6; border-bottom: none; cursor: pointer; color: #495057; }
-  .tab-btn.active { background: var(--btn-bg); color: white; }
-  .tab-btn:hover:not(:disabled) { background: #e9ecef; }
-  .tab-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-  .tab-content { padding: 20px; border: 1px solid #dee2e6; border-top: none; }
-  .tab-content:not(.active) { display: none; }
-  .question { margin-bottom: 20px; padding: 15px; border-left: 4px solid var(--border-light); background: var(--bg-light); border-radius: 0 3px 3px 0; }
-  .question.correct { border-left-color: var(--correct); background: #d4edda; color: #155724; }
-  .question.incorrect { border-left-color: var(--incorrect); background: #f8d7da; color: #721c24; }
-  .options { list-style: none; padding: 0; }
-  .options li { margin: 10px 0; }
-  input[type="radio"], textarea { margin-right: 10px; width: auto; }
-  textarea { width: 100%; box-sizing: border-box; }
-  button { background: var(--btn-bg); color: white; padding: 10px 15px; border: none; border-radius: 3px; cursor: pointer; margin: 5px; }
-  button:hover { background: var(--btn-hover); }
-  .explanation { font-style: italic; margin-top: 10px; color: var(--text-muted); padding: 10px; background: var(--bg-light); border-radius: 3px; }
-  #progress { text-align: center; font-weight: bold; color: #495057; margin: 10px 0; }
-  @media (max-width: 600px) { .topic-tabs { flex-direction: column; } .tab-btn { margin-right: 0; border-radius: 0; } }
+}
+
 </style>
 
 <script>
