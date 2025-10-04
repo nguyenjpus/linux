@@ -209,15 +209,12 @@ const topics = {
     mcq: [
       { question: "A system administrator is troubleshooting a server that fails to start. After the BIOS/UEFI POST completes, the screen goes blank and nothing happens. The administrator suspects the very first stage of the bootloader is corrupt. On a system using a traditional MBR partitioning scheme, where is this initial bootloader stage located?", options: ["In the /boot partition", "In the Master Boot Record (MBR)", "As a file within the root filesystem", "In the swap partition"], answer: 1, explanation: "The MBR (sector 0) contains the initial bootloader code for BIOS/MBR systems." },
         {
-    "question": "A system administrator is troubleshooting a server that fails to start. After the BIOS/UEFI POST completes, the screen goes blank and nothing happens. The administrator suspects the very first stage of the bootloader is corrupt. On a system using a traditional MBR partitioning scheme, where is this initial bootloader stage located?","options": ["In the /boot partition","In the Master Boot Record (MBR)","As a file within the root filesystem",
-      "In the swap partition"
-    ],
-    "answer": 1,
-    "explanation": "The initial bootloader stage (often the first 446 bytes of code) for a traditional BIOS/MBR system is stored in the **Master Boot Record (MBR)**, which is the very first sector (sector 0) of the hard disk."
+    "question": "A system administrator is troubleshooting a server that fails to start. After the BIOS/UEFI POST completes, the screen goes blank and nothing happens. The administrator suspects the very first stage of the bootloader is corrupt. On a system using a traditional MBR partitioning scheme, where is this initial bootloader stage located?", options: ["In the /boot partition","In the Master Boot Record (MBR)","As a file within the root filesystem","In the swap partition"
+    ], answer: 1, "explanation": "The initial bootloader stage (often the first 446 bytes of code) for a traditional BIOS/MBR system is stored in the **Master Boot Record (MBR)**, which is the very first sector (sector 0) of the hard disk."
   },
   {
     "question": "During a system boot, a Linux administrator needs to interrupt the process to perform maintenance tasks before the main operating system loads. Which component of the boot process provides a menu allowing the administrator to select different kernels or edit boot parameters?",
-    "options": [
+    options: [
       "The systemd init process",
       "The BIOS/UEFI firmware",
       "The GRUB 2 bootloader",
@@ -228,7 +225,7 @@ const topics = {
   },
   {
     "question": "A developer is compiling a new application and needs to ensure it is compatible with the server's CPU architecture. Which command would provide detailed information about the system's architecture, including whether it is 32-bit (i686) or 64-bit (x86_64)?",
-    "options": [
+    options: [
       "uname -r",
       "arch or uname -m",
       "cat /proc/version",
@@ -239,7 +236,7 @@ const topics = {
   },
   {
     "question": "A Linux server running systemd fails to reach its graphical target. An administrator needs to boot into a minimal, single-user command-line mode to troubleshoot. Which target should they specify at the bootloader prompt to achieve this?",
-    "options": [
+    options: [
       "emergency. target",
       "graphical target",
       "rescue.target",
@@ -250,7 +247,7 @@ const topics = {
   },
   {
     "question": "An administrator is explaining the Linux boot process to a junior technician. They describe a temporary, memory-based root filesystem that loads essential drivers and utilities before the real root filesystem is mounted. What is this temporary filesystem called?",
-    "options": [
+    options: [
       "The GRUB filesystem",
       "The swap space",
       "The initramfs (initial RAM filesystem)",
@@ -261,7 +258,7 @@ const topics = {
   },
   {
     "question": "A server is being configured for a task that requires high-precision data processing. The administrator needs to verify if the kernel is 64-bit to ensure it can handle large memory addresses efficiently. Which command's output would confirm a 64-bit architecture?",
-    "options": [
+    options: [
       "uname -m showing x86_64",
       "uname -o showing GNU/Linux",
       "uname -v showing a version number",
@@ -272,7 +269,7 @@ const topics = {
   },
   {
     "question": "After a kernel update, an administrator wants to verify that the bootloader configuration correctly points to the new kernel image and its associated initramfs file. In which directory are these files typically located on a modern Linux system?",
-    "options": [
+    options: [
       "/etc/",
       "/usr/src/",
       "/boot/",
@@ -283,7 +280,7 @@ const topics = {
   },
   {
     "question": "A Linux system is configured with multiple filesystems (Ext4, XFS, Btrfs). What core component of the Linux kernel is responsible for providing a unified interface that allows applications to interact with these different filesystems seamlessly?",
-    "options": [
+    options: [
       "The systemd service manager",
       "The Virtual File System (VFS)",
       "The block device layer",
@@ -294,7 +291,7 @@ const topics = {
   },
   {
     "question": "An administrator is troubleshooting a boot issue on a UEFI-based system. They suspect a problem with the bootloader's configuration file. Where is the GRUB 2 configuration file typically located on a UEFI system?",
-    "options": [
+    options: [
       "/boot/grub/grub.cfg",
       "/boot/efi/EFl/[distro]/grub.cfg",
       "/etc/grub.conf",
@@ -305,7 +302,7 @@ const topics = {
   },
   {
     "question": "A junior administrator asks what the primary role of the Linux kernel is. Which of the following best describes the kernel's main function?",
-    "options": [
+    options: [
       "To provide a command-line interface for user interaction.",
       "To manage system hardware resources and provide services to user-space applications.",
       "To load the initial bootloader from the hard drive.",
@@ -314,6 +311,106 @@ const topics = {
     "answer": 1,
     "explanation": "The **kernel** is the core of the operating system. Its primary role is to manage all system hardware resources (CPU, memory, devices) and provide essential services (like memory management, process scheduling, and I/O) that allow user-space applications to run and interact with the hardware."
   },
+  {
+    "question": "A system is failing to boot, and the error message \"Kernel panic - not syncing: VFS: Unable to mount root fs\" is displayed. What is the most likely cause of this issue?",
+    "options": [
+      "The BIOS/UEFI is configured with the wrong boot order.",
+      "The kernel cannot find or mount the root filesystem specified in the bootloader configuration.",
+      "The systemd service has crashed.",
+      "The network interface card is not configured correctly."
+    ],
+    "answer": 1,
+    "explanation": "The 'VFS: Unable to mount root fs' error directly indicates that the kernel, having successfully loaded, cannot locate the **root filesystem** device (e.g., due to a wrong UUID/label in the boot parameters, or missing storage drivers in the initramfs)."
+  },
+  {
+    "question": "An administrator needs to modify the default kernel boot parameters to enable a specific hardware feature. Which file should be edited to add persistent kernel parameters that will be applied during the next bootloader configuration update?",
+    "options": [
+      "/boot/grub/grub.cfg",
+      "/etc/default/grub",
+      "/proc/cmdline",
+      "/etc/fstab"
+    ],
+    "answer": 1,
+    "explanation": "The file **`/etc/default/grub`** contains user-configurable settings, including the **`GRUB_CMDLINE_LINUX`** variable, which permanently holds kernel boot parameters. After editing this file, the administrator must run **`grub-mkconfig`** (or a similar command) to regenerate the final **`/boot/grub/grub.cfg`** file."
+  },
+  {
+    "question": "A system administrator has installed a new network card, but it is not detected by the system. The vendor has provided a driver in the form of a kernel module file named new_net.ko. Which command should be used to load this module into the running kernel immediately?",
+    "options": [
+      "modprobe new_net",
+      "insmod /path/to/new_net.ko",
+      "Ismod | grep new_net",
+      "depmod new_net"
+    ],
+    "answer": 1,
+    "explanation": "**`insmod`** is used to manually insert a kernel module into the running kernel by specifying the **full path to the `.ko` file**. **`modprobe`** is the preferred tool for loading modules, as it handles dependencies, but it requires the module to be correctly placed and indexed in the standard kernel module directories."
+  },
+  {
+    "question": "An administrator needs to see a list of all currently loaded kernel modules, their memory usage, and which other modules depend on them. Which command provides this information?",
+    "options": [
+      "modinfo",
+      "Ismod",
+      "depmod -a",
+      "dmesg"
+    ],
+    "answer": 1,
+    "explanation": "**`lsmod`** (list modules) is the command used to display the status of all modules currently loaded in the Linux kernel, including their size and use count (how many other modules depend on them)."
+  },
+  {
+    "question": "A user reports that their USB webcam is not working. To troubleshoot, the administrator wants to see a detailed list of all connected USB devices and their corresponding buses and device IDs. Which utility is designed for this purpose?",
+    "options": [
+      "Ispci",
+      "Isusb",
+      "Isblk",
+      "Ishw"
+    ],
+    "answer": 1,
+    "explanation": "**`lsusb`** (list USB devices) is the dedicated utility for displaying information about the USB controllers and all devices connected to the USB buses."
+  },
+  {
+    "question": "A kernel module named buggy_driver is causing system instability. The administrator wants to unload it from the running kernel. Assuming no other modules depend on it, which command should be used?",
+    "options": [
+      "insmod -r buggy _driver",
+      "rmmod buggy_driver",
+      "modinfo -r buggy_driver",
+      "blacklist buggy_driver"
+    ],
+    "answer": 1,
+    "explanation": "**`rmmod`** (remove module) is the command specifically used to unload a module from the running kernel. **`modprobe -r`** can also be used and is often preferred as it automatically handles unloading dependent modules first."
+  },
+  {
+    "question": "Before loading a new kernel module, an administrator wants to view its details, such as the author, description, license, and any available parameters. Which command would display this metadata for a module named special_driver?",
+    "options": [
+      "modprobe --show-info special_driver",
+      "Ismod special_driver",
+      "modinfo special_driver",
+      "dmesg | grep special_driver"
+    ],
+    "answer": 2,
+    "explanation": "**`modinfo`** is the command used to display information about a kernel module file, including its author, description, license, version, and a list of parameters it accepts."
+  },
+  {
+    "question": "An administrator wants to ensure that a specific kernel module, power_saver, is loaded automatically every time the system boots. What is the recommended modern approach to configure this?",
+    "options": [
+      "Add an insmod command to the /etc/rc.local file.",
+      "Create a new file in /etc/modules-load.d/ containing the module name.",
+      "Edit the /boot/grub/grub.cfg file to include the module.",
+      "Manually run modprobe power_saver after each boot."
+    ],
+    "answer": 1,
+    "explanation": "The modern, systemd-friendly approach to auto-load modules is by placing a configuration file (e.g., **`power_saver.conf`**) containing the module name(s) in the **`/etc/modules-load.d/`** directory. Systemd reads these files early in the boot process and ensures the specified modules are loaded."
+  },
+  {
+    "question": "A server is experiencing issues with its storage controller. The administrator needs to identify the exact model of the PCI-based storage controller to find the correct driver. Which command would list all PCI devices connected to the system?",
+    "options": [
+      "Isusb -v",
+      "Ispci",
+      "dmidecode -t storage",
+      "Isblk"
+    ],
+    "answer": 1,
+    "explanation": "**`lspci`** (list PCI devices) is the primary command used to display detailed information about all devices connected to the PCI bus, which includes most modern components like storage controllers, network cards, and video cards."
+  }
+]
       // ... (Full 100 as in previous full file; Q2-Q100 parsed similarly)
     ],
     performance: [
@@ -376,7 +473,7 @@ function showQuestion() {
   const q = currentQuiz.questions[currentQuiz.current];
   let html = `<div class="question"><h3>Q${currentQuiz.current + 1}: ${q.question}</h3>`;
   if (currentQuiz.type === 'mcq') {
-    html += `<ul class="options">${q.options.map((opt, i) => `<li><input type="radio" name="q${currentQuiz.current}" value="${i}" ${currentQuiz.userAnswers[currentQuiz.current] === i ? 'checked' : ''}> ${opt}</li>`).join('')}</ul>`;
+    html += `<ul class=options>${q.options.map((opt, i) => `<li><input type="radio" name="q${currentQuiz.current}" value="${i}" ${currentQuiz.userAnswers[currentQuiz.current] === i ? 'checked' : ''}> ${opt}</li>`).join('')}</ul>`;
   } else {
     const userAns = currentQuiz.userAnswers[currentQuiz.current] || '';
     html += `<textarea rows="4" placeholder="Enter your answer (e.g., command sequence)">${userAns}</textarea>`;
