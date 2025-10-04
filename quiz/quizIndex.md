@@ -2,7 +2,7 @@
 layout: page
 title: Linux+ Quiz
 permalink: /quiz/
-date: 2025-10-02
+date: 2025-10-03
 tags: [quiz, linux-plus]
 ---
 
@@ -18,7 +18,7 @@ tags: [quiz, linux-plus]
 
   <div id="linux-plus-tab" class="tab-content active">
     <h2>Linux+ Quiz</h2>
-    <p>Multiple-Choice: Pick number of questions (30–100 random from total pool).</p>
+    <p>Multiple-Choice: Pick number of questions (30–100 random from full set).</p>
     <label for="mcq-count">Questions: </label>
     <select id="mcq-count">
       <option value="30">30</option>
@@ -28,13 +28,13 @@ tags: [quiz, linux-plus]
     <button onclick="startMCQ()">Start MCQ Quiz</button>
 
     <hr>
-    <p>Performance-Based: Unlimited time — type your answers, then submit for feedback (full 50 questions).</p>
+    <p>Performance-Based: Type your answers and get feedback instantly (full 50 questions).</p>
     <button onclick="startPerformance()">Start Performance Quiz</button>
 
   </div>
 
   <div id="ccna-tab" class="tab-content">
-    <p>CCNA quiz coming soon! In the meantime, check my <a href="/about/">goals</a> for the full roadmap.</p>
+    <p>CCNA quiz coming soon! Meanwhile, check my <a href="/about/">goals</a> page for the roadmap.</p>
   </div>
 
   <!-- Quiz Area -->
@@ -43,6 +43,7 @@ tags: [quiz, linux-plus]
 </div>
 
 <style>
+/* Scoped Quiz Styles */
 :root {
   --btn-bg: var(--theme-accent);
   --btn-hover: color-mix(in srgb, var(--theme-accent) 70%, black);
@@ -52,7 +53,6 @@ tags: [quiz, linux-plus]
   --border-light: var(--theme-accent);
   --text-muted: rgba(255, 255, 255, 0.7);
 }
-
 .quiz-container {
   max-width: 800px;
   margin: 20px auto;
@@ -64,7 +64,6 @@ tags: [quiz, linux-plus]
   color: #eee;
   font-family: "Segoe UI", sans-serif;
 }
-
 .quiz-container .topic-tabs {
   display: flex;
   margin: 20px 0;
@@ -75,8 +74,8 @@ tags: [quiz, linux-plus]
   background: transparent;
   border: 1px solid var(--theme-border);
   border-bottom: none;
-  cursor: pointer;
   color: #ddd;
+  cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
 }
 .quiz-container .tab-btn.active {
@@ -96,11 +95,7 @@ tags: [quiz, linux-plus]
   border: 1px solid var(--theme-border);
   border-top: none;
 }
-.quiz-container .tab-content:not(.active) {
-  display: none;
-}
-
-/* Question Styles */
+.quiz-container .tab-content:not(.active) { display: none; }
 .quiz-container .question {
   margin-bottom: 20px;
   padding: 15px;
@@ -119,29 +114,9 @@ tags: [quiz, linux-plus]
   background: rgba(232, 62, 140, 0.2);
   color: #ffd6e5;
 }
-
-.quiz-container .options {
-  list-style: none;
-  padding: 0;
-}
-.quiz-container .options li {
-  margin: 10px 0;
-}
-
-.quiz-container input[type="radio"],
-.quiz-container textarea {
-  margin-right: 10px;
-  width: auto;
-}
-.quiz-container textarea {
-  width: 100%;
-  background: rgba(0,0,0,0.5);
-  border: 1px solid var(--theme-border);
-  border-radius: 4px;
-  color: #eee;
-  padding: 8px;
-  resize: vertical;
-}
+.quiz-container .options { list-style: none; padding: 0; }
+.quiz-container .options li { margin: 10px 0; }
+.quiz-container textarea,
 .quiz-container select {
   background: rgba(0,0,0,0.5);
   border: 1px solid var(--theme-border);
@@ -149,7 +124,10 @@ tags: [quiz, linux-plus]
   color: #eee;
   padding: 8px;
 }
-
+.quiz-container textarea {
+  width: 100%;
+  resize: vertical;
+}
 .quiz-container button {
   background: var(--btn-bg);
   color: #111;
@@ -165,8 +143,8 @@ tags: [quiz, linux-plus]
   background: var(--btn-hover);
   transform: translateY(-2px);
 }
-
 .quiz-container .explanation {
+  display: none;
   font-style: italic;
   margin-top: 10px;
   color: var(--text-muted);
@@ -174,7 +152,6 @@ tags: [quiz, linux-plus]
   background: rgba(255, 255, 255, 0.08);
   border-radius: 3px;
 }
-
 .quiz-container #progress {
   text-align: center;
   font-weight: bold;
@@ -182,61 +159,64 @@ tags: [quiz, linux-plus]
   margin: 10px 0;
   letter-spacing: 1px;
 }
-
 @media (max-width: 600px) {
-  .quiz-container .topic-tabs {
-    flex-direction: column;
-  }
-  .quiz-container .tab-btn {
-    margin-right: 0;
-    border-radius: 0;
-  }
+  .quiz-container .topic-tabs { flex-direction: column; }
 }
 </style>
 
 <script>
+// Core Quiz Logic
+
 const topics = {
-  'linux-plus': {
-    mcq: [
-      {
-        question: "A system administrator is troubleshooting a server that fails to start. After POST completes, the screen goes blank. The admin suspects the first bootloader stage is corrupt. On an MBR system, where is it located?",
-        options: ["In /boot", "In the Master Boot Record (MBR)", "As a file in /", "In swap"],
-        answer: 1,
-        explanation: "The initial bootloader stage (first 446 bytes) resides in the Master Boot Record (sector 0)."
-      },
-      {
-        question: "During boot, an admin interrupts the process to select different kernels. Which component provides this menu?",
-        options: ["systemd init process", "BIOS/UEFI", "GRUB 2 bootloader", "initramfs image"],
-        answer: 2,
-        explanation: "GRUB 2 displays a menu after POST, allowing kernel selection or parameter editing."
-      }
-    ],
-    performance: [
-      {
-        question: "At a GRUB rescue prompt, locate the root filesystem and boot manually.",
-        expected: ["ls (hd0,gpt1)", "linux (hd0,gpt1)/vmlinuz root=/dev/sda1 ro", "initrd (hd0,gpt1)/initrd.img", "boot"],
-        explanation: "Commands: `ls` → identify partition, `linux` → load kernel, `initrd` → load initramfs, `boot` → start."
-      },
-      {
-        question: "A RISC-V server fails POST because RAID HBA driver missing in initramfs. Which tool rebuilds it?",
-        expected: ["dracut"],
-        explanation: "`dracut` rebuilds initramfs and includes all needed modules like RAID drivers."
-      }
-    ]
-  },
+  'linux-plus': { mcq: [], performance: [] },
   'ccna': { mcq: [], performance: [] }
 };
 
-let currentQuiz = { type: '', questions: [], current: 0, userAnswers: [] };
+let currentQuiz = { type: '', questions: [], current: 0, userAnswers: [], score: 0 };
 
-document.addEventListener('DOMContentLoaded', () => updateThemeStyles());
-let observer = new MutationObserver(() => { updateThemeStyles(); });
+// Load external question files
+async function loadQuizData() {
+  try {
+    const [mcqRes, perfRes] = await Promise.all([
+      fetch('./quizzes/mcq.txt'),
+      fetch('./quizzes/performance.txt')
+    ]);
+
+    const mcqData = await mcqRes.json();
+    const perfData = await perfRes.json();
+
+    topics['linux-plus'].mcq = mcqData;
+    topics['linux-plus'].performance = perfData;
+
+    console.log('✅ Quiz data loaded successfully');
+  } catch (err) {
+    console.error('❌ Error loading quiz data:', err);
+  }
+}
+
+// Initialize after DOM load
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadQuizData();
+  updateThemeStyles();
+});
+
+// Theme tracking
+let observer = new MutationObserver(() => updateThemeStyles());
 observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
-function updateThemeStyles() {}
+function updateThemeStyles() {
+  const bodyClass = document.body.className;
+  const theme = bodyClass.includes('skin-sunset')
+    ? 'sunset'
+    : bodyClass.includes('skin-bronze')
+    ? 'bronze'
+    : bodyClass.includes('skin-steel')
+    ? 'steel'
+    : bodyClass.includes('skin-crimson')
+    ? 'crimson'
+    : 'default';
+}
 
 function switchTopic(topic) {
-  if (topic === 'ccna' && topics.ccna.mcq.length === 0) return;
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   event.target.classList.add('active');
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -244,9 +224,9 @@ function switchTopic(topic) {
 }
 
 function startMCQ() {
-  const count = Math.min(parseInt(document.getElementById('mcq-count').value), topics['linux-plus'].mcq.length);
   const allQ = topics['linux-plus'].mcq;
-  currentQuiz = { type: 'mcq', questions: shuffle([...allQ]).slice(0, count), current: 0, userAnswers: new Array(count).fill(-1) };
+  const count = Math.min(parseInt(document.getElementById('mcq-count').value), allQ.length);
+  currentQuiz = { type: 'mcq', questions: shuffle([...allQ]).slice(0, count), current: 0, userAnswers: new Array(count).fill(-1), score: 0 };
   showQuestion();
   document.getElementById('quiz-area').style.display = 'block';
   document.getElementById('results').style.display = 'none';
@@ -254,7 +234,7 @@ function startMCQ() {
 
 function startPerformance() {
   const allQ = topics['linux-plus'].performance;
-  currentQuiz = { type: 'performance', questions: shuffle([...allQ]), current: 0, userAnswers: [] };
+  currentQuiz = { type: 'performance', questions: shuffle([...allQ]), current: 0, userAnswers: [], score: 0 };
   showQuestion();
   document.getElementById('quiz-area').style.display = 'block';
   document.getElementById('results').style.display = 'none';
@@ -268,7 +248,8 @@ function showQuestion() {
   if (currentQuiz.type === 'mcq') {
     html += `<ul class="options">
       ${q.options.map((opt, i) => `
-        <li><input type="radio" name="q${currentQuiz.current}" value="${i}"> ${opt}</li>`).join('')}
+        <li><input type="radio" name="q${currentQuiz.current}" value="${i}"> ${opt}</li>
+      `).join('')}
     </ul>`;
   } else {
     const userAns = currentQuiz.userAnswers[currentQuiz.current] || '';
@@ -276,13 +257,12 @@ function showQuestion() {
   }
 
   html += `
-    <div id="feedback" class="explanation" style="display:none;"></div>
+    <div id="feedback" class="explanation"></div>
     <div id="progress">Question ${currentQuiz.current + 1} / ${currentQuiz.questions.length}</div>
     ${currentQuiz.current > 0 ? '<button onclick="prevQuestion()">Previous</button>' : ''}
     <button onclick="checkAnswer()">Check Answer</button>
     <button id="nextBtn" onclick="nextQuestion()" disabled>${currentQuiz.current === currentQuiz.questions.length - 1 ? 'Finish' : 'Next'}</button>
   `;
-
   document.getElementById('quiz-area').innerHTML = html;
 }
 
@@ -303,6 +283,7 @@ function checkAnswer() {
   if (correct) {
     questionDiv.classList.add('correct');
     feedback.innerHTML = `✅ <strong>Correct!</strong><br>${q.explanation}`;
+    currentQuiz.score++;
   } else {
     questionDiv.classList.add('incorrect');
     feedback.innerHTML = `❌ <strong>Incorrect.</strong><br>Correct Answer: ${
@@ -311,26 +292,20 @@ function checkAnswer() {
   }
 
   feedback.style.display = 'block';
+  document.querySelectorAll('input, textarea').forEach(el => (el.disabled = true));
   document.getElementById('nextBtn').disabled = false;
-
-  // Lock input
-  if (currentQuiz.type === 'mcq') {
-    document.querySelectorAll(`input[name="q${currentQuiz.current}"]`).forEach(el => el.disabled = true);
-  } else {
-    document.querySelector('textarea').disabled = true;
-  }
 }
 
 function nextQuestion() {
+  saveAnswer();
   if (currentQuiz.current < currentQuiz.questions.length - 1) {
     currentQuiz.current++;
     showQuestion();
-  } else {
-    calculateScore();
-  }
+  } else showResults();
 }
 
 function prevQuestion() {
+  saveAnswer();
   currentQuiz.current--;
   showQuestion();
 }
@@ -344,28 +319,22 @@ function saveAnswer() {
   }
 }
 
-function calculateScore() {
-  let score = 0;
-  currentQuiz.questions.forEach((q, i) => {
-    const ans = currentQuiz.userAnswers[i];
-    if (currentQuiz.type === 'mcq' && ans === q.answer) score++;
-    if (currentQuiz.type === 'performance') {
-      if (q.expected.some(term => ans.includes(term.toLowerCase()))) score++;
-    }
-  });
-  currentQuiz.score = score;
-  showResults();
-}
-
 function showResults() {
-  let html = `<h2>Results: ${currentQuiz.score || 0} / ${currentQuiz.questions.length} (${Math.round((currentQuiz.score || 0) / currentQuiz.questions.length * 100)}%)</h2>`;
+  let html = `<h2>Results: ${currentQuiz.score} / ${currentQuiz.questions.length} (${Math.round(currentQuiz.score / currentQuiz.questions.length * 100)}%)</h2>`;
   currentQuiz.questions.forEach((q, i) => {
-    const ans = currentQuiz.userAnswers[i];
+    const userAns = currentQuiz.userAnswers[i];
+    const status = (currentQuiz.type === 'mcq'
+      ? userAns === q.answer
+      : q.expected.some(term => userAns.includes(term.toLowerCase())))
+      ? 'correct'
+      : 'incorrect';
+    const userDisplay = currentQuiz.type === 'mcq'
+      ? (userAns >= 0 ? q.options[userAns] : 'No answer')
+      : userAns || 'No answer';
     const correctDisplay = currentQuiz.type === 'mcq' ? q.options[q.answer] : q.expected.join(' / ');
-    const match = currentQuiz.type === 'mcq' ? ans === q.answer : q.expected.some(term => ans.includes(term.toLowerCase()));
-    html += `<div class="question ${match ? 'correct' : 'incorrect'}">
-      <h3>Q${i+1}: ${q.question}</h3>
-      <p><strong>Your Answer:</strong> ${currentQuiz.type === 'mcq' ? (ans !== -1 ? q.options[ans] : 'No answer') : ans || 'No answer'}</p>
+    html += `<div class="question ${status}">
+      <h3>Q${i + 1}: ${q.question}</h3>
+      <p><strong>Your Answer:</strong> ${userDisplay}</p>
       <p><strong>Correct:</strong> ${correctDisplay}</p>
       <div class="explanation">${q.explanation}</div>
     </div>`;
@@ -376,11 +345,5 @@ function showResults() {
   document.getElementById('quiz-area').style.display = 'none';
 }
 
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
+function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
 </script>
