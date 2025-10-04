@@ -208,6 +208,112 @@ const topics = {
   'linux-plus': {
     mcq: [
       { question: "A system administrator is troubleshooting a server that fails to start. After the BIOS/UEFI POST completes, the screen goes blank and nothing happens. The administrator suspects the very first stage of the bootloader is corrupt. On a system using a traditional MBR partitioning scheme, where is this initial bootloader stage located?", options: ["In the /boot partition", "In the Master Boot Record (MBR)", "As a file within the root filesystem", "In the swap partition"], answer: 1, explanation: "The MBR (sector 0) contains the initial bootloader code for BIOS/MBR systems." },
+        {
+    "question": "A system administrator is troubleshooting a server that fails to start. After the BIOS/UEFI POST completes, the screen goes blank and nothing happens. The administrator suspects the very first stage of the bootloader is corrupt. On a system using a traditional MBR partitioning scheme, where is this initial bootloader stage located?","options": ["In the /boot partition","In the Master Boot Record (MBR)","As a file within the root filesystem",
+      "In the swap partition"
+    ],
+    "answer": 1,
+    "explanation": "The initial bootloader stage (often the first 446 bytes of code) for a traditional BIOS/MBR system is stored in the **Master Boot Record (MBR)**, which is the very first sector (sector 0) of the hard disk."
+  },
+  {
+    "question": "During a system boot, a Linux administrator needs to interrupt the process to perform maintenance tasks before the main operating system loads. Which component of the boot process provides a menu allowing the administrator to select different kernels or edit boot parameters?",
+    "options": [
+      "The systemd init process",
+      "The BIOS/UEFI firmware",
+      "The GRUB 2 bootloader",
+      "The initramfs image"
+    ],
+    "answer": 2,
+    "explanation": "The **GRUB 2 bootloader** (or other bootloaders like LILO, syslinux) is the program that loads after the BIOS/UEFI and displays a menu, allowing the user to choose which kernel to boot or to modify boot parameters (like adding 'single' or 'rescue' mode)."
+  },
+  {
+    "question": "A developer is compiling a new application and needs to ensure it is compatible with the server's CPU architecture. Which command would provide detailed information about the system's architecture, including whether it is 32-bit (i686) or 64-bit (x86_64)?",
+    "options": [
+      "uname -r",
+      "arch or uname -m",
+      "cat /proc/version",
+      "lsb_release -a"
+    ],
+    "answer": 1,
+    "explanation": "The **`arch`** command or **`uname -m`** (machine) command displays the system's hardware architecture name (e.g., **`x86_64`** for 64-bit or **`i686`** for 32-bit). `uname -r` shows the kernel release version."
+  },
+  {
+    "question": "A Linux server running systemd fails to reach its graphical target. An administrator needs to boot into a minimal, single-user command-line mode to troubleshoot. Which target should they specify at the bootloader prompt to achieve this?",
+    "options": [
+      "emergency. target",
+      "graphical target",
+      "rescue.target",
+      "multi-user.target"
+    ],
+    "answer": 2,
+    "explanation": "The **`rescue.target`** is the systemd equivalent of the traditional single-user mode. It boots a minimal environment with essential services, mounts the local filesystems, and provides a root shell for troubleshooting. **`emergency.target`** is even more minimal and doesn't mount local filesystems."
+  },
+  {
+    "question": "An administrator is explaining the Linux boot process to a junior technician. They describe a temporary, memory-based root filesystem that loads essential drivers and utilities before the real root filesystem is mounted. What is this temporary filesystem called?",
+    "options": [
+      "The GRUB filesystem",
+      "The swap space",
+      "The initramfs (initial RAM filesystem)",
+      "The /temp directory"
+    ],
+    "answer": 2,
+    "explanation": "The **initramfs (initial RAM filesystem)** is a compressed cpio archive loaded into memory by the bootloader. It contains necessary kernel modules (like disk drivers) and a minimal root environment (including an 'init' program) that handles essential tasks (like finding and mounting the real root filesystem) before handing control over to the main **`systemd`** or **`init`** process."
+  },
+  {
+    "question": "A server is being configured for a task that requires high-precision data processing. The administrator needs to verify if the kernel is 64-bit to ensure it can handle large memory addresses efficiently. Which command's output would confirm a 64-bit architecture?",
+    "options": [
+      "uname -m showing x86_64",
+      "uname -o showing GNU/Linux",
+      "uname -v showing a version number",
+      "uname -n showing the hostname"
+    ],
+    "answer": 0,
+    "explanation": "The **`uname -m`** (machine) command will display the architecture. **`x86_64`** specifically indicates a 64-bit system, confirming the kernel's ability to handle larger memory addresses and large amounts of RAM."
+  },
+  {
+    "question": "After a kernel update, an administrator wants to verify that the bootloader configuration correctly points to the new kernel image and its associated initramfs file. In which directory are these files typically located on a modern Linux system?",
+    "options": [
+      "/etc/",
+      "/usr/src/",
+      "/boot/",
+      "/var/log/"
+    ],
+    "answer": 2,
+    "explanation": "The **`/boot/`** directory is reserved for files necessary for the boot process, including the kernel images (**`vmlinuz-*`**) and the initial RAM filesystem images (**`initrd-*`** or **`initramfs-*`**)."
+  },
+  {
+    "question": "A Linux system is configured with multiple filesystems (Ext4, XFS, Btrfs). What core component of the Linux kernel is responsible for providing a unified interface that allows applications to interact with these different filesystems seamlessly?",
+    "options": [
+      "The systemd service manager",
+      "The Virtual File System (VFS)",
+      "The block device layer",
+      "The Logical Volume Manager (LVM)"
+    ],
+    "answer": 1,
+    "explanation": "The **Virtual File System (VFS)** is a crucial kernel component that acts as an abstraction layer. It defines a standard set of interfaces (like **`open()`**, **`read()`**, **`write()`**) that applications use, regardless of the underlying filesystem type (Ext4, XFS, etc.). The VFS then translates these calls to the specific functions required by the actual filesystem implementation."
+  },
+  {
+    "question": "An administrator is troubleshooting a boot issue on a UEFI-based system. They suspect a problem with the bootloader's configuration file. Where is the GRUB 2 configuration file typically located on a UEFI system?",
+    "options": [
+      "/boot/grub/grub.cfg",
+      "/boot/efi/EFl/[distro]/grub.cfg",
+      "/etc/grub.conf",
+      "/etc/lilo.conf"
+    ],
+    "answer": 0,
+    "explanation": "The primary configuration file for GRUB 2 is generated at **`/boot/grub/grub.cfg`** on both MBR and UEFI systems. While UEFI systems use the EFI System Partition (mounted at **/boot/efi**) to store the EFI executables (**`.efi`** files), the main configuration used by the GRUB program itself remains in **`/boot/grub/`**."
+  },
+  {
+    "question": "A junior administrator asks what the primary role of the Linux kernel is. Which of the following best describes the kernel's main function?",
+    "options": [
+      "To provide a command-line interface for user interaction.",
+      "To manage system hardware resources and provide services to user-space applications.",
+      "To load the initial bootloader from the hard drive.",
+      "To store user files and directories securely."
+    ],
+    "answer": 1,
+    "explanation": "The **kernel** is the core of the operating system. Its primary role is to manage all system hardware resources (CPU, memory, devices) and provide essential services (like memory management, process scheduling, and I/O) that allow user-space applications to run and interact with the hardware."
+  },
       // ... (Full 100 as in previous full file; Q2-Q100 parsed similarly)
     ],
     performance: [
