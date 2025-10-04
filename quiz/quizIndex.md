@@ -178,8 +178,8 @@ let currentQuiz = { type: '', questions: [], current: 0, userAnswers: [], score:
 async function loadQuizData() {
   try {
     const [mcqRes, perfRes] = await Promise.all([
-      fetch('quiz/quizzes/mcq.json'),
-      fetch('quiz/quizzes/performance.json')
+      fetch('quizzes/mcq.json'),  // Fixed relative path
+      fetch('quizzes/performance.json')  // Fixed relative path
     ]);
 
     const mcqData = await mcqRes.json();
@@ -191,6 +191,8 @@ async function loadQuizData() {
     console.log('✅ Quiz data loaded successfully');
   } catch (err) {
     console.error('❌ Error loading quiz data:', err);
+    // Optional: Show user-friendly alert if data fails to load
+    alert('Failed to load quiz questions. Check console for details.');
   }
 }
 
