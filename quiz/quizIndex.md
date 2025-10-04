@@ -42,7 +42,7 @@ tags: [quiz, linux-plus]
 </div>
 
 <style>
-/* Quiz Styles - Integrated with Sunset, Bronze, Steel, Crimson themes from header.html */
+/* Quiz Styles - Arena Theme Integrated, Scoped to .quiz-container to avoid overriding site theme switch buttons */
 :root {
   --btn-bg: var(--theme-accent);
   --btn-hover: color-mix(in srgb, var(--theme-accent) 70%, black);
@@ -51,38 +51,13 @@ tags: [quiz, linux-plus]
   --bg-light: rgba(255, 255, 255, 0.05);
   --border-light: var(--theme-accent);
   --text-muted: rgba(255, 255, 255, 0.7);
-  --btn-text: #fff; /* White text for all buttons on accent bg */
-}
-
-body.skin-sunset {
-  --bg-light: rgba(255, 165, 0, 0.1); /* Sunset orange tint */
-  --text-muted: rgba(255, 255, 255, 0.8);
-  --btn-text: #000; /* Dark text for sunset if accent is light */
-}
-
-body.skin-bronze {
-  --bg-light: rgba(205, 127, 50, 0.1); /* Bronze tint */
-  --text-muted: rgba(255, 255, 255, 0.8);
-  --btn-text: #fff;
-}
-
-body.skin-steel {
-  --bg-light: rgba(128, 128, 128, 0.1); /* Steel gray tint */
-  --text-muted: rgba(255, 255, 255, 0.7);
-  --btn-text: #fff;
-}
-
-body.skin-crimson {
-  --bg-light: rgba(220, 20, 60, 0.1); /* Crimson red tint */
-  --text-muted: rgba(255, 255, 255, 0.8);
-  --btn-text: #fff;
 }
 
 .quiz-container {
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
-  background: var(--bg-light);
+  background: rgba(0, 0, 0, 0.4); /* translucent panel */
   border: 1px solid var(--theme-border);
   border-radius: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -90,13 +65,13 @@ body.skin-crimson {
   font-family: "Segoe UI", sans-serif;
 }
 
-/* Tabs */
-.topic-tabs {
+/* Tabs - Scoped */
+.quiz-container .topic-tabs {
   display: flex;
   margin: 20px 0;
   border-bottom: 1px solid var(--theme-border);
 }
-.tab-btn {
+.quiz-container .tab-btn {
   padding: 10px 20px;
   margin-right: 0;
   background: transparent;
@@ -106,62 +81,62 @@ body.skin-crimson {
   color: #ddd;
   transition: background 0.3s ease, color 0.3s ease;
 }
-.tab-btn.active {
+.quiz-container .tab-btn.active {
   background: var(--theme-accent);
-  color: var(--btn-text);
+  color: #111;
   font-weight: bold;
 }
-.tab-btn:hover:not(:disabled) {
+.quiz-container .tab-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
 }
-.tab-btn:disabled {
+.quiz-container .tab-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-.tab-content {
+.quiz-container .tab-content {
   padding: 20px;
   border: 1px solid var(--theme-border);
   border-top: none;
 }
-.tab-content:not(.active) {
+.quiz-container .tab-content:not(.active) {
   display: none;
 }
 
-/* Question Cards */
-.question {
+/* Question Cards - Scoped */
+.quiz-container .question {
   margin-bottom: 20px;
   padding: 15px;
   border-left: 4px solid var(--border-light);
-  background: var(--bg-light);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 0 4px 4px 0;
   transition: background 0.3s ease, border-color 0.3s ease;
 }
-.question.correct {
+.quiz-container .question.correct {
   border-left-color: var(--correct);
-  background: color-mix(in srgb, var(--correct) 20%, transparent);
+  background: rgba(32, 201, 151, 0.2);
   color: #d4ffd4;
 }
-.question.incorrect {
+.quiz-container .question.incorrect {
   border-left-color: var(--incorrect);
-  background: color-mix(in srgb, var(--incorrect) 20%, transparent);
+  background: rgba(232, 62, 140, 0.2);
   color: #ffd6e5;
 }
 
-.options {
+.quiz-container .options {
   list-style: none;
   padding: 0;
 }
-.options li {
+.quiz-container .options li {
   margin: 10px 0;
 }
 
-/* Form Elements */
-input[type="radio"],
-textarea {
+/* Form Elements - Scoped */
+.quiz-container input[type="radio"],
+.quiz-container textarea {
   margin-right: 10px;
   width: auto;
 }
-textarea {
+.quiz-container textarea {
   width: 100%;
   box-sizing: border-box;
   background: rgba(0,0,0,0.5);
@@ -171,11 +146,18 @@ textarea {
   padding: 8px;
   resize: vertical;
 }
+.quiz-container select {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  color: #eee;
+  padding: 8px;
+}
 
-/* Buttons */
-button {
+/* Buttons - Scoped to .quiz-container only (prevents overriding site theme buttons) */
+.quiz-container button {
   background: var(--btn-bg);
-  color: var(--btn-text);
+  color: #111;
   padding: 10px 15px;
   border: none;
   border-radius: 3px;
@@ -184,14 +166,13 @@ button {
   font-weight: bold;
   transition: background 0.3s ease, transform 0.2s ease;
 }
-button:hover {
+.quiz-container button:hover {
   background: var(--btn-hover);
   transform: translateY(-2px);
-  color: var(--btn-text);
 }
 
-/* Explanation */
-.explanation {
+/* Explanation - Scoped */
+.quiz-container .explanation {
   font-style: italic;
   margin-top: 10px;
   color: var(--text-muted);
@@ -200,8 +181,8 @@ button:hover {
   border-radius: 3px;
 }
 
-/* Progress Text */
-#progress {
+/* Progress Text - Scoped */
+.quiz-container #progress {
   text-align: center;
   font-weight: bold;
   color: var(--theme-accent);
@@ -209,12 +190,12 @@ button:hover {
   letter-spacing: 1px;
 }
 
-/* Mobile */
+/* Mobile - Scoped */
 @media (max-width: 600px) {
-  .topic-tabs {
+  .quiz-container .topic-tabs {
     flex-direction: column;
   }
-  .tab-btn {
+  .quiz-container .tab-btn {
     margin-right: 0;
     border-radius: 0;
   }
