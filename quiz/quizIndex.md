@@ -178,8 +178,8 @@ let currentQuiz = { type: '', questions: [], current: 0, userAnswers: [], score:
 async function loadQuizData() {
   try {
     const [mcqRes, perfRes] = await Promise.all([
-      fetch('./quizzes/mcq.txt'),
-      fetch('./quizzes/performance.txt')
+      fetch('quiz/quizzes/mcq.json'),
+      fetch('quiz/quizzes/performance.json')
     ]);
 
     const mcqData = await mcqRes.json();
