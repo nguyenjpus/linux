@@ -19,7 +19,7 @@ The server crawled, with `systemd-analyze` revealing:
 
 The `before_boot.svg` timeline shows the pain:
 
-<img src="../../assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 800px;">
+<img src="/assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes)" style="width:100%;max-width:800px;">
 
 **Key bottlenecks** (from `systemd-analyze blame`):
 
@@ -111,7 +111,3 @@ The unchanged userspace (45s) points to:
 ## Why It Matters
 
 This fix saved ~18 minutes per boot, boosting data center efficiency and showcasing Linux+ skills like `systemd` targets (`rescue.target`, `emergency.target`), mounts (`/boot`, `/boot/efi`), and GRUB (Questions 4, 5, 11, 12, 86). It’s proof I can handle real-world sysadmin challenges while prepping for certification.
-
-**Next up**: I’m exploring GRUB tweaks (Questions 2, 12, e.g., `nomodeset`) and optimizing `NetworkManager` to cut userspace time further.
-
-_Want to dive in?_ Clone my repo and open `assets/before_boot.svg` and `assets/after_boot.svg` in a browser. Share feedback on GitHub or my YouTube channel!
