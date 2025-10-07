@@ -5,9 +5,9 @@ date: 2025-10-06
 tags: [Troubleshooting, systemd]
 ---
 
-As part of my work in as a technician, I tackled a server with a brutal 23-minute boot time using skills from my CompTIA Linux+ prep (Sections 1–5: `systemd`, GRUB, troubleshooting). With `systemd-analyze plot` and `systemd-analyze blame`, I identified bottlenecks and cut boot time to ~5.5 minutes by updating BIOS/BMC firmware—a 75% improvement! Here’s how I did it, with visuals and tips for sysadmins.
+As a technician, I tackled a server at work with a brutal 23-minute boot time, applying skills from my CompTIA Linux+ prep (Sections 1–5: `systemd`, GRUB, troubleshooting). Using `systemd-analyze plot` and `systemd-analyze blame`, I pinpointed bottlenecks and slashed boot time to ~5.5 minutes by updating BIOS/BMC firmware—a 75% improvement! Here’s my journey, with visuals and tips for sysadmins.
 
-## The Problem: A 23-Minute Boot slog
+## The Problem: A 23-Minute Boot Slog
 
 The server crawled, with `systemd-analyze` revealing:
 
@@ -19,7 +19,7 @@ The server crawled, with `systemd-analyze` revealing:
 
 The `before_boot.svg` timeline shows the pain:
 
-<img src="/assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes)" style="width:100%;max-width:800px;">
+<img src="assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 800px;">
 
 **Key bottlenecks** (from `systemd-analyze blame`):
 
@@ -30,7 +30,7 @@ The `before_boot.svg` timeline shows the pain:
 
 **Skills applied**: This mirrors Linux+ Question 86 (networking, `systemd` mounts), Question 11 (hardware-related kernel issues), and Question 5 (initramfs delays). The 19m firmware phase screamed BIOS issues.
 
-**SVG note**: The timeline has empty space on the left (-1299s to 0s), requiring scrolling. I scaled it to 800px width for GitHub. Open in a browser to zoom into details.
+**SVG note**: The timeline has empty space on the left (-1299s to 0s), causing scrolling. I scaled it to 800px width. Open in a browser to zoom. To remove empty space, crop with `svgcrop.com` (upload, select from ~0s to 105s, download) or edit the SVG’s `viewBox` attribute in a text editor.
 
 ## The Fix: Firmware Update FTW
 
@@ -43,7 +43,7 @@ Using IPMI tools, I updated the BIOS/BMC firmware, dropping boot time to 5m 42.6
 
 The `after_boot.svg` shows the optimized flow:
 
-<img src="../../assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 800px;">
+<img src="assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 800px;">
 
 **Post-update bottlenecks** (from `systemd-analyze blame`):
 
@@ -58,7 +58,7 @@ The `after_boot.svg` shows the optimized flow:
 - Loader improved by 38s (faster disk I/O).
 - **Skills applied**: Cleaner initramfs unpacking (Question 5), GRUB handoff (Question 12), no `emergency.target` drops (Question 4).
 
-**SVG note**: Scaled to 800px to reduce scrolling (-234s to 108s). Use `svgcrop.com` to crop empty space or open in a browser to zoom.
+**SVG note**: Scaled to 800px to reduce scrolling (-234s to 108s). Crop with `svgcrop.com` (select ~0s to 108s) or edit `viewBox` for a cleaner view.
 
 ## How I Did It
 
@@ -88,13 +88,13 @@ The `after_boot.svg` shows the optimized flow:
    ...
   ```
 - **View SVGs**: Open in a browser (e.g., Chrome) to zoom into timelines.
-- **Fix scrolling**: Used `<img>` tags with `max-width: 800px`. For cleaner SVGs, crop with `svgcrop.com` or edit `viewBox` in a text editor (e.g., VSCode).
+- **Fix scrolling**: Used `<img>` tags with `max-width: 800px`. For cleaner SVGs, crop with `svgcrop.com` or edit the SVG’s `viewBox` (e.g., change `<svg viewBox="0 0 20000 1000">` to `10000 0 10000 1000` in a text editor).
 
 ## Next Steps: Optimizing Userspace
 
 The unchanged userspace (45s) points to:
 
-- **NetworkManager-wait-online.service** (30s): Check `/etc/NetworkManager/NetworkManager.conf` for misconfigured NICs or DNS. If not critical, disable it:
+- **NetworkManager-wait-online.service** (30s): Check `/etc/NetworkManager/NetworkManager.conf` for misconfigured NICs or DNS. If networking isn’t critical at boot, disable it:
   ```bash
   sudo systemctl disable NetworkManager-wait-online.service
   sudo systemctl restart NetworkManager
@@ -110,4 +110,8 @@ The unchanged userspace (45s) points to:
 
 ## Why It Matters
 
-This fix saved ~18 minutes per boot, boosting data center efficiency and showcasing Linux+ skills like `systemd` targets (`rescue.target`, `emergency.target`), mounts (`/boot`, `/boot/efi`), and GRUB (Questions 4, 5, 11, 12, 86). It’s proof I can handle real-world sysadmin challenges while prepping for certification.
+This fix saved ~18 minutes per boot, boosting data center efficiency and showcasing Linux+ skills like `systemd` targets (`rescue.target`, `emergency.target`), mounts (`/boot`, `/boot/efi`), and GRUB (Questions 4, 5, 11, 12, 86). It’s proof I can tackle real-world sysadmin challenges while prepping for certification.
+
+**Next up**: I’m exploring GRUB tweaks (Questions 2, 12, e.g., `nomodeset`) and optimizing `NetworkManager` to cut userspace time further. Check out my [YouTube channel](https://www.youtube.com/@yourchannel) or [LinkedIn](https://www.linkedin.com/in/yourprofile) for a video walkthrough of this fix!
+
+_Want to dive in?_ Clone my repo at [github.com/nguyenjpus/linux](https://github.com/nguyenjpus/linux) and open `assets/before_boot.svg` and `assets/after_boot.svg` in a browser. Share feedback in the issues tab or on my socials!

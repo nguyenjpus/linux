@@ -11,6 +11,3 @@ plugins:
   - jekyll-seo-tag
 github:
   is_project_page: true
-include:
-  - assets/before_boot.svg
-  - assets/after_boot.svg
