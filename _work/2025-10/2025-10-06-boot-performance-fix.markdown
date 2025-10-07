@@ -19,7 +19,7 @@ The server crawled, with `systemd-analyze` revealing:
 
 The `before_boot.svg` timeline shows the pain:
 
-<img src="assets/before_boot.svg" alt="Boot timeline showing a total duration of 23 minutes and 24 seconds. The timeline highlights key phases: firmware initialization taking 19 minutes and 4 seconds, loader phase lasting 2 minutes and 34 seconds, kernel phase lasting 59 seconds, and userspace phase lasting 45 seconds. The firmware phase dominates the timeline, indicating significant delays in BIOS/BMC initialization. The visual layout uses a horizontal bar chart with time markers, emphasizing the disproportionate length of the firmware phase compared to other phases. The environment is technical and data-focused, with a clear emphasis on identifying performance bottlenecks." style="width: 100%; max-width: 800px;">
+<img src="assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 800px;">
 
 **Key bottlenecks** (from `systemd-analyze blame`):
 
@@ -29,8 +29,6 @@ The `before_boot.svg` timeline shows the pain:
 - **Note**: `systemd-networkd-wait-online.service` wasn’t used (system uses `NetworkManager`). `fwupd.service` wasn’t active; firmware delays were pre-OS (BIOS/BMC).
 
 **Skills applied**: This mirrors Linux+ Question 86 (networking, `systemd` mounts), Question 11 (hardware-related kernel issues), and Question 5 (initramfs delays). The 19m firmware phase screamed BIOS issues.
-
-**SVG note**: The timeline has empty space on the left (-1299s to 0s), causing scrolling. I scaled it to 800px width. Open in a browser to zoom. To remove empty space, crop with `svgcrop.com` (upload, select from ~0s to 105s, download) or edit the SVG’s `viewBox` attribute in a text editor.
 
 ## The Fix: Firmware Update FTW
 
@@ -43,7 +41,7 @@ Using IPMI tools, I updated the BIOS/BMC firmware, dropping boot time to 5m 42.6
 
 The `after_boot.svg` shows the optimized flow:
 
-<img src="assets/after_boot.svg" alt="Optimized boot timeline showing reduced boot time to 5 minutes and 42 seconds. The timeline highlights key phases: firmware initialization (1 minute 57 seconds), loader (1 minute 56 seconds), kernel (1 minute 2 seconds), and userspace (45 seconds). The firmware phase is significantly shorter compared to the previous timeline, reflecting the impact of the BIOS/BMC firmware update. The visual layout uses a horizontal bar chart with time markers, emphasizing the improved efficiency across phases. The environment is clean and technical, with a focus on data clarity and performance improvement." style="width: 100%; max-width: 800px;">
+<img src="assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 800px;">
 
 **Post-update bottlenecks** (from `systemd-analyze blame`):
 
@@ -57,8 +55,6 @@ The `after_boot.svg` shows the optimized flow:
 - Firmware update saved ~17 minutes by speeding up hardware init (e.g., NVMe drives `nvme0n1`–`nvme5n1`, SAS drives `sda`–`sdm`).
 - Loader improved by 38s (faster disk I/O).
 - **Skills applied**: Cleaner initramfs unpacking (Question 5), GRUB handoff (Question 12), no `emergency.target` drops (Question 4).
-
-**SVG note**: Scaled to 800px to reduce scrolling (-234s to 108s). Crop with `svgcrop.com` (select ~0s to 108s) or edit `viewBox` for a cleaner view.
 
 ## How I Did It
 
@@ -88,7 +84,6 @@ The `after_boot.svg` shows the optimized flow:
    ...
   ```
 - **View SVGs**: Open in a browser (e.g., Chrome) to zoom into timelines.
-- **Fix scrolling**: Used `<img>` tags with `max-width: 800px`. For cleaner SVGs, crop with `svgcrop.com` or edit the SVG’s `viewBox` (e.g., change `<svg viewBox="0 0 20000 1000">` to `10000 0 10000 1000` in a text editor).
 
 ## Next Steps: Optimizing Userspace
 
