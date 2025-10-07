@@ -7,187 +7,187 @@
       "initrd (hd0,gpt1)/initrd.img",
       "boot"
     ],
-    "explanation": "The correct sequence is:\n1. `ls (hd0,gpt1)`: This command **inspects** the contents of the partition to ensure the kernel files exist and identifies the root partition.\n2. `linux (hd0,gpt1)/vmlinuz root=/dev/sda1 ro`: The `linux` command **loads the kernel** (`vmlinuz`) from the specified partition and passes the necessary **boot parameters** (`root=/dev/sda1 ro`). `ro` mounts the root filesystem as read-only initially.\n3. `initrd (hd0,gpt1)/initrd.img`: This command **loads the initial RAM disk** (`initrd.img` or `initramfs`).\n4. `boot`: This command **starts the boot process** using the loaded kernel and initrd. The other options contain errors like using `start` or `run` instead of `boot`, or incorrectly swapping the kernel and initrd paths."
+    "explanation": "The correct sequence is:\n1. ls (hd0,gpt1): This command inspects the contents of the partition to ensure the kernel files exist and identifies the root partition. In a GRUB rescue prompt, this helps verify that the partition contains the expected files like /vmlinuz and /initrd.img, which are crucial for booting. Without this step, you might attempt to load from the wrong partition, leading to boot failure.\n2. linux (hd0,gpt1)/vmlinuz root=/dev/sda1 ro: The linux command loads the kernel (vmlinuz) from the specified partition and passes the necessary boot parameters (root=/dev/sda1 ro). Here, root=/dev/sda1 tells the kernel where the root filesystem is located, and ro mounts the root filesystem as read-only initially to prevent corruption during early boot checks. This parameter is essential because the kernel needs to know the root device to continue the boot process.\n3. initrd (hd0,gpt1)/initrd.img: This command loads the initial RAM disk (initrd.img or initramfs), which contains drivers and scripts needed to mount the real root filesystem, especially if it's on encrypted or complex storage like LVM or RAID. Skipping this could result in the kernel being unable to access storage devices.\n4. boot: This command starts the boot process using the loaded kernel and initrd. It hands control over to the kernel. The other options contain errors like using start or run instead of boot (which are not valid GRUB commands), or incorrectly swapping the kernel and initrd paths, which would load the wrong file first and cause a kernel panic or failure to initialize."
   },
   {
     "question": "A new RISC-V server fails to complete POST because the kernel module for a RAID HBA is missing from initramfs. What utility will rebuild an initramfs that includes the correct driver?",
     "expected": ["dracut"],
-    "explanation": "**`dracut`** is the modern utility (used in Fedora, RHEL, CentOS, SLES, etc.) for creating an **initramfs** (initial RAM filesystem) image, ensuring it contains all necessary modules (like RAID HBA drivers) for the system to mount the root filesystem. While `mkinitrd` is an older, more basic utility that serves a similar purpose, `dracut` is the contemporary and more sophisticated solution for automatically including required drivers."
+    "explanation": "dracut is the modern utility (used in Fedora, RHEL, CentOS, SLES, etc.) for creating an initramfs (initial RAM filesystem) image, ensuring it contains all necessary modules (like RAID HBA drivers) for the system to mount the root filesystem. To use it, you typically run dracut --force to rebuild the current initramfs, or specify options like --add-drivers <module> to include specific drivers. This is crucial on architectures like RISC-V where hardware support might be less common, and missing drivers prevent booting past POST. While mkinitrd is an older, more basic utility that serves a similar purpose on some legacy systems, dracut is the contemporary and more sophisticated solution for automatically including required drivers, handling dependencies, and supporting features like UEFI. Using the wrong tool could result in an incomplete initramfs, leading to persistent boot issues."
   },
   {
     "question": "After compiling a custom kernel, which file shows the full kernel boot command line parameters during the current session?",
     "expected": ["/proc/cmdline"],
-    "explanation": "The file **/proc/cmdline** is a **pseudo-file** in the **/proc** filesystem that displays the **exact command-line parameters** passed to the kernel at boot time (e.g., from GRUB). This is a standard and crucial source of runtime information in Linux."
+    "explanation": "The file /proc/cmdline is a pseudo-file in the /proc filesystem that displays the exact command-line parameters passed to the kernel at boot time (e.g., from GRUB). This is a standard and crucial source of runtime information in Linux, useful for verifying custom parameters like debug flags or module options after a kernel compile. For example, cat /proc/cmdline might output something like 'BOOT_IMAGE=/vmlinuz-5.10.0 root=/dev/sda1 ro quiet'. Other files like /proc/version show kernel version but not parameters, and dmesg might log some but not the full cmdline reliably. Always check this file post-boot to ensure your custom kernel is using the intended settings."
   },
   {
     "question": "You must unload a misbehaving USB storage module (usb_storage) even though it is currently in use. Which sequence safely removes it?",
     "expected": ["umount /media/usb; modprobe -r usb_storage"],
-    "explanation": "To safely remove a module like `usb_storage` that handles mounted filesystems, you must first **unmount all filesystems** using it. The **`umount`** command is essential for this. Only after unmounting can you use **`modprobe -r`** (or `rmmod`) to safely **unload the kernel module**. The system will not allow the module to be unloaded while a filesystem is mounted on it."
+    "explanation": "To safely remove a module like usb_storage that handles mounted filesystems, you must first unmount all filesystems using it. The umount command is essential for this, as it detaches the filesystem (e.g., /media/usb) and ensures no processes are accessing it, preventing data corruption. Only after unmounting can you use modprobe -r (or rmmod) to safely unload the kernel module. The -r flag removes the module and any dependent ones if possible. If the module is still in use (e.g., due to open files), the unload will fail with an error, so always check with lsmod | grep usb_storage afterward. Forcing unload with rmmod -f is dangerous and could lead to system instability or data loss, so it's not recommended unless absolutely necessary."
   },
   {
     "question": "The lsblk output shows /dev/sdb has no partitions. Create an MBR layout with a single primary partition, mark it bootable, and then verify. What command sequence accomplishes this entirely from the shell?",
     "expected": ["fdisk /dev/sdb → n p 1 → w; fdisk -l /dev/sdb"],
-    "explanation": "**`fdisk`** is the classic Linux utility used to manage **MBR (Master Boot Record)** and GPT partition tables. The sequence is:\n1. `fdisk /dev/sdb`: Start fdisk for the device.\n2. `n p 1`: Create a **n**ew **p**rimary partition, number **1**. (A bootable flag is usually set with the 'a' command in fdisk, but among the options, this is the closest correct one for partition creation and verification.)\n3. `w`: **Write** the changes and exit.\n4. `fdisk -l /dev/sdb`: **Verify** the new partition table. The option using `gdisk` is for GPT, and the `parted` option is for GPT and doesn't explicitly mark the partition as bootable (though it is a valid modern partitioning tool). The `sfdisk` option is for scripting and dumping/restoring tables."
+    "explanation": "fdisk is the classic Linux utility used to manage MBR (Master Boot Record) and GPT partition tables. The sequence is:\n1. fdisk /dev/sdb: Start fdisk for the device in interactive mode.\n2. n p 1: Create a new primary partition, number 1. This defaults to using the entire disk unless specified otherwise.\n3. w: Write the changes and exit, which applies the partition table to the disk.\n4. fdisk -l /dev/sdb: Verify the new partition table, showing the new partition (e.g., /dev/sdb1). To mark it bootable, you would actually use a in fdisk to toggle the boot flag on partition 1 before writing. The other options like gdisk are for GPT (not MBR), parted is more modern but the syntax here is for GPT, and sfdisk is for non-interactive scripting but requires careful input to avoid data loss."
   },
   {
     "question": "A production VG called vgdata is 90% full. Add /dev/sdd2 to the existing volume group. Which single command does this?",
     "expected": ["vgextend vgdata /dev/sdd2"],
-    "explanation": "The **`vgextend`** command is used to **add one or more physical volumes (PVs)** (like `/dev/sdd2`) to an existing **Volume Group (VG)** (`vgdata`), increasing the total available storage space within that VG. Before this step, `/dev/sdd2` must have been initialized as a PV using `pvcreate`."
+    "explanation": "The vgextend command is used to add one or more physical volumes (PVs) (like /dev/sdd2) to an existing Volume Group (VG) (vgdata), increasing the total available storage space within that VG. Before this step, /dev/sdd2 must have been initialized as a PV using pvcreate /dev/sdd2 to label it for LVM use. After vgextend, you can check with vgdisplay vgdata to see the increased free space. This is a safe operation as it doesn't affect existing data, but always back up before storage changes. Alternatives like vgcreate would create a new VG, not extend, and lvextend extends LVs, not VGs."
   },
   {
     "question": "You must grow logical volume lvlogs in vgdata by 5 GiB and resize its ext filesystem in one step. Which command meets the requirement?",
     "expected": [
       "lvextend -l +5G /dev/vgdata/lvlogs; resize2fs /dev/vgdata/lvlogs"
     ],
-    "explanation": "The correct command to perform this action in two separate steps, which is the most common practice when the filesystem type isn't automatically resized by the LVM tool (like with ext* filesystems), is:\n1. **`lvextend -L +5G /dev/vgdata/lvlogs`**: Extends the Logical Volume (LV) by 5 Gigabytes.\n2. **`resize2fs /dev/vgdata/lvlogs`**: Resizes the ext* filesystem *on* the extended LV to match the new LV size. While some tools like `lvresize` or `lvextend` can do this in one step with an option like `-r` or `--resizefs` (if available), the options given don't use the correct syntax for a single-step operation, making the two-step process the only correct answer presented."
+    "explanation": "The correct command to perform this action in two separate steps, which is the most common practice when the filesystem type isn't automatically resized by the LVM tool (like with ext* filesystems), is:\n1. lvextend -L +5G /dev/vgdata/lvlogs: Extends the Logical Volume (LV) by 5 Gigabytes. The -L +5G specifies the amount to add, and it's safer to do this first to avoid filesystem corruption.\n2. resize2fs /dev/vgdata/lvlogs: Resizes the ext* filesystem on the extended LV to match the new LV size. Without a size argument, it expands to fill the LV. For ext filesystems, this must be done while the filesystem is unmounted or online if supported (ext4 allows online grow). While some tools like lvresize or lvextend can do this in one step with an option like -r or --resizefs (if available), the options given don't use the correct syntax for a single-step operation, making the two-step process the only correct answer presented. Always run fsck before resizing if possible."
   },
   {
     "question": "After a disk failure, /proc/mdstat shows md0 in degraded mode with one failed drive. Which command re-adds the new replacement /dev/sdc1?",
     "expected": ["mdadm --add /dev/md0 /dev/sdc1"],
-    "explanation": "The **`mdadm`** utility is used for managing Linux **software RAID (MD arrays)**. To replace a failed drive, the **`--add`** (or `-a`) action is used. The command syntax is `mdadm --add <array_device> <component_device>`. This command adds the new replacement disk (`/dev/sdc1`) to the array (`/dev/md0`), initiating a rebuild (resync)."
+    "explanation": "The mdadm utility is used for managing Linux software RAID (MD arrays). To replace a failed drive, the --add (or -a) action is used. The command syntax is mdadm --add <array_device> <component_device>. This command adds the new replacement disk (/dev/sdc1) to the array (/dev/md0), initiating a rebuild (resync). First, ensure the failed drive is removed with mdadm /dev/md0 --remove failed or mark it faulty if needed. Monitor the rebuild with cat /proc/mdstat. This process can take time depending on disk size, and the array remains usable but degraded until complete."
   },
   {
     "question": "A user accidentally removed the nofail mount option for an NFS share in /etc/fstab, causing the server to hang on boot if the NAS is offline. Which mount option combination prevents this and enables background retries?",
     "expected": ["nofail,x-systemd.automount"],
-    "explanation": "The **`nofail`** option prevents the boot process from halting if the mount fails. The **`x-systemd.automount`** option ensures that the mount is handled by **systemd's automounter**, meaning the actual mount attempt is deferred until the mount point is first accessed. This prevents the hang during initial boot, effectively enabling background retries by systemd until the resource becomes available. The `bg` (background) option is also relevant for NFS but is typically combined with a timeout and is less modern/robust than using systemd's automount feature."
+    "explanation": "The nofail option prevents the boot process from halting if the mount fails. The x-systemd.automount option ensures that the mount is handled by systemd's automounter, meaning the actual mount attempt is deferred until the mount point is first accessed. This prevents the hang during initial boot, effectively enabling background retries by systemd until the resource becomes available. Add these to the options field in /etc/fstab, e.g., 'server:/share /mnt/nfs nfs defaults,nofail,x-systemd.automount 0 0'. The bg (background) option is also relevant for NFS but is typically combined with a timeout and is less modern/robust than using systemd's automount feature, as it can still cause delays if not tuned properly."
   },
   {
     "question": "Identify the command that displays the inode usage on the root filesystem in human-readable format.",
     "expected": ["df -ih /"],
-    "explanation": "The **`df`** command reports filesystem disk space usage. The options are:\n- **`-i`**: Displays **inode information** instead of block usage.\n- **`-h`**: Displays output in **human-readable** format (e.g., 10K, 20M, 5G).\n- **`/`**: Specifies the target filesystem, which is the **root filesystem**."
+    "explanation": "The df command reports filesystem disk space usage. The options are:\n- -i: Displays inode information instead of block usage, showing total inodes, used, free, and percentage.\n- -h: Displays output in human-readable format (e.g., 10K, 20M, 5G).\n- /: Specifies the target filesystem, which is the root filesystem. This is useful for diagnosing issues like running out of inodes even if space is available, common with many small files. Alternatives like tune2fs show total inodes but not usage, and df -h shows blocks, not inodes."
   },
   {
     "question": "The DNS resolver intermittently returns old addresses. Which utility fushes and rebuilds the systemd-resolved cache without rebooting?",
     "expected": ["resolvectl flush-caches"],
-    "explanation": "The **`resolvectl`** utility is the command-line client for **`systemd-resolved`**. The **`flush-caches`** subcommand specifically clears the local DNS cache managed by the service, forcing it to fetch fresh records."
+    "explanation": "The resolvectl utility is the command-line client for systemd-resolved. The flush-caches subcommand specifically clears the local DNS cache managed by the service, forcing it to fetch fresh records from upstream DNS servers. This resolves stale cache issues without restarting the service or rebooting. Run systemctl status systemd-resolved to confirm it's active. Alternatives like systemctl restart systemd-resolved also clear cache but disrupt ongoing resolutions."
   },
   {
     "question": "You need to add an A record override for test.lab into the static hosts file. Which line is valid?",
     "expected": ["10.10.5.20 test.lab"],
-    "explanation": "The standard format for entries in the `/etc/hosts` file is **`IP_ADDRESS HOSTNAME [ALIASES]`**. The IP address **must come first**, followed by one or more hostnames or aliases separated by spaces. The entry `10.10.5.20 test.lab` correctly maps the IP to the hostname."
+    "explanation": "The standard format for entries in the /etc/hosts file is IP_ADDRESS HOSTNAME [ALIASES]. The IP address must come first, followed by one or more hostnames or aliases separated by spaces. The entry 10.10.5.20 test.lab correctly maps the IP to the hostname, overriding DNS for local resolution. This is useful for testing or when DNS is unreliable. Invalid formats like hostname first would not parse correctly, and IPv6 would use :: notation."
   },
   {
     "question": "A Debian system uses Netplan with NetworkManager renderer. Apply a new YAML config without rebooting and roll back automatically if connectivity is lost. Which command does this?",
     "expected": ["netplan try"],
-    "explanation": "The **`netplan try`** command is designed for safely testing new network configurations. It **applies** the new configuration and starts a **timer**. If the user doesn't confirm the change within the timer (implying the change broke connectivity, preventing confirmation), Netplan automatically **rolls back** to the previous working configuration."
+    "explanation": "The netplan try command is designed for safely testing new network configurations. It applies the new configuration and starts a timer (default 120 seconds). If the user doesn't confirm the change within the timer (implying the change broke connectivity, preventing confirmation), Netplan automatically rolls back to the previous working configuration. This is ideal for remote systems. Use netplan apply for permanent changes without rollback. On Debian with NetworkManager renderer, ensure the YAML is in /etc/netplan/."
   },
   {
     "question": "An SSH session drops after five minutes. Which iptables rule allows established connections to remain open?",
     "expected": ["-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT"],
-    "explanation": "To maintain connections, a firewall must **ACCEPT** packets belonging to existing (**ESTABLISHED**) connections or new connections related to an existing one (**RELATED**). This is typically one of the first rules in the `INPUT` chain, using the **`state`** or **`conntrack`** module to track connection status."
+    "explanation": "To maintain connections, a firewall must ACCEPT packets belonging to existing (ESTABLISHED) connections or new connections related to an existing one (RELATED). This is typically one of the first rules in the INPUT chain, using the state or conntrack module to track connection status. Without this, stateful connections like SSH time out. Add it with iptables -A INPUT ..., and save with iptables-save. Other rules might drop or reject, but this ensures persistence."
   },
   {
     "question": "Diagnose why interface eth0 fails to obtain DHCP. Which single iproute2 command will show current DHCP leases managed by systemd-networkd?",
     "expected": ["networkctl status eth0"],
-    "explanation": "The **`networkctl`** utility is the control interface for **`systemd-networkd`**. The **`status <interface>`** command provides a detailed summary, including the current network status, IP addresses, and crucially, any **DHCP lease information** obtained for that interface."
+    "explanation": "The networkctl utility is the control interface for systemd-networkd. The status <interface> command provides a detailed summary, including the current network status, IP addresses, and crucially, any DHCP lease information obtained for that interface, such as lease time, server, and acquired IP. This helps diagnose DHCP failures like no offer received. Use systemctl restart systemd-networkd if needed. Alternatives like ip addr show IP but not lease details."
   },
   {
     "question": "In bash, replace every instance of \"dev\" with \"prod\" in file.txt in-place, writing errors to err.log. Which command meets the goal?",
     "expected": ["sed -i 's/dev/prod/g' file.txt 2> err.log"],
-    "explanation": "This command uses:\n- **`sed`** for stream editing.\n- **`-i`**: Performs the edit **in-place** (modifying the original file).\n- **`'s/dev/prod/g'`**: The substitution command: replace ('s') 'dev' with 'prod', **globally** ('g') on each line.\n- **`file.txt`**: The input file.\n- **`2> err.log`**: **Redirects standard error (file descriptor 2)**, where `sed` would print errors, to the file `err.log`."
+    "explanation": "This command uses:\n- sed for stream editing, ideal for text replacement.\n- -i: Performs the edit in-place (modifying the original file), backing up if extension specified (e.g., -i.bak).\n- 's/dev/prod/g': The substitution command: replace ('s') 'dev' with 'prod', globally ('g') on each line to catch all instances.\n- file.txt: The input file.\n- 2> err.log: Redirects standard error (file descriptor 2), where sed would print errors like permission issues, to the file err.log. This ensures the operation is silent on success but logs problems."
   },
   {
     "question": "Write a one-liner that prints the second column of /etc/passwd sorted uniquely and counts occurrences. Which is correct?",
     "expected": ["cut -d: -f2 /etc/passwd | sort | uniq -c"],
-    "explanation": "This sequence is correct:\n1. **`cut -d: -f2 /etc/passwd`**: Uses `cut` to select the **second field (`-f2`)** from `/etc/passwd`, using the **colon (`:`) as the delimiter (`-d:`)**.\n2. **`| sort`**: Pipes the output and **sorts** it. `uniq` only works correctly on sorted input.\n3. **`| uniq -c`**: Pipes the sorted output to `uniq`, which finds unique lines and prints the **count (`-c`)** of each occurrence."
+    "explanation": "This sequence is correct:\n1. cut -d: -f2 /etc/passwd: Uses cut to select the second field (-f2) from /etc/passwd, using the colon (:) as the delimiter (-d:). This extracts UIDs.\n2. | sort: Pipes the output and sorts it alphabetically or numerically. uniq requires sorted input to count consecutive duplicates.\n3. | uniq -c: Pipes the sorted output to uniq, which removes duplicates and prints the count (-c) of each occurrence, e.g., how many users share a UID. This is useful for auditing."
   },
   {
     "question": "Create a here-document that appends three lines to /etc/motd in one command.",
     "expected": ["tee -a /etc/motd <<'EOF'\nLinel\nLine2\nLine3\nEOF"],
-    "explanation": "This uses a **here-document** (`<<'EOF'`) to supply multiline input to the **`tee`** command. `tee` reads from standard input and writes to both standard output and the file specified (`/etc/motd`). The **`-a`** option tells `tee` to **append** to the file. Using single quotes around the EOF delimiter (`'EOF'`) prevents shell variable expansion within the document, ensuring the lines are written literally."
+    "explanation": "This uses a here-document (<<'EOF') to supply multiline input to the tee command. tee reads from standard input and writes to both standard output and the file specified (/etc/motd). The -a option tells tee to append to the file instead of overwriting. Using single quotes around the EOF delimiter ('EOF') prevents shell variable expansion within the document, ensuring the lines are written literally. This is efficient for adding MOTD messages without editing the file manually."
   },
   {
     "question": "Which command shows only the sticky bit files in /tmp recursively?",
     "expected": ["find /tmp -type f -perm -1000"],
-    "explanation": "The **`find`** command locates files based on criteria:\n- **`/tmp`**: The starting directory.\n- **`-type f`**: Restricts the search to **files**.\n- **`-perm -1000`**: Matches files where **ALL** the specified permission bits are set. The octal `1000` represents the **sticky bit** (which for directories prevents users from deleting files they don't own, but for files it's often ignored or used in a special context, though `find` still matches the permission bit if set). The other options either use the wrong octal (e.g., `2000` is the S-GID bit) or the wrong expression (e.g., `ott` is not a standard `find` permission expression)."
+    "explanation": "The find command locates files based on criteria:\n- /tmp: The starting directory, searching recursively by default.\n- -type f: Restricts the search to regular files, excluding directories.\n- -perm -1000: Matches files where at least the sticky bit (1000 in octal) is set. The sticky bit on files is rare but can be used for special permissions; on directories like /tmp, it prevents deletion of others' files. Other perms like 2000 are setgid, not sticky."
   },
   {
     "question": "Compress /var/log/* into /backup/logs.tgz using maximum gzip compression while preserving permissions.",
     "expected": ["tar -czpf /backup/logs.tgz /var/log"],
-    "explanation": "The `tar` command is used for archiving and compression:\n- **`-c`**: **Create** a new archive.\n- **`-z`**: **Compress** the archive using `gzip` (level 6 compression by default).\n- **`-p`**: **Preserve permissions** (and ownership/timestamps).\n- **`-f`**: Specifies the **filename** of the archive.\n- **`/backup/logs.tgz`**: The output archive file.\n- **`/var/log`**: The directory to archive. (Note: using `9` in a flag like `-czf9` to specify max compression level is not a standard portable syntax, and `-p` is the correct flag to preserve permissions)."
+    "explanation": "The tar command is used for archiving and compression:\n- -c: Create a new archive.\n- -z: Compress the archive using gzip (level 6 by default; for max, use GZIP=-9 but not in tar flags).\n- -p: Preserve permissions (and ownership/timestamps), important for logs.\n- -f: Specifies the filename of the archive.\n- /backup/logs.tgz: The output archive file.\n- /var/log: The directory to archive, including subdirs. To achieve max compression, set env var GZIP=-9 before running."
   },
   {
     "question": "Mirror /etc to a backup location while deleting files removed from the source, skipping device files. Which rsync command accomplishes this?",
     "expected": ["rsync -aAXH --delete /etc/ /backup/etc"],
-    "explanation": "The **`rsync`** command is used for efficient synchronization:\n- **`-a` (archive)**: Combines `-rlptgoD` (recursive, links, permissions, times, group, owner, device/special files).\n- **`--delete`**: **Deletes files in the destination** that no longer exist in the source.\n- **`/etc/`**: The **trailing slash** on the source means 'copy the *contents* of this directory', which is standard for mirroring.\n- **`-A` (ACLs)**, **`-X` (Extended Attributes)**, and **`-H` (hard links)** are commonly added to make a more complete mirror.\n- The `-D` part of `-a` (device/special files) is typically fine for `/etc/` and doesn't explicitly skip devices. Option 3 is close, but skipping device files is usually not required for `/etc`."
+    "explanation": "The rsync command is used for efficient synchronization:\n- -a (archive): Combines -rlptgoD (recursive, links, permissions, times, group, owner, device/special files).\n- --delete: Deletes files in the destination that no longer exist in the source, for true mirroring.\n- /etc/: The trailing slash copies contents, not the dir itself.\n- -A (ACLs), -X (Extended Attributes), -H (hard links) preserve advanced metadata. To skip devices, add --exclude=/dev/* if needed, but -a includes them safely for /etc."
   },
   {
     "question": "A corrupted ext filesystem will not mount. Which fsck invocation forces a full check and attempts automatic repair?",
     "expected": ["fsck -f -y /dev/vgdata/lvhome"],
-    "explanation": "For `ext` filesystems, the general **`fsck`** utility is used, which calls the specific `e2fsck` program:\n- **`-f`**: Forces a **full check** even if the filesystem seems clean.\n- **`-y`**: **Assumes 'yes'** to all questions, allowing for **automatic repair** without interactive prompts. This is the fastest way to attempt repair, though it carries a risk of data loss. (Note: `xfs_repair` is for XFS filesystems.)"
+    "explanation": "For ext filesystems, the general fsck utility is used, which calls the specific e2fsck program:\n- -f: Forces a full check even if the filesystem seems clean, scanning all inodes.\n- -y: Assumes 'yes' to all questions, allowing for automatic repair without interactive prompts. This is useful for scripts but risky; always back up data. Run on unmounted FS. For XFS, use xfs_repair."
   },
   {
     "question": "Restore an LVM metadata backup from /etc/lvm/archive to recover an accidentally removed LV. Which command initiates this?",
     "expected": ["vgcfgrestore -y vgdata"],
-    "explanation": "The **`vgcfgrestore`** command is used to **restore the metadata** for a Volume Group (`vgdata`) from a backup file located in `/etc/lvm/archive`. Once the VG metadata is restored, the Logical Volume (LV) structure will be brought back, allowing the recovered LV to be activated again. The **`-y`** flag confirms the restore operation."
+    "explanation": "The vgcfgrestore command is used to restore the metadata for a Volume Group (vgdata) from a backup file located in /etc/lvm/archive. List backups with vgcfgrestore -l vgdata, then restore a specific one with --file. The -y flag confirms the restore operation. After, use lvchange -ay to activate LVs. This recovers structure but not data if overwritten."
   },
   {
     "question": "You must perform an offline cold backup of /dev/sdb using ddrescue with a log file. Which command is correct?",
     "expected": ["ddrescue /dev/sdb /backup/disk.img /backup/disk.log"],
-    "explanation": "The correct syntax for **`ddrescue`** is **`ddrescue <input_file> <output_file> <logfile>`**.\n- **`/dev/sdb`**: The **input device** (the source disk).\n- **`/backup/disk.img`**: The **output image** (the destination file).\n- **`/backup/disk.log`**: The **log file**, which tracks the recovery process and allows for resuming an interrupted operation."
+    "explanation": "The correct syntax for ddrescue is ddrescue <input_file> <output_file> <logfile>.\n- /dev/sdb: The input device (the source disk), unmounted for cold backup.\n- /backup/disk.img: The output image (the destination file).\n- /backup/disk.log: The log file, which tracks the recovery process and allows for resuming an interrupted operation. ddrescue is safer than dd for faulty disks as it skips bad sectors first."
   },
   {
     "question": "On KVM, create a qcow2 disk of 20 GiB with preallocation metadata. Which command does this?",
     "expected": [
       "qemu-img create -f qcow2 -o preallocation=metadata disk.qcow2 20G"
     ],
-    "explanation": "The **`qemu-img create`** command is used to create virtual disk images:\n- **`-f qcow2`**: Specifies the **format** as QCOW2.\n- **`-o preallocation=metadata`**: Sets a **format-specific option** to preallocate the metadata blocks, which can improve performance for QCOW2 disks.\n- **`disk.qcow2`**: The **filename** for the new image.\n- **`20G`**: The **size** of the new disk image."
+    "explanation": "The qemu-img create command is used to create virtual disk images:\n- -f qcow2: Specifies the format as QCOW2, which supports snapshots.\n- -o preallocation=metadata: Sets a format-specific option to preallocate the metadata blocks, improving initial performance by avoiding on-the-fly allocation.\n- disk.qcow2: The filename for the new image.\n- 20G: The size of the new disk image. This creates a sparse file that grows as used."
   },
   {
     "question": "Launch a headless Debian 12 VM with 4 GiB RAM and two vCPUs using virt-install and an ISO on /var/lib/libvirt/images. Which single-line command is valid?",
     "expected": [
       "virt-install --name deb12 --memory 4096 --vcpus 2 --disk path=/var/lib/libvirt/images/deb12.qcow2,size=25 -cdrom /var/lib/libvirt/images/debian12.iso -graphics none --os-variant debian12"
     ],
-    "explanation": "**`virt-install`** is the standard tool for provisioning new VMs in KVM/libvirt. This command uses the correct syntax and options:\n- **`--name`, `--memory`, `--vcpus`**: Standard VM configuration.\n- **`--disk path=...,size=25`**: Creates a 25 GiB QCOW2 disk.\n- **`-cdrom /.../debian12.iso`**: Specifies the installation media.\n- **`-graphics none`**: Sets up a **headless** (no graphical console) VM.\n- **`--os-variant debian12`**: Provides hints to libvirt for optimal configuration."
+    "explanation": "virt-install is the standard tool for provisioning new VMs in KVM/libvirt. This command uses the correct syntax and options:\n- --name, --memory, --vcpus: Standard VM configuration, with memory in MiB.\n- --disk path=...,size=25: Creates a 25 GiB QCOW2 disk automatically.\n- -cdrom /.../debian12.iso: Attaches the ISO for installation.\n- -graphics none: Sets up a headless VM with serial console.\n- --os-variant debian12: Optimizes for Debian, like virtio drivers. Run as root or with libvirt access."
   },
   {
     "question": "Display which physical CPUs, cores, and threads are available to KVM guests. Which command achieves this?",
     "expected": ["lscpu"],
-    "explanation": "The **`lscpu`** command (List CPU) displays detailed information about the CPU architecture. It shows the number of **sockets (physical CPUs)**, **cores per socket**, and **threads per core**. This provides the exact physical topology that KVM uses to expose resources to its guests."
+    "explanation": "The lscpu command (List CPU) displays detailed information about the CPU architecture. It shows the number of sockets (physical CPUs), cores per socket, and threads per core (hyper-threading). This provides the exact physical topology that KVM uses to expose resources to its guests, helping allocate vCPUs efficiently. Output includes NUMA nodes too. Alternatives like cat /proc/cpuinfo are raw but less summarized."
   },
   {
     "question": "Convert a raw image rawdisk.img to qcow2 format with compression.",
     "expected": ["qemu-img convert -O qcow2 -c rawdisk.img disk.qcow2"],
-    "explanation": "The **`qemu-img convert`** command handles format conversions:\n- **`-O qcow2`**: Specifies the **output format** as QCOW2.\n- **`-c`**: Enables **compression** on the output QCOW2 image.\n- **`rawdisk.img`**: The **input file** (source).\n- **`disk.qcow2`**: The **output file** (destination)."
+    "explanation": "The qemu-img convert command handles format conversions:\n- -O qcow2: Specifies the output format as QCOW2.\n- -c: Enables compression on the output QCOW2 image, reducing size but may affect performance.\n- rawdisk.img: The input file (source).\n- disk.qcow2: The output file (destination). This copies data, so ensure space. For large images, add -p for progress."
   },
   {
     "question": "A VM snapshot is consuming space. Merge the snapshot back to the base image and delete it using virsh. Which sequence is correct?",
     "expected": ["virsh blockcommit vm1 vda --active --pivot"],
-    "explanation": "The correct method for **merging a 'live' external disk snapshot** (a separate QCOW2 file) back into its base image is **`virsh blockcommit`**. The options mean:\n- **`vm1 vda`**: Target VM and the disk to commit.\n- **`--active`**: Commit the changes while the VM is running.\n- **`--pivot`**: Atomically switches the VM to use the base image (which now contains the committed data) and deletes the snapshot file."
+    "explanation": "The correct method for merging a 'live' external disk snapshot (a separate QCOW2 file) back into its base image is virsh blockcommit. The options mean:\n- vm1 vda: Target VM and the disk to commit (vda is typical for first disk).\n- --active: Commit the changes while the VM is running, minimizing downtime.\n- --pivot: Atomically switches the VM to use the base image (which now contains the committed data) and deletes the snapshot file. List snapshots with virsh snapshot-list vm1. This frees space but is irreversible."
   },
   {
     "question": "Use awk to sum the RSS memory usage (column 6) of all apache processes from ps aux output. Which is correct?",
     "expected": ["ps aux | awk '/[a]pache/ {sum+=$6} END {print sum}'"],
-    "explanation": "This uses `awk` for processing piped data:\n1. **`ps aux`**: Generates the process list (RSS is column 6).\n2. **`| awk '...'`**: Pipes the output to `awk`.\n3. **`/[a]pache/`**: A regular expression that matches lines containing 'apache'. The brackets `[a]` cleverly prevent `awk` from matching the `grep` or `awk` command itself (a common trick).\n4. **`{sum+=$6}`**: For every line that matches, it adds the value of the 6th field (`$6` - RSS) to the `sum` variable.\n5. **`END {print sum}`**: After processing all lines, it prints the final total sum."
+    "explanation": "This uses awk for processing piped data:\n1. ps aux: Generates the process list (RSS is column 6 in KiB).\n2. | awk '...': Pipes the output to awk for filtering and calculation.\n3. /[a]pache/: A regular expression that matches lines containing 'apache'. The brackets [a] prevent matching the awk process itself.\n4. {sum+=$6}: Adds the RSS value to sum for matching lines.\n5. END {print sum}: Prints the total after all lines. This helps monitor memory usage."
   },
   {
-    "question": "Create an alias cls that clears the screen and prints \"Ready\" on one line. Which .bashrc entry works?",
+    "question": "Create an alias cls that clears the screen and prints 'Ready' on one line. Which .bashrc entry works?",
     "expected": ["alias cls='clear; echo Ready'"],
-    "explanation": "An **alias** definition must use single or double quotes to contain the command string. The semicolon (`;`) is the standard shell command separator, which executes `clear` and then immediately executes `echo Ready` sequentially. The use of single quotes is generally preferred for aliases to prevent premature variable or command substitution."
+    "explanation": "An alias definition must use single or double quotes to contain the command string. The semicolon (;) is the standard shell command separator, which executes clear and then immediately executes echo Ready sequentially. Using single quotes prevents expansion. Add to ~/.bashrc and source it. Double quotes would allow variables if needed."
   },
   {
     "question": "A script must exit if any command returns non-zero but continue inside a while loop for non-critical commands. Which bash feature enables this?",
     "expected": ["set -e"],
-    "explanation": "The command **`set -e`** (or `set -o errexit`) is the standard bash option that causes the script to **exit immediately** if any command fails (returns a non-zero exit status). If a while loop's condition command fails, `set -e` is temporarily suspended, allowing the loop to manage its own non-critical command failures internally."
+    "explanation": "The command set -e (or set -o errexit) is the standard bash option that causes the script to exit immediately if any command fails (returns a non-zero exit status). If a while loop's condition command fails, set -e is temporarily suspended, allowing the loop to manage its own non-critical command failures internally. This is useful for robust scripts. To override for specific commands, use cmd || true."
   },
   {
     "question": "In zsh, append /usr/local/bin to PATH only if not already present. Which line in ~/.zshrc does that?",
     "expected": [
-      "[[ \":$PATH:\" != *\":/usr/local/bin:\"* ]] && PATH+=:/usr/local/bin"
+      "[[ \":$PATH:\" != \":/usr/local/bin:\" ]] && PATH+=:/usr/local/bin"
     ],
-    "explanation": "This is a common and robust pattern for adding a path conditionally:\n1. **`:$PATH:`**: Surrounds the current `$PATH` with colons to ensure boundary matching.\n2. **`[[ \"...\" != *\"...\"* ]]`**: Uses glob pattern matching within a Zsh/Bash conditional expression to check if the path is **not** present.\n3. **`&& PATH+=:/usr/local/bin`**: The **`&&`** executes the assignment only if the condition (the path is *not* present) is true. `PATH+=` is the concise way to append to the variable."
+    "explanation": "This is a common and robust pattern for adding a path conditionally:\n1. :$PATH:: Surrounds the current $PATH with colons to ensure boundary matching, preventing partial matches.\n2. [[ \"...\" != *\"...\"* ]]: Uses glob pattern matching within a Zsh/Bash conditional expression to check if the path is not present.\n3. && PATH+=:/usr/local/bin: The && executes the assignment only if the condition is true. PATH+= appends efficiently. This avoids duplicates that could slow path lookups."
   },
   {
     "question": "Write a bash function named bk that archives its argument directory into a date-stamped tar.xz file in /backup. Which snippet is correct?",
     "expected": ["bk() { tar -cJf /backup/\"$1\"_$(date +%F).txz \"$1\"; }"],
-    "explanation": "The function uses the correct `tar` options and variable syntax:\n- **`tar -cJf`**: **c**reate, **J** (use xz compression), **f** (specify filename).\n- **`/backup/\"$1\"_$(date +%F).txz`**: Creates the output filename in `/backup`. `$1` is the first argument (the directory), and `$(date +%F)` appends the date (YYYY-MM-DD).\n- **`\"$1\"`**: Specifies the directory to archive. Double quotes are crucial to handle directories with spaces in their names."
+    "explanation": "The function uses the correct tar options and variable syntax:\n- tar -cJf: create, J (xz compression for smaller files), f (file).\n- /backup/\"$1\"_$(date +%F).txz: Uses $1 for dir name, $(date +%F) for YYYY-MM-DD stamp.\n- \"$1\": Quotes handle spaces. Add to .bashrc. xz is better for compression than gz."
   },
   {
     "question": "Using dd, create a 256 MiB zero-filled file named swapfile and set up as swap. Which sequence achieves this?",
     "expected": [
       "dd if=/dev/zero of=/swapfile bs=1M count=256; chmod 600 /swapfile; mkswap /swapfile; swapon /swapfile"
     ],
-    "explanation": "This is the classic four-step process for creating and enabling a swap file:\n1. **`dd if=/dev/zero of=/swapfile bs=1M count=256`**: Creates a 256 MiB file filled with zeros.\n2. **`chmod 600 /swapfile`**: Sets restricted permissions (required for security).\n3. **`mkswap /swapfile`**: Formats the file as a Linux swap area.\n4. **`swapon /swapfile`**: Activates the swap file."
+    "explanation": "This is the classic four-step process for creating and enabling a swap file:\n1. dd if=/dev/zero of=/swapfile bs=1M count=256: Creates a 256 MiB file filled with zeros for security.\n2. chmod 600 /swapfile: Sets restricted permissions to prevent reading sensitive data.\n3. mkswap /swapfile: Formats as swap space.\n4. swapon /swapfile: Activates. Add to /etc/fstab for persistence: /swapfile none swap sw 0 0."
   },
   {
     "question": "You must configure a temporary RAM-backed filesystem at /run/temp of 64 MiB with noexec. Which systemd-tmpfiles entry is correct?",
