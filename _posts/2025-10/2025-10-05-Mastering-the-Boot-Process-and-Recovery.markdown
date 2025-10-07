@@ -507,6 +507,35 @@ The boot sequence learned: BIOS/UEFI → GRUB → kernel → initramfs → syste
 - `fsck` requires unmounted filesystems, necessitating `rescue.target` or `emergency.target`.
 - `dmesg` logs kernel/initramfs actions; `journalctl` logs systemd actions.
 
+## Bonus: Using systemd-analyze for Boot Performance
+
+- `systemd-analyze blame` identifies slow services (e.g., `systemd-networkd`), critical for Question 86 (systemd mounts) and Question 11 (kernel issues).
+- `systemd-analyze plot` creates a visual timeline, making it easier to spot delays across boot phases.
+
+**Commands Executed (Recreate)**:
+
+```bash
+# Check boot logs
+dmesg -T | grep systemd
+# Output: [Sun Oct 5 17:47:10 2025] systemd[1]: Starting systemd-networkd.service...
+# List service startup times
+systemd-analyze blame
+# Output: 15.230s systemd-networkd.service
+# Generate boot timeline
+systemd-analyze plot > /tmp/boot.svg
+# View SVG in a browser (e.g., Chrome) to inspect phases
+# Test optimization
+systemctl disable systemd-networkd
+reboot
+systemd-analyze plot > /tmp/boot_after.svg
+# Compare SVGs to confirm reduced boot time
+```
+
+**Lessons Learned**:
+
+- <span style="color:red">**`systemd-analyze blame` pinpoints slow services; `systemd-analyze plot` visualizes boot phases, essential for diagnosing performance in Linux+ labs.**</span>
+- Save SVGs to `/tmp` and open in a browser for detailed analysis.
+
 ## Conclusion
 
-This lab provided hands-on mastery of the Linux boot process, GRUB, initramfs, and recovery. Recreate it using the commands above, with UTM snapshots for safety. For further exploration, try system updates (`apt upgrade`) or test additional GRUB parameters.
+This lab provided hands-on mastery of the Linux boot process, GRUB, initramfs, and recovery, enhanced by `systemd-analyze` for performance diagnostics. Recreate it using the commands above, with UTM snapshots for safety. For further exploration, try system updates (`apt upgrade`) or test additional GRUB parameters like `nomodeset`.

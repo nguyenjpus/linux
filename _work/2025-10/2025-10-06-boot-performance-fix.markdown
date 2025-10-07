@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Slashing Server Boot Time from 23 Minutes to 5.5 Minutes-A Real-World Sysadmin Win
+title: Slashing Server Boot Time from 23 Minutes to 5.5 Minutes: A Real-World Sysadmin Win
 date: 2025-10-06
 tags: [Troubleshooting, systemd]
 ---
 
-As a technician, I tackled a server at work with a brutal 23-minute boot time, applying skills from my CompTIA Linux+ prep (Sections 1–5: `systemd`, GRUB, troubleshooting). Using `systemd-analyze plot` and `systemd-analyze blame`, I pinpointed bottlenecks and slashed boot time to ~5.5 minutes by updating BIOS/BMC firmware—a 75% improvement! Here’s my journey, with visuals and tips for sysadmins.
+Tackling a server at work with a brutal 23-minute boot time, applying skills learned from my CompTIA Linux+ prep ([Linux Lab Summary: Mastering the Boot Process and Recovery](https://nguyenjpus.github.io/linux/2025/10/05/Mastering-the-Boot-Process-and-Recovery.html)). Using `systemd-analyze plot` and `systemd-analyze blame`, I pinpointed bottlenecks and slashed boot time to ~5.5 minutes by updating BIOS/BMC firmware—a 75% improvement! Here’s my journey, with visuals and tips for sysadmins.
 
 ## The Problem: A 23-Minute Boot Slog
 
@@ -19,7 +19,9 @@ The server crawled, with `systemd-analyze` revealing:
 
 The `before_boot.svg` timeline shows the pain:
 
-<img src="{{ site.baseurl }}/assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 800px;">
+<img src="assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 1400px;">
+
+<!-- Fallback for raw GitHub: <img src="https://raw.githubusercontent.com/nguyenjpus/linux/main/assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 800px;"> -->
 
 **Key bottlenecks** (from `systemd-analyze blame`):
 
@@ -41,7 +43,9 @@ Using IPMI tools, I updated the BIOS/BMC firmware, dropping boot time to 5m 42.6
 
 The `after_boot.svg` shows the optimized flow:
 
-<img src="{{ site.baseurl }}/assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 800px;">
+<img src="assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 1400px;">
+
+<!-- Fallback for raw GitHub: <img src="https://raw.githubusercontent.com/nguyenjpus/linux/main/assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 800px;"> -->
 
 **Post-update bottlenecks** (from `systemd-analyze blame`):
 
@@ -54,7 +58,7 @@ The `after_boot.svg` shows the optimized flow:
 
 - Firmware update saved ~17 minutes by speeding up hardware init (e.g., NVMe drives `nvme0n1`–`nvme5n1`, SAS drives `sda`–`sdm`).
 - Loader improved by 38s (faster disk I/O).
-- **Skills applied**: Cleaner initramfs unpacking (Question 5), GRUB handoff (Question 12), no `emergency.target` drops (Question 4).
+- **Skills applied**: systemd-analyze plot/blame. Using SCP to transfer svg files to my desktop for visualization.
 
 ## How I Did It
 
@@ -105,8 +109,4 @@ The unchanged userspace (45s) points to:
 
 ## Why It Matters
 
-This fix saved ~18 minutes per boot, boosting data center efficiency and showcasing Linux+ skills like `systemd` targets (`rescue.target`, `emergency.target`), mounts (`/boot`, `/boot/efi`), and GRUB (Questions 4, 5, 11, 12, 86). It’s proof I can tackle real-world sysadmin challenges while prepping for certification.
-
-**Next up**: I’m exploring GRUB tweaks (Questions 2, 12, e.g., `nomodeset`) and optimizing `NetworkManager` to cut userspace time further. Check out my [YouTube channel](https://www.youtube.com/@yourchannel) or [LinkedIn](https://www.linkedin.com/in/yourprofile) for a video walkthrough of this fix!
-
-_Want to dive in?_ Clone my repo at [github.com/nguyenjpus/linux](https://github.com/nguyenjpus/linux) and open `assets/before_boot.svg` and `assets/after_boot.svg` in a browser. Share feedback in the issues tab or on my socials!
+This fix saved ~18 minutes per boot, boosting efficiency and showcasing Linux+ skills like `systemd` targets.
