@@ -19,7 +19,7 @@ The server crawled, with `systemd-analyze` revealing:
 
 The `before_boot.svg` timeline shows the pain:
 
-<img src="assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 800px;">
+<img src="assets/before_boot.svg" alt="Boot timeline showing a total duration of 23 minutes and 24 seconds. The timeline highlights key phases: firmware initialization taking 19 minutes and 4 seconds, loader phase lasting 2 minutes and 34 seconds, kernel phase lasting 59 seconds, and userspace phase lasting 45 seconds. The firmware phase dominates the timeline, indicating significant delays in BIOS/BMC initialization. The visual layout uses a horizontal bar chart with time markers, emphasizing the disproportionate length of the firmware phase compared to other phases. The environment is technical and data-focused, with a clear emphasis on identifying performance bottlenecks." style="width: 100%; max-width: 800px;">
 
 **Key bottlenecks** (from `systemd-analyze blame`):
 
@@ -43,7 +43,7 @@ Using IPMI tools, I updated the BIOS/BMC firmware, dropping boot time to 5m 42.6
 
 The `after_boot.svg` shows the optimized flow:
 
-<img src="assets/after_boot.svg">
+<img src="assets/after_boot.svg" alt="Optimized boot timeline showing reduced boot time to 5 minutes and 42 seconds. The timeline highlights key phases: firmware initialization (1 minute 57 seconds), loader (1 minute 56 seconds), kernel (1 minute 2 seconds), and userspace (45 seconds). The firmware phase is significantly shorter compared to the previous timeline, reflecting the impact of the BIOS/BMC firmware update. The visual layout uses a horizontal bar chart with time markers, emphasizing the improved efficiency across phases. The environment is clean and technical, with a focus on data clarity and performance improvement." style="width: 100%; max-width: 800px;">
 
 **Post-update bottlenecks** (from `systemd-analyze blame`):
 
