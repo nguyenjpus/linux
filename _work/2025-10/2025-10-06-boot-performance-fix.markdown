@@ -19,7 +19,7 @@ The server crawled, with `systemd-analyze` revealing:
 
 The `before_boot.svg` timeline shows the pain:
 
-<img src="assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 1400px;">
+<img src="/_work/2025-10/assets/before_boot.svg" alt="Boot Timeline: Slow (23 minutes) - Firmware and Network Delays" style="width: 100%; max-width: 1400px;">
 
 **Pro Tip:** This SVG is highly detailed. **Right-click and select 'Open Image in New Tab'** to zoom in on the timeline and see the precise delays.
 
@@ -45,7 +45,7 @@ Using IPMI tools, I updated the BIOS/BMC firmware, dropping boot time to 5m 42.6
 
 The `after_boot.svg` shows the optimized flow:
 
-<img src="assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 1400px;">
+<img src="/_work/2025-10/assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 1400px;">
 
 **Pro Tip:** This SVG is highly detailed. **Right-click and select 'Open Image in New Tab'** to zoom in on the timeline and see the precise delays.
 
