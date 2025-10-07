@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Slashing Server Boot Time from 23 Minutes to 5.5 Minutes: A Real-World Sysadmin Win
+title: Slashing Server Boot Time from 23 Minutes to 5.5 Minutes-A Real-World Sysadmin Win
 date: 2025-10-06
 tags: [Troubleshooting, systemd]
 ---
