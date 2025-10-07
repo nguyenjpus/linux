@@ -43,7 +43,7 @@ Using IPMI tools, I updated the BIOS/BMC firmware, dropping boot time to 5m 42.6
 
 The `after_boot.svg` shows the optimized flow:
 
-<img src="assets/after_boot.svg" alt="Boot Timeline: Fast (5.5 minutes) - Optimized Firmware" style="width: 100%; max-width: 800px;">
+<img src="assets/after_boot.svg">
 
 **Post-update bottlenecks** (from `systemd-analyze blame`):
 
