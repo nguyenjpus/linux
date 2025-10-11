@@ -2,7 +2,7 @@
 layout: post
 title: "Linux Lab Summary: Mastering the Boot Process and Recovery"
 date: 2025-10-10 10:10:00 -0700
-tags: [Linux+, Linuxlab]
+tags: [Linux+, Linuxlab, kernel, modules, troubleshooting]
 ---
 
 This lab guided me through kernel module management on an Ubuntu 24.04 LTS (`aarch64`) virtual machine (VM) running in UTM on an M1 MacBook, using kernel `6.8.0-85-generic` (with `6.8.0-79-generic` as fallback, verified via `dpkg --list | grep linux-image`). The lab addressed specific questions (3, 6, 8, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 93) across five sections, covering kernel basics, hardware detection, building custom modules (`hello.ko` and `dep.ko`), advanced module management, and troubleshooting scenarios like driver conflicts and hardware failures. You worked as `root` (via `sudo -i`) for most commands, used UTM snapshots for safety, and configured two network interfaces: `enp0s1` (`virtio_net`, `10.0.0.20/24` for SSH) and `enp0s2` (`e100`, `10.0.0.21/24`). Key tools included `lsmod`, `modprobe`, `rmmod`, `depmod`, `lspci`, `ethtool`, `dmesg`, and `journalctl`. This summary includes all hands-on steps, their purposes, your outputs, the creation of `hello.ko` and `dep.ko`, questions addressed, and all ten bookmarks with explanations.
