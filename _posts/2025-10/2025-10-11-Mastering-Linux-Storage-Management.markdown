@@ -121,11 +121,12 @@ The lab covers CompTIA Linux+ objectives for filesystem and storage management, 
    - **Bookmark**: Before reducing, unmount, check with `e2fsck -f`, resize with `resize2fs`, then `lvreduce` (Question 28).
    - **Bookmark**: Always run `resize2fs` before `lvreduce` when shrinking an LV to prevent data loss; unmount and check with `e2fsck -f` first (Question 28).
    - **Good Practice**:
+
      - Unmount before reducing LVs.
      - Run `resize2fs` before `lvreduce`; verify with `df -h`.
      - When reducing an LV, unmount, run `e2fsck -f`, `resize2fs`, then `lvreduce` in that order to avoid filesystem corruption (Question 28).
 
-- **Explanation**: Reducing the LV before the filesystem risks data loss because the filesystem’s metadata may extend beyond the reduced LV size, causing corruption. The correct order—unmount, `e2fsck -f`, `resize2fs`, then `lvreduce`—ensures the filesystem fits within the new LV size (Question 28). Always run `resize2fs` before `lvreduce` when shrinking an LV to prevent data loss; unmount and check with `e2fsck -f` first (Question 28).
+   - **Explanation**: Reducing the LV before the filesystem risks data loss because the filesystem’s metadata may extend beyond the reduced LV size, causing corruption. The correct order—unmount, `e2fsck -f`, `resize2fs`, then `lvreduce`—ensures the filesystem fits within the new LV size (Question 28). Always run `resize2fs` before `lvreduce` when shrinking an LV to prevent data loss; unmount and check with `e2fsck -f` first (Question 28).
 
 9. **Remove LV, VG, PV**:
    - **Command**: `umount /mnt/test; lvremove /dev/my_vg/my_lv; vgremove my_vg; pvremove /dev/vdc1; wipefs -a /dev/vdc`
