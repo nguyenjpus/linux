@@ -6,6 +6,7 @@ tags:
   [
     Linux+,
     Linuxlab,
+    100 Multiple Choices,
     storage,
     LVM,
     RAID,

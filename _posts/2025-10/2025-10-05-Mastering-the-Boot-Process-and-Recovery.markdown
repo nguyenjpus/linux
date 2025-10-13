@@ -2,7 +2,7 @@
 layout: post
 title: "Linux Lab Summary: Mastering the Boot Process and Recovery"
 date: 2025-10-05 10:30:00 -0700
-tags: [Linux+, Linuxlab, boot, recovery, systemd]
+tags: [Linux+, Linuxlab, 100 Multiple Choices, boot, recovery, systemd]
 ---
 
 This summary is a recreatable lab report addressing the original multiple-choice questions (1, 2, 4, 5, 7, 9, 11, 12, 86). For each question, I explain the correct answer, why it was chosen based on Linux fundamentals and lab experience, commands executed (to recreate the lab), key lessons learned (with critical ones in <span style="color:red">red</span>, emphasizing the `rescue.target` discovery), bonus insights (e.g., SSH/network inaccessibility, `fsck` behavior), and relevant user questions/insights to deepen understanding. The lab was conducted on Ubuntu 24.04.3 LTS (ARM64) in UTM, with an LVM root filesystem (`/dev/mapper/ubuntu--vg-ubuntu--lv`), `/boot` on `/dev/vda2`, and `/boot/efi` on `/dev/vda1`. We simulated failures, recovered using GRUB edits, and inspected components like initramfs. Only actions performed are included (e.g., no `grub-install` or kernel failure simulation).
