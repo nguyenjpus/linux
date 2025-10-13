@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Questions 51-60 Explained"
+title: "Multiple-choices - Questions 51-60 Explained"
 date: 2025-10-01 09:15:00 -0700
-tags: [Linux+, multiple-choice]
+tags: [Linux+, multiple-choices]
 ---
 
-This document explains questions 51-60 from a set of 100 scenario-based multiple-choice questions for CompTIA Linux+ preparation, focusing on shell pipelines, background jobs, log monitoring, redirection, navigation, and archiving. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention. Question 59 has been updated to clarify the `-c` option in the `tar` command.
+This document explains questions 51-60 from a set of 100 scenario-based multiple-choices questions for CompTIA Linux+ preparation, focusing on shell pipelines, background jobs, log monitoring, redirection, navigation, and archiving. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention. Question 59 has been updated to clarify the `-c` option in the `tar` command.
 
 ## Question 51: Safely Handling File Paths with Spaces
 

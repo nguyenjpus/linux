@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Q18 - Q20 - Automatically Loading Kernel Modules at Boot"
+title: "Multiple-choices - Q18 - Q20 - Automatically Loading Kernel Modules at Boot"
 date: 2025-09-28
 tags:
   [
     Linux+,
-    multiple-choice,
+    multiple-choices,
     cmdline,
     modprobe,
     quiet,

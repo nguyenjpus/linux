@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Questions 31-40 Explained"
+title: "Multiple-choices - Questions 31-40 Explained"
 date: 2025-10-01 07:15:00 -0700
-tags: [Linux+, multiple-choice]
+tags: [Linux+, multiple-choices]
 ---
 
-This document explains questions 31-40 from a set of 100 scenario-based multiple-choice questions on Linux system management, focusing on block devices, filesystems, LVM management, disk troubleshooting, and networking basics. Each question includes the correct answer, why it's correct, why other options are incorrect, key concepts, and memory aids for retention.
+This document explains questions 31-40 from a set of 100 scenario-based multiple-choices questions on Linux system management, focusing on block devices, filesystems, LVM management, disk troubleshooting, and networking basics. Each question includes the correct answer, why it's correct, why other options are incorrect, key concepts, and memory aids for retention.
 
 ## Question 31: Hierarchical View of Block Devices
 

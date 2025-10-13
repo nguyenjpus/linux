@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Bonus Questions 1-10 Explained"
+title: "Multiple-choices - Bonus Questions 1-10 Explained"
 date: 2025-10-01 05:15:00 -0700
-tags: [Linux+, multiple-choice]
+tags: [Linux+, multiple-choices]
 ---
 
-Some bonus multiple-choice quetions.
+Some bonus multiple-choices quetions.
 
 ## Question 1: Persistent Network Configuration
 

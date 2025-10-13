@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Questions 1-10 Explained"
+title: "Multiple-choices - Questions 1-10 Explained"
 date: 2025-09-29
-tags: [Linux+, multiple-choice]
+tags: [Linux+, multiple-choices]
 ---
 
-This document explains the first 10 questions from a set of 100 scenario-based multiple-choice questions on Linux system management, focusing on boot processes, kernel basics, and architecture. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.
+This document explains the first 10 questions from a set of 100 scenario-based multiple-choices questions on Linux system management, focusing on boot processes, kernel basics, and architecture. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.
 
 ## Question 1: Location of Initial Bootloader Stage (MBR)
 

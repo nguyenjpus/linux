@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Questions 11-20 Explained"
+title: "Multiple-choices - Questions 11-20 Explained"
 date: 2025-09-30 05:15:00 -0700
-tags: [Linux+, multiple-choice]
+tags: [Linux+, multiple-choices]
 ---
 
-This document explains questions 11-20 from a set of 100 scenario-based multiple-choice questions on Linux system management, focusing on boot troubleshooting, kernel modules, and hardware detection. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.
+This document explains questions 11-20 from a set of 100 scenario-based multiple-choices questions on Linux system management, focusing on boot troubleshooting, kernel modules, and hardware detection. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.
 
 ## Question 11: Cause of "Kernel panic - not syncing: VFS: Unable to mount root fs"
 

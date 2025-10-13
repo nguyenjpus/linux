@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Questions 61-70 Explained"
+title: "Multiple-choices - Questions 61-70 Explained"
 date: 2025-10-01 10:45:00 -0700
-tags: [Linux+, multiple-choice]
+tags: [Linux+, multiple-choices]
 ---
 
-This document explains questions 61-70 from a set of 100 scenario-based multiple-choice questions for CompTIA Linux+ preparation, focusing on compression, backups, file synchronization, filesystems, and virtualization. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention. Question 63 has been updated to clarify the `-e` option in the `rsync` command.
+This document explains questions 61-70 from a set of 100 scenario-based multiple-choices questions for CompTIA Linux+ preparation, focusing on compression, backups, file synchronization, filesystems, and virtualization. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention. Question 63 has been updated to clarify the `-e` option in the `rsync` command.
 
 ## Question 61: Compressing a Log File with Gzip
 

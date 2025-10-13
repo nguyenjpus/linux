@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Multiple-choice - Q1 - Bootloader Troubleshooting and Recovery Practice"
+title: "Multiple-choices - Q1 - Bootloader Troubleshooting and Recovery Practice"
 date: 2025-09-25
 tags:
   [
     Linux+,
-    multiple-choice,
+    multiple-choices,
     initramfs,
     MRB,
     GRUB,
@@ -16,7 +16,7 @@ tags:
   ]
 ---
 
-This document summarizes the entire hands-on practice session for CompTIA Linux+ objective 2.6: Scenario-Based Multiple-Choice Questions for System Management. The session focused on troubleshooting a server that fails to start after BIOS/UEFI POST, suspecting corruption in the initial bootloader stage. We started with the multiple-choice question, explained concepts, answered tag questions, and performed a detailed, beginner-friendly hands-on simulation on your UTM Ubuntu VM (running Ubuntu on a Mac, with kernel 6.8.0-79-generic).
+This document summarizes the entire hands-on practice session for CompTIA Linux+ objective 2.6: Scenario-Based Multiple-Choice Questions for System Management. The session focused on troubleshooting a server that fails to start after BIOS/UEFI POST, suspecting corruption in the initial bootloader stage. We started with the multiple-choices question, explained concepts, answered tag questions, and performed a detailed, beginner-friendly hands-on simulation on your UTM Ubuntu VM (running Ubuntu on a Mac, with kernel 6.8.0-79-generic).
 
 The practice simulated a boot failure by intentionally corrupting the GRUB configuration to drop into the `(initramfs)` prompt, then recovering step-by-step. This builds on your previous lessons (Q1/Q2 on basic commands/filesystems, Q3/Q6 on partitioning/LVM, Q8/Q9 on kernel/modules, Q11/Q12 on services/networking, Q13 on security/users) without repeating them. The goal is not just cert prep but data center readiness: In a data center job, boot failures can take down critical servers (e.g., hosting databases or websites), and you'd use remote consoles (like IPMI) to fix them without physical access.
 
