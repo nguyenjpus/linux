@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Linux Lab Summary: Mastering the Boot Process and Recovery"
+title: "Linux Lab Summary: Mastering Linux Kernel Module Management"
 date: 2025-10-10 10:10:00 -0700
 tags: [Linux+, Linuxlab, kernel, modules, troubleshooting]
 ---

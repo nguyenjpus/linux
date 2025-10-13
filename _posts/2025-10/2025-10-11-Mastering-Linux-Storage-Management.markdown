@@ -14,6 +14,7 @@ tags:
     wipefs,
     resize2fs,
     xfs_growfs,
+    mdadm,
   ]
 ---
 
