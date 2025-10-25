@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choices - Bonus Questions 1-10 Explained"
 date: 2025-10-01 05:15:00 -0700
-tags: [Linux+, multiple-choices]
+tags: [Linux+, Multiple-choices]
 ---
 
 Some bonus multiple-choices quetions.

@@ -2,7 +2,7 @@
 layout: post
 title: "Rsync and ddrescue"
 date: 2025-09-06
-tags: [Basic, rsync, ddrescue]
+tags: [Basic, Rsync, Ddrescue]
 ---
 
 Detailed hands-on practices for mastering file-level backups using `rsync` and block-level backups using `ddrescue`, based on the CompTIA Linux+ certification objectives. It expands on the original book content by Fermin O. Goetz, incorporating additional scenarios, troubleshooting tips, and best practices.

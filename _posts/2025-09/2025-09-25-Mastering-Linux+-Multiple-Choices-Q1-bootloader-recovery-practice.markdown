@@ -5,14 +5,14 @@ date: 2025-09-25
 tags:
   [
     Linux+,
-    multiple-choices,
-    initramfs,
+    Multiple-choices,
+    Initramfs,
     MRB,
     GRUB,
-    chroot,
-    efi,
-    cmdline,
-    modprobe,
+    Chroot,
+    EFI,
+    Cmdline,
+    Modprobe,
   ]
 ---
 

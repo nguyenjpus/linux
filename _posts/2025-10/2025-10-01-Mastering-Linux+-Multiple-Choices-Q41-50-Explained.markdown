@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choices - Questions 41-50 Explained"
 date: 2025-10-01 07:55:00 -0700
-tags: [Linux+, multiple-choices]
+tags: [Linux+, Multiple-choices]
 ---
 
 This document explains questions 41-50 from a set of 100 scenario-based multiple-choices questions for CompTIA Linux+ preparation, focusing on hostname management, DNS, networking, file downloads, and shell environment. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.

@@ -2,16 +2,28 @@
 layout: post
 title: "Linux Lab Summary: Mastering Linux Networking"
 date: 2025-10-13 11:10:00 -0700
-tags: [Linux+, Linuxlab, "100 Multiple Choices", DNS, routing, ssh, nginx, troubleshooting, systemd]
+tags:
+  [
+    Linux+,
+    Linuxlab,
+    "100 Multiple Choices",
+    DNS,
+    Routing,
+    SSH,
+    Nginx,
+    Troubleshooting,
+    Systemd,
+  ]
 ---
 
 A quick summary of my Linux networking lab, covering key concepts like interface management, IP addressing, DNS configuration, routing, SSH troubleshooting, and web server setup. This lab addresses specific questions (35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 82, 95) from the CompTIA Linux+ exam objectives. Each section includes commands executed, expected outputs, explanations for answers chosen based on Linux fundamentals and lab experience, and practical insights for real-world applications. The lab was conducted on Ubuntu 24.04.3 LTS (ARM64) in UTM on an M1 MacBook with two network interfaces: `enp0s1` (virtio_net) for primary connectivity and `enp0s2` (e100) for secondary testing.
 
 **Operating System**: Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-79-generic aarch64)  
 **Virtualization**: QEMU/UTM on Apple Silicon Mac (ARM64 architecture)  
-**Kernel Features**: PREEMPT_DYNAMIC, AppArmor, systemd-resolved, Netplan  
+**Kernel Features**: PREEMPT_DYNAMIC, AppArmor, systemd-resolved, Netplan
 
 **Network Setup**:
+
 - **enp0s1**: Primary interface (DHCP, 10.0.0.20/24, gateway 10.0.0.1)
 - **enp0s2**: Secondary interface (disabled for testing)
 - **DNS**: Initially Comcast (75.75.75.75), modified to Google DNS (8.8.8.8)
@@ -41,6 +53,7 @@ ip link show enp0s2  # Verify state change
 ```
 
 **Expected Output:**
+
 ```
 2: enp0s1: <BROADCAST,MULTICAST,UP,LOWER_UP> ...
 3: enp0s2: <BROADCAST,MULTICAST> ... state DOWN
@@ -84,6 +97,7 @@ nslookup google.com  # Test resolution
 ```
 
 **Expected Output:**
+
 ```
 Link 2 (enp0s1)
   Current Scopes: DNS
@@ -159,6 +173,7 @@ ss -tlpn | grep :22    # SSH
 ```
 
 **Expected Output:**
+
 ```
 LISTEN 0 511 0.0.0.0:80 0.0.0.0:* users:(("nginx",pid=3237,fd=5),...)
 ```
@@ -244,11 +259,11 @@ sudo reboot
 
 ## Key Insights & Production Takeaways
 
-- `ss -tlpn`: Port checking  
-- `resolvectl`: DNS management  
-- `netplan apply`: Networking config  
-- `journalctl -fk`: System monitoring  
-- `sha256sum`: Integrity checks  
+- `ss -tlpn`: Port checking
+- `resolvectl`: DNS management
+- `netplan apply`: Networking config
+- `journalctl -fk`: System monitoring
+- `sha256sum`: Integrity checks
 
 ---
 

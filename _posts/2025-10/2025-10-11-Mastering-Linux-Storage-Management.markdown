@@ -7,15 +7,15 @@ tags:
     Linux+,
     Linuxlab,
     100 Multiple Choices,
-    storage,
+    Storage,
     LVM,
     RAID,
     XFS,
-    backups,
-    wipefs,
-    resize2fs,
-    xfs_growfs,
-    mdadm,
+    Backups,
+    Wipefs,
+    Resize2fs,
+    Xfs_growfs,
+    Mdadm,
   ]
 ---
 

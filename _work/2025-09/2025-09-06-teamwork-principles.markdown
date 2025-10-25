@@ -2,7 +2,7 @@
 layout: post
 title: "Principles of Effective Teamwork - Re-remind Myself"
 date: 2025-09-06
-tags: [teamwork]
+tags: [Teamwork]
 ---
 
 Teamwork is the cornerstone of success in any collaborative environment. By embracing the following principles, teams can achieve complex goals efficiently, foster strong bonds, and create a positive, productive atmosphere.

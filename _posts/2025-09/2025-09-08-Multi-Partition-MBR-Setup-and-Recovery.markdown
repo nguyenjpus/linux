@@ -2,7 +2,7 @@
 layout: post
 title: "Multi-Partition MBR Setup and Recovery (a complicated case for testdisk utility)"
 date: 2025-09-08
-tags: [Basic, fdisk, MRB]
+tags: [Basic, Fdisk, MBR]
 ---
 
 # Multi-Partition MBR Setup and Recovery (a complicated case for "testdisk" utility)

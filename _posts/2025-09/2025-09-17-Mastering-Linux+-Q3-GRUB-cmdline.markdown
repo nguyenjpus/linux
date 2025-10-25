@@ -2,7 +2,7 @@
 layout: post
 title: "Q3: Linux Boot Troubleshooting Guide"
 date: 2025-09-17
-tags: [Linux+, GRUB, cmdline, initramfs]
+tags: [Linux+, GRUB, Cmdline, Initramfs]
 ---
 
 This guide is your "mission control manual" for mastering Linux boot processes, kernel parameters, and GRUB troubleshooting. Designed for CompTIA+ Linux+ certification prep and real-world data center tasks, it uses a UTM virtual machine (VM) on a Mac as the testing ground. Think of your VM as a server in a virtual data center, and each task as a mission to ensure a smooth "launch" (boot). We’ll cover inspecting kernel parameters, fixing GRUB issues, and recovering from an `(initramfs)` prompt, with metaphors to make concepts stick like a well-secured server rack.

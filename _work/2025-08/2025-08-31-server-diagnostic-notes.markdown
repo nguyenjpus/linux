@@ -2,7 +2,7 @@
 layout: post
 title: Server Diagnostic Notes And Some Last Hopes Cases
 date: 2025-08-31
-tags: [Ipmitool, dmidecode, Troubleshooting, ipnmi]
+tags: [Ipmitool, Dmidecode, Troubleshooting, Ipnmi]
 ---
 
 This guide summarizes key procedures and tools for diagnosing server hardware issues, based on practical experience. It’s designed to clarify troubleshooting steps and avoid common pitfalls.

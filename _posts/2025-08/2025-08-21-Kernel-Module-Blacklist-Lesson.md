@@ -2,7 +2,7 @@
 layout: post
 title: "Lesson Learned: Troubleshooting Kernel Module Blacklisting in Ubuntu"
 date: 2025-08-21
-tags: [Basic, blacklist, modprobe]
+tags: [Basic, Blacklist, Modprobe]
 ---
 
 This document summarizes the lessons learned from a practice exercise (Sub-Part 4.1: Kernel Module Fails to Load) conducted on August 21, 2025, in an Ubuntu VM (kernel 6.14.0-28-generic, aarch64) running in UTM. The goal was to simulate a kernel module failing to load by blacklisting the `parport` module (since `floppy` was unavailable), identify the cause, resolve it, and explore a variation with a non-existent module. The exercise revealed nuances in Linux kernel module blacklisting and required a stricter approach to enforce it.

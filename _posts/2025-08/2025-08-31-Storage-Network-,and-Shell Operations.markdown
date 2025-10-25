@@ -2,7 +2,7 @@
 layout: post
 title: "Storage, Network, and Shell Operations"
 date: 2025-08-31
-tags: [Basic, storage]
+tags: [Basic, Storage]
 ---
 
 This document summarizes hands-on practice for Linux+ exam Topics 5 (Troubleshooting Storage), 6 (Network Configuration Essentials), and 7 (Advanced Shell Operations) on an Ubuntu 24.04.3 LTS (arm64, QEMU/UTM) system, with some practices tested on a physical Linux PC. It includes corrected commands, fixes for issues encountered, and lessons learned. Some exercises (SMART data and GRUB-based passphrase failure) are noted as infeasible in UTM due to virtualization limitations.

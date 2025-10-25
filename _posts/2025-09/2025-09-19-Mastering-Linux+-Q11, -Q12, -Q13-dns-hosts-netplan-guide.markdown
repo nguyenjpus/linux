@@ -2,7 +2,7 @@
 layout: post
 title: "Q11, Q12, Q13: Mastering DNS, Hosts, and Netplan for CompTIA Linux+"
 date: 2025-09-19
-tags: [Linux+, DNS, Hosts, netplan]
+tags: [Linux+, DNS, Hosts, Netplan]
 ---
 
 This guide tackles three CompTIA Linux+ practice questions (Q11-13/50) on DNS cache flushing, static hosts overrides, and safe Netplan configuration. Tested on an Ubuntu 24.04 VM (UTM, LVM root, `uname -r 6.8.0-79-generic`), it’s beginner-friendly, simulating a server fixing connectivity issues. The scenario: a node clears stale DNS cache (Q11), overrides a service IP (Q12), and updates DNS safely (Q13), like resolving a Kubernetes pod’s endpoint post-migration. Includes recovery from SSH loss via console, mimicking data center IPMI/KVM.

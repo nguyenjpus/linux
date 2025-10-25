@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choices - Q12 - Modifying Default Kernel Boot Parameters"
 date: 2025-09-28
-tags: [Linux+, multiple-choices, cmdline, pcie, quiet]
+tags: [Linux+, Multiple-choices, Cmdline, PCIe, Quiet]
 ---
 
 This lesson covers how to persistently modify kernel boot parameters by editing `/etc/default/grub` and updating GRUB. We focused on the file `/etc/default/grub` as the correct choice for adding parameters like hardware enablers (e.g., `pci=pcie_bus_safe`). Other options like `/boot/grub/grub.cfg` (generated file, don't edit directly), `/proc/cmdline` (read-only current params), and `/etc/fstab` (filesystem mounts) were explained as incorrect.

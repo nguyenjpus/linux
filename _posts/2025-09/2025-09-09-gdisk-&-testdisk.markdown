@@ -2,7 +2,7 @@
 layout: post
 title: "GPT/EFI Partition Table Recovery with TestDisk and gdisk Comparison - Complete Lesson"
 date: 2025-09-09
-tags: [Basic, gdisk, gpt]
+tags: [Basic, Gdisk, GPT]
 ---
 
 This scenario, part of CompTIA Linux+ certification practice, focuses on creating a disk image with a GPT partition table, formatting partitions with ext4 and XFS, adding test data, corrupting the GPT (primary and backup tables), and recovering using TestDisk and gdisk. The experiment demonstrates GPT management, recovery techniques, and troubleshooting, highlighting differences between TestDisk and gdisk.

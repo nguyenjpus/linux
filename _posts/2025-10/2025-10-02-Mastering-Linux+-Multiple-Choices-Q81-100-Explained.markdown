@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choices - Questions 81-100 Explained"
 date: 2025-10-02 10:30:00 -0700
-tags: [Linux+, multiple-choices]
+tags: [Linux+, Multiple-choices]
 ---
 
 This document explains questions 81-100 from a set of 100 scenario-based multiple-choices questions for CompTIA Linux+ preparation, covering filesystem management, SSH troubleshooting, LVM, scripting, virtualization, RAID, process management, kernel modules, networking, and cloud provisioning. Questions 84, 85, 86, 87, and 94 have been updated to clarify `xargs` options, RAW disk format in UTM, `/etc/fstab` in the boot process, `-mtime -1`, and swap file creation. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.

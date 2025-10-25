@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choices - Questions 11-20 Explained"
 date: 2025-09-30 05:15:00 -0700
-tags: [Linux+, multiple-choices]
+tags: [Linux+, Multiple-choices]
 ---
 
 This document explains questions 11-20 from a set of 100 scenario-based multiple-choices questions on Linux system management, focusing on boot troubleshooting, kernel modules, and hardware detection. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.

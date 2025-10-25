@@ -2,7 +2,7 @@
 layout: post
 title: "Tar"
 date: 2025-09-02
-tags: [Basic, tar]
+tags: [Basic, Tar]
 ---
 
 This guide walks through creating, extracting, and compressing archives using `tar`, including reproducible builds and different compression algorithms. It addresses common errors and provides practical steps for experimentation.

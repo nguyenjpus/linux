@@ -2,7 +2,7 @@
 layout: post
 title: "Logrotate and Journal"
 date: 2025-09-02
-tags: [Basic, logrotate, journal]
+tags: [Basic, Logrotate, Journal]
 ---
 
 This guide demonstrates log rotation, compression, and management using `logrotate`, with `xz` compression for long-term storage and integration with `systemd` journald using `zstd`. It fixes issues with premature `xz` compression in `logrotate` and persistent journal storage errors in `systemd-journald`.

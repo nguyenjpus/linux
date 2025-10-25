@@ -5,13 +5,13 @@ date: 2025-09-28
 tags:
   [
     Linux+,
-    multiple-choices,
-    cmdline,
-    modprobe,
-    quiet,
-    modules-load,
-    joydev,
-    blacklist,
+    Multiple-choices,
+    Cmdline,
+    Modprobe,
+    Quiet,
+    Modules-load,
+    Joydev,
+    Blacklist,
   ]
 ---
 

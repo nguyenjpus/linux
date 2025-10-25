@@ -2,7 +2,7 @@
 layout: post
 title: "Q36, Q43, Q45: Temporary Filesystems, Redirection, and Process Locking"
 date: 2025-09-21
-tags: [Linux+, tmpf, Redirection, flock]
+tags: [Linux+, Tmpfs, Redirection, Flock]
 ---
 
 This guide summarizes a hands-on practice session for CompTIA Linux+ questions Q36, Q43, and Q45, performed on a UTM Ubuntu system (`uname -r: 6.8.0-79-generic`, LVM on `/dev/vda3`). It covers configuring a temporary RAM-backed filesystem (tmpfs), redirecting script output, and automating tasks with `flock` to prevent overlaps. Errors encountered (permissions, history expansion, and `flock` issues) were resolved, building skills for data center automation and troubleshooting.

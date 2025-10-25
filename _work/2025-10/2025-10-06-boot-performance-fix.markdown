@@ -2,7 +2,7 @@
 layout: post
 title: Slashing Server Boot Time from 23 Minutes to 5.5 Minutes - A Real-World Sysadmin Win
 date: 2025-10-06
-tags: [Troubleshooting, systemd]
+tags: [Troubleshooting, Systemd]
 ---
 
 Tackling a server at work with a brutal 23-minute boot time, applying skills learned from my CompTIA Linux+ prep ([Linux Lab Summary: Mastering the Boot Process and Recovery](https://nguyenjpus.github.io/linux/2025/10/05/Mastering-the-Boot-Process-and-Recovery.html)). Using `systemd-analyze plot` and `systemd-analyze blame`, I pinpointed bottlenecks and slashed boot time to ~5.5 minutes by updating BIOS/BMC firmware—a 75% improvement! Here’s my journey, with visuals and tips for sysadmins.

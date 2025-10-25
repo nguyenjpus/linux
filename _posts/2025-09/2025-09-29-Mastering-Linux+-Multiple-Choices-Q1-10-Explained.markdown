@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choices - Questions 1-10 Explained"
 date: 2025-09-29
-tags: [Linux+, multiple-choices]
+tags: [Linux+, Multiple-choices]
 ---
 
 This document explains the first 10 questions from a set of 100 scenario-based multiple-choices questions on Linux system management, focusing on boot processes, kernel basics, and architecture. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention.

@@ -2,7 +2,7 @@
 layout: post
 title: "Using Loop and loseupt"
 date: 2025-09-07
-tags: [Basic, losetup]
+tags: [Basic, Losetup]
 ---
 
 Just discussing about using loop and losetup command.

@@ -2,7 +2,7 @@
 layout: post
 title: "Multiple-choices - Questions 71-80 Explained"
 date: 2025-10-01 11:15:00 -0700
-tags: [Linux+, multiple-choices]
+tags: [Linux+, Multiple-choices]
 ---
 
 This document explains questions 71-80 from a set of 100 scenario-based multiple-choices questions for CompTIA Linux+ preparation, focusing on virtualization, KVM, VirtualBox, and disk management. Each question includes the correct answer, why it’s correct, why other options are incorrect, key concepts, and memory aids for retention. Questions 71 and 78 have been updated to clarify that UTM and VMware Workstation are Type 2 hypervisors and to explain NAT security and bridged networking’s relation to UTM setups.

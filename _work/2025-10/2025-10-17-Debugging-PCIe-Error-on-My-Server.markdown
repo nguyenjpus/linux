@@ -2,7 +2,7 @@
 layout: post
 title: Debugging a PCIe Error on My Server
 date: 2025-10-17
-tags: [Troubleshooting, dmesg, PCIe, networking]
+tags: [Troubleshooting, Dmesg, PCIe, Networking]
 ---
 
 I hit a weird PCIe Receiver Error on my server and spent some time tracking it down. Here's a quick summary of what I learned, how I figured out what’s in Slot 13, and what might’ve caused the issue. Hope this helps anyone debugging similar problems!
