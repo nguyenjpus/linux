@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Lasdfasdf"
-date: 2025-10-30 22:46:00 -0700
+title: "Mastering the Linux Command Line: A Hands-On Lab Experience"
+date: 2025-10-30 10:46:00 -0700
 tags: [Linux+]
 ---
 
