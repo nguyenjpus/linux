@@ -6,7 +6,7 @@ tags:
   [
     Linux+,
     Linuxlab,
-    "100 Multiple Choices",
+    100 Multiple Choices,
     DNS,
     Routing,
     SSH,

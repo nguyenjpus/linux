@@ -1,8 +1,19 @@
 ---
 layout: post
-title: "Linux Lab Summary: Mastering the Linux Command Line: A Hands-On Lab Experience"
-date: 2025-10-30 22:38:00 -0700
-tags: [Linux+, Linuxlab, 100 Multiple Choices, Command Line, Scripting]
+title: "Linux Lab Summary: Mastering Linux Networking"
+date: 2025-10-13 11:10:00 -0700
+tags:
+  [
+    Linux+,
+    Linuxlab,
+    "100 Multiple Choices",
+    DNS,
+    Routing,
+    SSH,
+    Nginx,
+    Troubleshooting,
+    Systemd,
+  ]
 ---
 
 A comprehensive lab experience focused on mastering the Linux command line through practical exercises. This lab covers essential commands, scripting techniques, file management, process control, and troubleshooting skills. Designed to build confidence and proficiency in using the command line for real-world tasks, this lab is based on live terminal sessions conducted on Ubuntu 24.04 LTS.
@@ -126,5 +137,3 @@ rm -f ~/scripting_lab/nohup_test*.log /tmp/final_report.txt
 rm -f ~/scripting_lab/errors.txt ~/scripting_lab/error_report.txt
 echo "Lab cleaned!"
 ```
-
----
