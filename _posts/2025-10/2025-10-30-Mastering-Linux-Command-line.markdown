@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Mastering the Linux Command Line: A Hands-On Lab Experience"
-date: 2025-10-30 11:10:00 -0700
+title: "Linux Lab Summary: Mastering the Linux Command Line: A Hands-On Lab Experience"
+date: 2025-10-30 22:38:00 -0700
 tags: [Linux+, Linuxlab, "100 Multiple Choices", Command Line, Scripting]
 ---
 

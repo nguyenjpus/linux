@@ -1,28 +1,8 @@
 ---
 layout: post
-title: "Linux Lab Summary: Mastering Linux Networking 1"
-date: 2025-10-13 11:10:00 -0700
-tags:
-  [
-    Linux+,
-    Linuxlab,
-    "100 Multiple Choices",
-    DNS,
-    Routing,
-    SSH,
-    Nginx,
-    Troubleshooting,
-    Systemd,
-  ]
----
-
----
-
-layout: post
 title: "Mastering the Linux Command Line: A Hands-On Lab Experience"
 date: 2025-10-30 11:10:00 -0700
 tags: [Linux+, Linuxlab, "100 Multiple Choices", Command Line, Scripting]
-
 ---
 
 A comprehensive lab experience focused on mastering the Linux command line through practical exercises. This lab covers essential commands, scripting techniques, file management, process control, and troubleshooting skills. Designed to build confidence and proficiency in using the command line for real-world tasks, this lab is based on live terminal sessions conducted on Ubuntu 24.04 LTS.
