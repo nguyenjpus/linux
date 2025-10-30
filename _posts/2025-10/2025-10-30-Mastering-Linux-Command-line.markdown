@@ -9,13 +9,6 @@ A comprehensive lab experience focused on mastering the Linux command line throu
 
 ---
 
-# Linux Command Line Mastery Lab
-
-**Real Commands. Real Results. Real Learning.**  
-_By Ron | Guided by Grok (xAI) | October 30, 2025_
-
----
-
 ## Overview
 
 This lab is **100% based on live terminal sessions** we ran together on **Ubuntu 24.04 LTS**.  
@@ -34,7 +27,7 @@ We built a real test environment, debugged real issues, and solved **14 producti
 ~/scripting_lab/
 ├── logs/          → 10 log files with "ERROR" lines
 ├── data/          → files with spaces: "file with space.txt", etc.
-├── scripts/       → simple_test.sh, noisy_test.sh
+├── scripts/       → simple_test.sh
 └── backups/       → (empty)
 ```
 
@@ -91,7 +84,7 @@ We built a real test environment, debugged real issues, and solved **14 producti
 
 ---
 
-## Final Challenge (You Ran This)
+## Final Challenge:
 
 ```bash
 find logs -name "*.log" -exec grep "ERROR" {} + 2>/dev/null | \
@@ -116,13 +109,3 @@ Found 10 errors!
 - `find ... -print0 \| xargs -0 rm` → deleted `"file with space.txt"` safely
 
 ---
-
-## Cleanup (We Can Run This)
-
-```bash
-pkill -f "sleep.*nohup" 2>/dev/null
-pkill stress 2>/dev/null
-rm -f ~/scripting_lab/nohup_test*.log /tmp/final_report.txt
-rm -f ~/scripting_lab/errors.txt ~/scripting_lab/error_report.txt
-echo "Lab cleaned!"
-```
