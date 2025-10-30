@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Linux Lab Summary: Mastering Linux Command Line"
+title: "Lasdfasdf"
 date: 2025-10-30 22:46:00 -0700
-tags: [Linux+, Linuxlab, 100 Multiple Choices]
+tags: [Linux+]
 ---
 
 A comprehensive lab experience focused on mastering the Linux command line through practical exercises. This lab covers essential commands, scripting techniques, file management, process control, and troubleshooting skills. Designed to build confidence and proficiency in using the command line for real-world tasks, this lab is based on live terminal sessions conducted on Ubuntu 24.04 LTS.
