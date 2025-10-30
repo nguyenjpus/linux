@@ -74,9 +74,9 @@ We built a real test environment, debugged real issues, and solved **14 producti
 ## Critical Rules (Never Forget)
 
 | Rule                                  | Why                                     |
-| ------------------------------------- | --------------------------------------- | ------------------ |
+| ------------------------------------- | --------------------------------------- |
 | `\|` **only carries stdout**          | `grep` misses `>&2` errors              |
-| Use `2>&1` **before** `               | `                                       | `cmd 2>&1 \| grep` |
+| Use `2>&1` **before** pipe ('\|')     | `cmd 2>&1 \| grep`                      |
 | Use `-print0 \| xargs -0`             | Safe with spaces, newlines              |
 | `export` = **child processes see it** | Without it, `java`, `python`, etc. fail |
 | `nohup` + `&` = **detached job**      | Survives logout                         |
