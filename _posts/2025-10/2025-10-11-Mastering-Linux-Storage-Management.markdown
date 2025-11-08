@@ -10,11 +10,10 @@ tags:
     Storage,
     LVM,
     RAID,
-    XFS,
+    Xfs,
     Backups,
     Wipefs,
     Resize2fs,
-    Xfs_growfs,
     Mdadm,
   ]
 ---
