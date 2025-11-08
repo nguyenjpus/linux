@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Linux Lab Summary: Mastering Linux Command Line"
+title: "Linux Lab Summary: Mastering Linux Archiving, Compression, and Backups"
 date: 2025-11-08 12:32:00 -0700
 tags:
   [
