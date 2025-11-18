@@ -2,7 +2,7 @@
 layout: post
 title: My Ethernet Cable Deep Dive - A Chat with Grok
 date: 2025-10-25
-tags: [networking, Ethernet, Cabling, Networking]
+tags: [Ethernet, Cabling, Networking]
 ---
 
 I’ve been curious about Ethernet cables lately, especially after spotting those thin cables with RJ45 jacks at work. I started digging into categories like Cat 5e, Cat 6, and even Cat 8, and ended up in a rabbit hole with Grok about bandwidth, data rates, and how it all works. Here’s my Q&A as I puzzled through it, mostly for myself to look back on.
