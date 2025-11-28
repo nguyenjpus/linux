@@ -3,7 +3,17 @@ layout: post
 title: "CHAPTER 3: SERVICES AND USER MANAGEMENT - FILES & DIRECTORIES MASTERY"
 date: 2025-11-14 21:51:00 -0700
 tags:
-  [Linux+, Linuxlab, Chapter 3, File Permissions, Stickybit, Setgid, Stat, Suid]
+  [
+    Linux+,
+    Linuxlab,
+    Chapter 3,
+    File Permissions,
+    Stickybit,
+    Setgid,
+    Stat,
+    Suid,
+    Sgid,
+  ]
 ---
 
 This document summarizes my hands-on lab experience mastering Linux file permissions, ownership, special bits, links, device files, and user/group management on Ubuntu 24.04. The goal was to deeply understand these core Linux concepts through practical exercises.
