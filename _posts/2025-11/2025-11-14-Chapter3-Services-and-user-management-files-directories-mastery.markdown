@@ -2,7 +2,8 @@
 layout: post
 title: "CHAPTER 3: SERVICES AND USER MANAGEMENT - FILES & DIRECTORIES MASTERY"
 date: 2025-11-14 21:51:00 -0700
-tags: [Linux+, Linuxlab, Chapter 3, File Permissions, Stickybit, Setgid]
+tags:
+  [Linux+, Linuxlab, Chapter 3, File Permissions, Stickybit, Setgid, Stat, Suid]
 ---
 
 This document summarizes my hands-on lab experience mastering Linux file permissions, ownership, special bits, links, device files, and user/group management on Ubuntu 24.04. The goal was to deeply understand these core Linux concepts through practical exercises.
@@ -525,3 +526,11 @@ chmod 3777 /shared/tmp
 ```
 
 ---
+
+## Final Gem 2: **Command to list SUID files**
+
+```bash
+find / -type f -perm /4000 2>/dev/null
+or:
+sudo find / \( -perm -4000 -o -perm -2000 \) -type f 2>/dev/null
+```
