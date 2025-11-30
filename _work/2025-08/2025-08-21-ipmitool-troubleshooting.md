@@ -2,7 +2,7 @@
 layout: post
 title: Troubleshooting IPMI Insufficient Privilege Level Error
 date: 2025-08-21
-tags: [Node, chassis, Ipmitool, BMC, Troubleshooting]
+tags: [Node, Chassis, Ipmitool, BMC, Troubleshooting]
 ---
 
 When attempting to run the `ipmitool hpm check` command over the LAN interface, the following error occurred:
