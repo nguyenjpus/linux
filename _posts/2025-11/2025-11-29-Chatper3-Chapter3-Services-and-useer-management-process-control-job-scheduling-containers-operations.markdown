@@ -18,6 +18,8 @@ tags:
     Curl,
     Systemctl,
     Docker,
+    Timer,
+    Nginx,
   ]
 ---
 
