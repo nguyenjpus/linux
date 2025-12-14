@@ -106,6 +106,9 @@ lsmod | grep usb_storage
   **Mnemonic**: `vgdisplay` views “vgdata’s volume details.”  
   **Example Command**: `vgdisplay vgdata`  
   **Practice**: Create a VG (`vgcreate vgdata /dev/sdb1`), run `vgdisplay`.
+  **Edit - 12/14/2025**:
+  - Note 1: Why VG and not LV or PV? The system notifies you about the "VG" (vgdata) being extended, and not the "PV" (/dev/sdd2) or a specific "LV" (Logical Volume), because the Volume Group is the central, organizational resource pool in LVM.
+  - Note 2: After vgextend, the LV still needs to be resized with `lvresize` or `lvextend` to utilize the new space, and then the filesystem on that LV must be resized (e.g., with `resize2fs` for ext4: `resize2fs /dev/vgdata/lvdata`; with `xfs_growfs` for XFS: `xfs_growfs /mnt/lvdata`. Note that resize2fs requires device path, while xfs_growfs requires mount path).
 
 ## 7. List Logical Volumes
 
