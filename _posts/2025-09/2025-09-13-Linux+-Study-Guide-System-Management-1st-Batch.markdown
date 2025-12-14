@@ -112,6 +112,7 @@ lsmod | grep usb_storage
   - Note 1: Why VG and not LV or PV? The system notifies you about the "VG" (vgdata) being extended, and not the "PV" (/dev/sdd2) or a specific "LV" (Logical Volume), because the Volume Group is the central, organizational resource pool in LVM.
   - Note 2: After vgextend, the LV still needs to be resized with `lvresize` or `lvextend` to utilize the new space, and then the filesystem on that LV must be resized (e.g., with `resize2fs` for ext4: `resize2fs /dev/vgdata/lvdata`; with `xfs_growfs` for XFS: `xfs_growfs /mnt/lvdata`. Note that resize2fs requires device path, while xfs_growfs requires mount path).
   - Note 3: Some newer LVM versions may automatically resize the LV and filesystem when the VG is extended, but it's best practice to manually verify and perform these steps to ensure data integrity. We can also use "lvextend -L +100M /dev/vgdata/lvdata --resizefs" to extend and resize in one command for ext3, ext4, and even xfs filesystems.
+  - Note 4: Or, we can simply use "lvextend -r +5G /dev/vgdata/lvdata" to extend the LV by 5G and resize the filesystem in one step.
 
 ## 7. List Logical Volumes
 
