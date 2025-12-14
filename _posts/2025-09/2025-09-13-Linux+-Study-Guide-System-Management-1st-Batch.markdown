@@ -142,9 +142,9 @@ lsmod | grep usb_storage
 
 ---
 
-###🛠️ Practice: Create, Fail, and Replace RAID 1 MemberThe following steps use disk images (`raida.img`, `raidb.img`, `raidc.img`) bound to loop devices (`/dev/loop4`, `/dev/loop5`, etc.) to simulate physical disks.
+**🛠️ Practice**: Create, Fail, and Replace RAID 1 MemberThe following steps use disk images (`raida.img`, `raidb.img`, `raidc.img`) bound to loop devices (`/dev/loop4`, `/dev/loop5`, etc.) to simulate physical disks.
 
-####A. Initial Setup (Creating & Binding Devices)This sequence ensures you have two clean, unmounted devices for RAID creation.
+**A**. Initial Setup (Creating & Binding Devices)This sequence ensures you have two clean, unmounted devices for RAID creation.
 
 | Command                                              | Purpose                                                         |
 | ---------------------------------------------------- | --------------------------------------------------------------- |
@@ -154,14 +154,14 @@ lsmod | grep usb_storage
 | `sudo losetup -f raidb.img`                          | Bind image B to the next free loop device (e.g., `/dev/loopB`). |
 | `sudo losetup -l`                                    | **Verify** the devices (e.g., `/dev/loop4`, `/dev/loop5`).      |
 
-####B. Create the RAID 1 ArrayCreate the array using the necessary arguments, including the total number of RAID devices.
+**B**. Create the RAID 1 ArrayCreate the array using the necessary arguments, including the total number of RAID devices.
 
 | Command                                                                         | Purpose                                     |
 | ------------------------------------------------------------------------------- | ------------------------------------------- |
 | `sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/loop4 /dev/loop5` | Create the RAID 1 array named `/dev/md0`.   |
 | `cat /proc/mdstat`                                                              | **Verify** the array is active and syncing. |
 
-####C. Simulate Disk FailureThis step demonstrates how to gracefully remove a device from the array, simulating a physical drive failure.
+**C**. Simulate Disk FailureThis step demonstrates how to gracefully remove a device from the array, simulating a physical drive failure.
 
 | Command                                 | Purpose                                                                                |
 | --------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -169,7 +169,7 @@ lsmod | grep usb_storage
 | `cat /proc/mdstat`                      | **Verify** the array is now running in a **degraded** state (e.g., `[U_]` or `[2/1]`). |
 |                                         |                                                                                        |
 
-####D. Replace and RebuildThis sequence introduces the replacement drive and initiates the automatic rebuild (the command that corresponds to your study card's objective).
+**D**. Replace and RebuildThis sequence introduces the replacement drive and initiates the automatic rebuild (the command that corresponds to your study card's objective).
 
 | Command                                              | Purpose                                                                                      |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -178,7 +178,7 @@ lsmod | grep usb_storage
 | **`sudo mdadm /dev/md0 --add /dev/loop6`**           | **Add the new drive to the array** to start the rebuild (The answer to your study scenario). |
 | `cat /proc/mdstat`                                   | **Verify** the rebuild progress and final clean status (e.g., `[UU]` and `[2/2]`).           |
 
-####E. Clean Up (Finalizing the Repair)This step removes the failed component from the array's metadata, a crucial best practice.
+**E**. Clean Up (Finalizing the Repair)This step removes the failed component from the array's metadata, a crucial best practice.
 
 | Command                                   | Purpose                                                             |
 | ----------------------------------------- | ------------------------------------------------------------------- |
