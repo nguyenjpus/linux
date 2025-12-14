@@ -207,6 +207,7 @@ sudo testdisk ~/gpt.img
        - **Clarification**: This is partially correct. `cryptsetup luksFormat` creates the encrypted container. `cryptsetup luksOpen` unlocks it, mapping it to `/dev/mapper/<name>` (e.g., `/dev/mapper/encrypted`). This mapped device represents the decrypted contents, but it’s not mounted yet—it’s just a block device. You then format (`mkfs.ext4`) and mount (`mount`) the mapped device to a directory (e.g., `/mnt/encrypted`) to access it as a filesystem.
      - **"What is the previous step with /dev/mapper for?"**:
        - **Answer**: `/dev/mapper/encrypted` is the decrypted view of the LUKS container. `luksOpen` decrypts the partition using the passphrase, creating a virtual device in `/dev/mapper` that exposes the plaintext data. You then format or mount this device, not the raw `/dev/loop0p1`, because the latter is encrypted and unreadable without decryption.
+       - **Edit-12/13/2025**: Linux will still let you perform that mkfs.ext4 on the raw device (`/dev/loop0p1`), but if we ignore the warning from the utility, then the encryption layer (the LUKS header) gets wiped away and replaced by the filesystem's metadata.
    - You correctly closed the LUKS container and detached the loop device.
 
 2. **Why Recovery Failed**:
