@@ -145,6 +145,8 @@ Writing superblocks and filesystem accounting information: done
 
 - This formats only the first partition, preserving the MBR partition table.
 
+---
+
 ###### Edit 12/14/2025: Using losetup with --find:
 
 **Using `-f --show` for Automatic Device Selection 🔎**A highly recommended and practical way to use `losetup` is to let the system automatically select the next available loop device using the **`-f`** (or `--find`) option.
