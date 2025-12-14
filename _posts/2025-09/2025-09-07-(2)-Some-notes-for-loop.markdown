@@ -112,8 +112,6 @@ You asked: "To access partitions on a loop device, you need to enable partition 
 
 Without `-P`, you can only mount the _entire disk image_ as a single volume if it's not partitioned, or if you intend to treat it as a raw disk. If it _is_ partitioned and you want to access those partitions individually, you need `-P`.
 
----
-
 - **Case study for `losetup -P`**:
 
 - After running `sudo losetup /dev/loop0 ~/mbr.img` and creating a partition table with fdisk, the loop device `/dev/loop0` represents the entire disk image, not the individual partitions within it.
@@ -147,7 +145,7 @@ Writing superblocks and filesystem accounting information: done
 
 ---
 
-###### Edit 12/14/2025: Using losetup with --find:
+###### Edit 12/14/2025: Using losetup with --find
 
 **Using `-f --show` for Automatic Device Selection 🔎**A highly recommended and practical way to use `losetup` is to let the system automatically select the next available loop device using the **`-f`** (or `--find`) option.
 
