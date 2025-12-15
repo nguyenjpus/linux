@@ -379,7 +379,7 @@ lsmod | grep usb_storage
 - `-f`: Forces full check.
 - `-y`: Automatic repairs.
 - `e2fsck -p`: Repairs only if dirty, not forced.  
-  **Mnemonic**: `fsck -f -y` “forces fixes for ext.”  
+  **NOTE**: fsck will call e2fsck if the filesystem is Ext2,3,or4 and xfs_check if the file system is xfs. So we can use fsck for both ext and xfs filesystems.
   **Example Command**: `sudo fsck -f -y /dev/vgdata/lvhome`  
   **Practice**: Corrupt an ext4 LV, repair with `fsck`, mount to verify.
 
