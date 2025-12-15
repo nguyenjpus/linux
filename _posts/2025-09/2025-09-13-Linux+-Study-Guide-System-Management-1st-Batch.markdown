@@ -296,9 +296,9 @@ lsmod | grep usb_storage
 - `-i`: In-place editing.
 - `s/dev/prod/g`: Global (g) substitution (s).
 - `2> err.log`: Redirects ONLY stderr. If we want both stdout and stderr, use `&> err.log`.
-  **Mnemonic**: `sed -i` “instantly swaps dev for prod.”  
   **Example Command**: `sed -i 's/dev/prod/g' file.txt 2> err.log`  
   **Practice**: Create `file.txt`, run `sed`, verify changes and errors.
+  **Best Practice Note**: We can use `sed -i.bak 's/dev/prod/g' file.txt` to create a backup before in-place editing. With this, if something goes wrong, we can easily restore the original file from `file.txt.bak`.
 
 ## 17. Count Unique Columns
 
