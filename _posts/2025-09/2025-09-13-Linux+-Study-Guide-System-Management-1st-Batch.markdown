@@ -304,12 +304,12 @@ lsmod | grep usb_storage
 
 **Objective**: Process text with command-line tools.  
 **Scenario**: Count unique second-column values in `/etc/passwd`.  
-**Correct Command**: `cut -d: -f2 /etc/passwd | sort | uniq -c`  
+**Correct Command**: `cut -d: -f2 /etc/passwd | sort | uniq -c`
+**OR, if we want to use awk**: `awk -F: '{print $2}' /etc/passwd | sort | uniq -c`. In either case, we don't have 'uniq -v' as an option to count unique occurrences; we just use 'uniq -c' after sorting.
 **Key Points**:
 
 - `cut -d: -f2`: Extracts second field.
-- `sort | uniq -c`: Sorts and counts unique lines.  
-  **Mnemonic**: “Cut, sort, count passwd slices.”  
+- `sort | uniq -c`: Sorts and counts unique lines. Remember: sort before uniq!
   **Example Command**: `cut -d: -f2 /etc/passwd | sort | uniq -c`  
   **Practice**: Run command, verify password field counts.
 
