@@ -147,7 +147,7 @@ Writing superblocks and filesystem accounting information: done
 
 ### Edit 12/14/2025: Using losetup with --find
 
-**Using `-f --show` for Automatic Device Selection 🔎**A highly recommended and practical way to use `losetup` is to let the system automatically select the next available loop device using the **`-f`** (or `--find`) option.
+**Using `-f --show` for Automatic Device Selection 🔎** A highly recommended and practical way to use `losetup` is to let the system automatically select the next available loop device using the **`-f`** (or `--find`) option.
 
 To make this command most useful, you must pair it with the **`--show`** flag, which forces `losetup` to print the name of the new device to the terminal.
 
