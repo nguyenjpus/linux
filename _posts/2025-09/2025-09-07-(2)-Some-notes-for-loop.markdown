@@ -81,7 +81,7 @@ sudo mount /dev/loop0 /mnt/ext4
 
 ---
 
-#### Equivalence and Differences
+### Equivalence and Differences
 
 While both methods ultimately result in the `~/ext4.img` file being mounted at `/mnt/ext4`, they are **not strictly equivalent** in their execution and cleanup procedures:
 
@@ -94,7 +94,7 @@ Therefore, while they achieve the same mounting goal, the `mount -o loop` comman
 
 ---
 
-##### `losetup -P` for Partition Detection 🔍
+### `losetup -P` for Partition Detection 🔍
 
 You asked: "To access partitions on a loop device, you need to enable partition detection using the -P (or --partscan) option with losetup"
 
@@ -145,7 +145,7 @@ Writing superblocks and filesystem accounting information: done
 
 ---
 
-###### Edit 12/14/2025: Using losetup with --find
+### Edit 12/14/2025: Using losetup with --find
 
 **Using `-f --show` for Automatic Device Selection 🔎**A highly recommended and practical way to use `losetup` is to let the system automatically select the next available loop device using the **`-f`** (or `--find`) option.
 
