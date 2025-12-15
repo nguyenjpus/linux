@@ -292,9 +292,10 @@ lsmod | grep usb_storage
 **Correct Command**: `sed -i 's/dev/prod/g' file.txt 2> err.log`  
 **Key Points**:
 
+- `sed`: Stream Editor.
 - `-i`: In-place editing.
-- `s/dev/prod/g`: Global substitution.
-- `2> err.log`: Redirects stderr.  
+- `s/dev/prod/g`: Global (g) substitution (s).
+- `2> err.log`: Redirects ONLY stderr. If we want both stdout and stderr, use `&> err.log`.
   **Mnemonic**: `sed -i` “instantly swaps dev for prod.”  
   **Example Command**: `sed -i 's/dev/prod/g' file.txt 2> err.log`  
   **Practice**: Create `file.txt`, run `sed`, verify changes and errors.
