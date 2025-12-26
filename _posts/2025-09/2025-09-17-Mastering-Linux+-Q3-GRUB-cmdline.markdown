@@ -144,6 +144,8 @@ Your server’s GRUB menu doesn’t show the kernel (`vmlinuz-6.8.0-79-generic`)
      ls (hd0,gpt3)/
      ```
 
+- Note (update 12/25/25): The "/" at the end is needed to list contents.
+
 3. **Manually Boot from GRUB**:
 
    - At the `grub>` prompt, set the root:
@@ -306,6 +308,7 @@ Test a custom kernel parameter (`quiet`) to reduce boot verbosity and verify it 
      linux /vmlinuz-6.8.0-79-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro console=tty0 quiet
      ```
    - Boot with `Ctrl+X`.
+   - Note (update 12/25/25): The "linux line in GRUB" people refer to is this one "linux /vmlinuz-6.8.0-79-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv" with parameters. And if we provide wrong parameters here, we may end up in (initramfs).
 
 2. **Verify**:
 
